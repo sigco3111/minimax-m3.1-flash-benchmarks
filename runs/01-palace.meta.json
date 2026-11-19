@@ -10,5 +10,6 @@
   "finishedAt": "2026-11-18T22:53:55.497Z",
   "seconds": 1207,
   "exitCode": 0,
-  "timedOut": false
+  "timedOut": false,
+  "attempt": 1
 }

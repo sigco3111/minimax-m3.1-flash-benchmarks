@@ -1,0 +1,15 @@
+{
+  "task": "02-hangang-city",
+  "attempt": 3,
+  "model": "opencodex/minimax/MiniMax-M3.1-Flash",
+  "modelName": "MiniMax-M3.1-Flash",
+  "effort": "max",
+  "startedAt": "2026-11-19T00:50:15.071Z",
+  "workDir": "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-fix",
+  "timeoutMin": 45,
+  "finishedAt": "2026-11-19T01:05:55.925Z",
+  "seconds": 941,
+  "exitCode": 0,
+  "timedOut": false,
+  "note": "수정 라운드. 사용자 제보(캐릭터 이동 불가, 알파벳 키 미작동) + 좁혀진 원인 리포트를 동일 모델(effort max)에 전달해 재실행."
+}

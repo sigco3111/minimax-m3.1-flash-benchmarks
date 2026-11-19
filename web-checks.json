@@ -3,7 +3,7 @@
     "page": "palace",
     "viewport": "1280x720",
     "rendering": "Chrome headless / SwiftShader software WebGL",
-    "checkedAt": "2026-11-19T00:29:05.890Z",
+    "checkedAt": "2026-11-19T01:21:09.637Z",
     "checks": [
       {
         "name": "sum of group counts equals actual brick records",
@@ -41,7 +41,7 @@
       {
         "name": "generation time is measured",
         "pass": true,
-        "detail": 36.4
+        "detail": 22.9
       },
       {
         "name": "seek moves the timeline",
@@ -74,7 +74,7 @@
         23.04,
         26.4
       ],
-      "generationMs": 36.4
+      "generationMs": 22.9
     },
     "motion": {
       "seekMovesTimeline": true,
@@ -86,7 +86,7 @@
     "page": "model-intro",
     "viewport": "1280x720",
     "rendering": "Chrome headless / SwiftShader software WebGL",
-    "checkedAt": "2026-11-19T00:30:00.273Z",
+    "checkedAt": "2026-11-19T01:22:03.942Z",
     "checks": [
       {
         "name": "no horizontal overflow at 390px",
@@ -118,14 +118,14 @@
       "particles": 20000,
       "reducedMotion": false,
       "dark": true,
-      "fps": 32
+      "fps": 33
     }
   },
   {
     "page": "hangang-city",
     "viewport": "1280x720",
     "rendering": "Chrome headless / SwiftShader software WebGL",
-    "checkedAt": "2026-11-19T00:29:51.890Z",
+    "checkedAt": "2026-11-19T01:21:55.737Z",
     "checks": [
       {
         "name": "test.key hook exists",
@@ -163,17 +163,50 @@
         ]
       },
       {
-        "name": "walking input advances the simulation",
+        "name": "real keyboard W moves the character",
         "pass": true,
-        "detail": 2.533333333333328
+        "detail": {
+          "distance": 1.5983333333334429
+        }
       },
       {
-        "name": "state stays serialisable after input",
+        "name": "real keyboard A changes position",
         "pass": true,
-        "detail": 96
+        "detail": {
+          "distance": 1.6191427205738902
+        }
       },
       {
-        "name": "jump input does not fault the game",
+        "name": "real keyboard D changes position",
+        "pass": true,
+        "detail": {
+          "distance": 1.0870073474869992
+        }
+      },
+      {
+        "name": "real keyboard ArrowUp moves the character",
+        "pass": true,
+        "detail": {
+          "distance": 1.6194235238418324
+        }
+      },
+      {
+        "name": "real keyboard Space jumps",
+        "pass": true,
+        "detail": {
+          "y0": 0,
+          "y1": 1.0499999999999996
+        }
+      },
+      {
+        "name": "real keyboard Shift boosts movement",
+        "pass": true,
+        "detail": {
+          "distance": 5.049835296152839
+        }
+      },
+      {
+        "name": "real keyboard F enters a nearby car",
         "pass": true
       },
       {
@@ -198,11 +231,7 @@
       },
       {
         "name": "setTime(90) changes day/night state",
-        "pass": true,
-        "detail": {
-          "before": 99,
-          "after": 99
-        }
+        "pass": true
       },
       {
         "name": "no page errors",
@@ -215,8 +244,8 @@
       "wanted": 0,
       "mission": null,
       "completed": [],
-      "elapsed": 1.4333333333333331,
-      "fps": 11.539349180706205
+      "elapsed": 1.6999999999999988,
+      "fps": 13.336296954878847
     }
   }
 ]

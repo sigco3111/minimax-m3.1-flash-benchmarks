@@ -20,11 +20,17 @@ xdg-open hangang-city.html      # linux
 
 ```
 node build.mjs                  # hangang-city.html 재생성 (three.js + 게임 소스 인라인)
+node build.mjs ../hangang-city.html   # 저장소 루트 산출물로 직접 빌드 (선택)
 ```
 
 ---
 
 ## 조작키
+
+입력은 **물리 키 코드(`KeyboardEvent.code`)** 로 판정합니다. 브라우저는 알파벳 키에
+`KeyW`·`KeyA` 같은 값을 주므로, 이 값을 `w`·`a` 로 되돌려 조작에 매핑합니다.
+키보드 배치(QWERTY/AZERTY/Dvorak)를 무시한 물리 키 기준이므로 키 배열이 달라도
+같은 위치의 키가 같은 동작을 합니다. `e.code` 를 주지 않는 환경에서는 `e.key` 로 대체합니다.
 
 | 키 | 동작 |
 |---|---|
@@ -37,6 +43,9 @@ node build.mjs                  # hangang-city.html 재생성 (three.js + 게임
 | `C` | 카메라 거리 전환 (가까이 / 멀리) |
 | `M` | 임무 선택 패널 열기 |
 | 마우스 | 3인칭 카메라 시점 (화면 클릭 → 포인터 잠금, `Esc` 해제) |
+
+`Space`·방향키만 브라우저 기본 동작(페이지 스크롤)을 막습니다. 문자키는 막지 않아
+`Ctrl+F` 같은 브라우저 단축키가 그대로 동작합니다.
 
 ---
 
@@ -54,7 +63,7 @@ node build.mjs                  # hangang-city.html 재생성 (three.js + 게임
 ## 구현 구조
 
 ```
-hangang-city.html          산출물 (three.js r159 UMD + 게임 소스 인라인, 약 760KB)
+hangang-city.html          산출물 (three.js r159 UMD + 게임 소스 인라인, 약 780KB)
 build.mjs                  빌드 스크립트 (src/*.js → 단일 HTML)
 vendor/three.min.js        three.js r159 (MIT)
 src/
@@ -68,6 +77,7 @@ src/
   50-main.js               카메라(충돌 회피), 입력, 고정 스텝 루프, 테스트 API
 test/
   smoke.mjs                헤드리스 크롬(CDP) 자동 검증
+  keys.mjs                 실제 키보드 이벤트(CDP Input + 합성 KeyboardEvent) 검증
   shots.mjs                시간대별 스크린샷 캡처
 ```
 
@@ -99,7 +109,7 @@ test/
 window.__game = {
   state: { wanted, mission, completed[], elapsed, fps },
   test: {
-    key(code, down),  // 'w','a','s','d','shift',' ','f','e','r' …
+    key(code, down),  // 'w','a','s','d','shift',' ','f','e','r' … ('KeyW' 같은 code 도 받음)
     press(code),      // 1프레임 입력(다음 고정 스텝에서 해제)
     step(dt),         // dt초 시뮬레이션만 전진(고정 1/60 스텝, 렌더링 무관·결정론적)
     teleport(x, z, y?), begin('delivery'|'escape'|'roof'), setTime(t /*0~180*/)
@@ -108,6 +118,83 @@ window.__game = {
 ```
 `window.__game.dbg` 에 내부 상태(PLAYER/CARS/GAME/CITYDATA/WORLD/CAMERA…)를 노출해 두어
 자동 검증에서 내부까지 확인할 수 있게 했다.
+
+---
+
+## 키보드 입력 결함 수정 (2차 시도 보고 반영)
+
+### 증상
+
+브라우저로 `hangang-city.html` 을 열면 알파벳 키가 전혀 먹지 않았다.
+점프(`Space`)와 마우스 시점만 동작했고, 이동·주행·승하차·수배·은폐가 모두 불가능했다.
+
+### 원인
+
+입력 바인딩이 `setKey(e.code || e.key, true)` 로 브라우저가 실제로 보내는 **물리 키 코드**
+(`KeyW`, `KeyA`, `ShiftLeft` …) 를 넘기는데, 정규화 함수가 그 형식을 몰랐다.
+
+```
+입력 바인딩:  setKey(e.code || e.key, true)
+정규화:      normalizeCode(c) → 소문자 변환 후 'space'/'shift'/'ctrl'/'arrow' 만 특별 처리
+매핑표:      KEY_ACTIONS = { 'w':'fwd', 'a':'left', 'd':'right', 's':'back', ... }
+```
+
+`normalizeCode('KeyW')` 는 `'keyw'` 를 돌려주고 `KEY_ACTIONS` 에는 `'w'` 만 있다.
+`e.code` 는 항상 truthy 이므로 `e.key`('w') 폴백에도 도달하지 못하고,
+`KEY_ACTIONS['keyw']` 가 `undefined` 라 `setKey` 가 조용히 `return` 한다.
+결과적으로 방향키·Space·Shift 만 동작했다.
+
+### 수정 (`src/50-main.js`)
+
+1. **정규화** — 물리 키 코드를 조작 토큰으로 되돌린다.
+   `KeyW`→`w`, `KeyA`→`a`, `Digit1`→`1`, `Numpad0`→`0`,
+   `Space`→`' '`, `ShiftLeft`/`ShiftRight`→`shift`, `ControlLeft`→`ctrl`,
+   `ArrowUp`→`arrowup`, `Escape`→`escape`.
+2. **입력 경로 분리** — `resolveKey(e.code, e.key)` 가 `e.code`(물리 키)를 먼저 보고,
+   거기에 매핑이 없을 때만 `e.key` 로 대체한다. 키보드 배치를 무시한 물리 키 기준이므로
+   AZERTY/Dvorak 에서도 같은 위치의 키가 같은 동작을 한다.
+3. **기본 동작 방지** — Space·방향키만 `preventDefault()` 로 페이지 스크롤을 막고,
+   문자키는 막지 않아 `Ctrl+F` 같은 브라우저 단축키를 살린다.
+   `preventDefault()` 를 키 반복 검사보다 먼저 호출해, Space 를 누른 채 있는 동안에도
+   페이지가 스크롤되지 않게 했다(반복 이벤트는 여전히 상태를 바꾸지 않는다).
+4. **검증 계약 확장** — `test.key()`/`test.press()` 가 `'KeyW'` 같은 code 형태도 받고,
+   `dbg.normalizeCode`/`dbg.resolveKey`/`dbg.KEY_ACTIONS` 로 매핑을 직접 확인할 수 있다.
+
+### 검증 (`node test/keys.mjs`)
+
+헤드리스 크롬(CDP)으로 **브라우저가 실제로 보내는 키보드 이벤트**를 두 경로로 넣는다.
+
+| 입력 경로 | 방법 |
+|---|---|
+| 실제 브라우저 입력 | CDP `Input.dispatchKeyEvent` (`code`·`key`·`autoRepeat` 지정) |
+| 합성 이벤트 | `window.dispatchEvent(new KeyboardEvent('keydown', {code, key}))` |
+
+측정값(이동은 0.5초 입력, Shift 는 1초 입력, 고정 스텝 진행):
+
+| 항목 | 수정 전 | 수정 후 |
+|---|---|---|
+| `KeyW` 이동 | 0.000 m | **1.598 m** |
+| `KeyA` 이동 | 0.000 m | **1.598 m** |
+| `KeyS` 이동 | 0.000 m | **1.598 m** |
+| `KeyD` 이동 | 0.000 m | **1.598 m** |
+| `ShiftLeft`+`KeyW` | 0.000 m | **6.87 m** (도보 3.7 m) |
+| `KeyF` 승하차 | 실패 | **탐승·하차 정상** |
+| `KeyE` 수배 | 실패 | **+1** |
+| `KeyR` 은폐 | 실패 | **`hidden = true`** |
+| `KeyC` 카메라 | 실패 | **거리 전환** |
+| `KeyM` 임무 패널 | 실패 | **패널 열림** |
+| `ArrowUp` 이동 | 1.598 m | 1.598 m (유지) |
+| `Space` 점프 | 동작 | 동작 (y 0 → 1.05) |
+
+* 위 표의 "수정 전"은 수정 전 산출물(`git HEAD` 빌드)을 같은 스크립트로 다시 돌린 값이다.
+* 검사 33항목 **전부 통과**(수정 전 빌드로 돌리면 17/33, 실패 16항목으로 결함을 재현한다).
+* `e.repeat` 키 반복은 조작을 다시 발동시키지 않는다(`E` 연속 반복 → 수배 1).
+* Space·방향키는 `defaultPrevented = true`, 문자키는 `false`(브라우저 단축키 유지).
+* `window.__game.state` / `.test.{key,press,step,teleport,begin,setTime}` 계약은 그대로 유지된다.
+
+> 헤드리스 크롬은 창에 포커스가 없어 수식 키(`Shift`)를 처음 누르면 `window` blur 가 한 번
+> 발생해 게임이 "키를 놓았다"고 처리한다. 검사 스크립트는 CDP `Emulation.setFocusEmulationEnabled` 로
+> 실제 브라우저와 같은 포커스 상태를 만들어 측정한다. 실제 브라우저에서는 이 blur 가 발생하지 않는다.
 
 ### 실행한 검증 (`node test/smoke.mjs`)
 
@@ -137,5 +224,6 @@ window.__game = {
 
 * 실제 GPU 브라우저에서의 60fps 유지(1920×1080) — 소프트웨어 렌더링 측정값으로는 판단 불가.
 * 마우스 포인터 잠금 + 실제 키보드 조작감(가속/드리프트/카메라) 체감 확인.
+  (키가 아예 먹지 않던 결함은 `test/keys.mjs` 로 자동 검증했다 — 위 "키보드 입력 결함 수정" 참고)
 * 오디오 없음(원문 요구사항에 음향 없음).
 * 브라우저별 Canvas 텍스처의 한글 렌더링 차이(시스템 폰트 의존).

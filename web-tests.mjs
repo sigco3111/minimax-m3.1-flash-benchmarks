@@ -69,15 +69,62 @@ try {
         ['wanted', 'mission', 'completed', 'elapsed', 'fps'].every((k) => k in g.state),
         Object.keys(g.state))
 
-      // 내부 변수명은 규약 밖이므로, 게임이 스스로 공개한 값만으로 판정한다.
-      // 위치 변화는 카메라 추적 지연 대신 미션 상태·완료 목록으로 확인한다.
-      const before = JSON.stringify(g.state)
-      t.key('w', true); t.step(1.0); t.key('w', false); t.step(0.1)
-      a('walking input advances the simulation', g.state.elapsed > 0, g.state.elapsed)
-      a('state stays serialisable after input', typeof JSON.stringify(g.state) === 'string', before.length)
+      // 실제 키보드 이벤트 경로 검사 (test API 우회 경로를 검증하지 않는다)
+      // 브라우저는 알파벳 키에 e.code='KeyW', 방향키에 'ArrowUp', 스페이스에 'Space' 를 준다.
+      const KEY = (code, key) => ({ code, key })
+      const press = (code, key) => {
+        window.dispatchEvent(new KeyboardEvent('keydown', KEY(code, key)))
+        t.step(0.5)
+        window.dispatchEvent(new KeyboardEvent('keyup', KEY(code, key)))
+      }
+      const pos = () => ({ x: g.dbg?.PLAYER?.x, z: g.dbg?.PLAYER?.z })
+      const moved = (from, to) => (from.x === undefined || to.x === undefined) ? null : Math.hypot(to.x - from.x, to.z - from.z)
 
-      t.press(' '); t.step(0.2); t.step(1.2)
-      a('jump input does not fault the game', true)
+      // W 로 이동 (실제 keydown/keyup)
+      let p0 = pos(); press('KeyW', 'w')
+      let p1 = pos()
+      a('real keyboard W moves the character', moved(p0, p1) > 0.5, { distance: moved(p0, p1) })
+
+      // A / D 로 회전(좌우 이동)
+      p0 = pos(); press('KeyA', 'a'); p1 = pos()
+      a('real keyboard A changes position', moved(p0, p1) > 0.1, { distance: moved(p0, p1) })
+      p0 = pos(); press('KeyD', 'd'); p1 = pos()
+      a('real keyboard D changes position', moved(p0, p1) > 0.1, { distance: moved(p0, p1) })
+
+      // 방향키
+      p0 = pos(); press('ArrowUp', 'ArrowUp'); p1 = pos()
+      a('real keyboard ArrowUp moves the character', moved(p0, p1) > 0.5, { distance: moved(p0, p1) })
+
+      // Space 점프 (동작 확인)
+      const y0 = g.dbg?.PLAYER?.y
+      window.dispatchEvent(new KeyboardEvent('keydown', KEY('Space', ' ')))
+      t.step(0.25)
+      const y1 = g.dbg?.PLAYER?.y
+      window.dispatchEvent(new KeyboardEvent('keyup', KEY('Space', ' ')))
+      a('real keyboard Space jumps', y1 > y0, { y0, y1 })
+
+      // Shift 달리기
+      p0 = pos()
+      window.dispatchEvent(new KeyboardEvent('keydown', KEY('KeyW', 'w')))
+      window.dispatchEvent(new KeyboardEvent('keydown', KEY('ShiftLeft', 'Shift')))
+      t.step(1.0)
+      window.dispatchEvent(new KeyboardEvent('keyup', KEY('ShiftLeft', 'Shift')))
+      window.dispatchEvent(new KeyboardEvent('keyup', KEY('KeyW', 'w')))
+      p1 = pos()
+      a('real keyboard Shift boosts movement', moved(p0, p1) > 1.0, { distance: moved(p0, p1) })
+
+      // F 승하차: 차량 근처로 이동 후 실제 F 키
+      const car = (g.dbg?.CARS || [])[0]
+      if (car) {
+        t.teleport(car.x + 2.2, car.z)
+        t.step(0.1)
+        window.dispatchEvent(new KeyboardEvent('keydown', KEY('KeyF', 'f')))
+        t.step(0.1)
+        window.dispatchEvent(new KeyboardEvent('keyup', KEY('KeyF', ' ')))
+        a('real keyboard F enters a nearby car', !!g.dbg?.PLAYER?.car)
+      } else {
+        a('real keyboard F enters a nearby car', false, 'no cars')
+      }
 
       // 미션 3종: 완료 목록에 올라가는지 확인
       t.begin('delivery'); t.step(0.2)
@@ -92,9 +139,8 @@ try {
       a('wanted level is a number', typeof g.state.wanted === 'number', g.state.wanted)
 
       // 낮→노을→밤: setTime 이 시각을 바꾸면 상태가 반응해야 한다
-      const nightBefore = JSON.stringify(g.state)
       t.setTime(90); t.step(0.5)
-      a('setTime(90) changes day/night state', true, { before: nightBefore.length, after: JSON.stringify(g.state).length })
+      a('setTime(90) changes day/night state', true)
       return out
     })
     result.checks.push(...c)

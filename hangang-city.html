@@ -2906,14 +2906,42 @@ function updateSky() {
   }
 }
 
-/* ---------------- 입력 ---------------- */
+/* ---------------- 입력 ----------------
+   브라우저는 알파벳 키에 e.code='KeyW' 처럼 '물리 키 코드'를 준다.
+   키보드 배치(QWERTY/AZERTY/Dvorak)와 무관하게 code 를 우선 사용하고,
+   code 를 주지 않는 환경에서만 e.key 로 대체한다. */
 function normalizeCode(c) {
   c = String(c || '').toLowerCase();
-  if (c === 'space' || c === 'spacebar') return ' ';
-  if (c.startsWith('shift')) return 'shift';
-  if (c === 'control' || c === 'controlleft') return 'ctrl';
-  if (c.startsWith('arrow')) return c;
-  return c;
+  if (!c) return '';
+  let m = /^key([a-z])$/.exec(c);            // 'KeyW' → 'w'
+  if (m) return m[1];
+  m = /^digit(\d)$/.exec(c);                  // 'Digit1' → '1'
+  if (m) return m[1];
+  m = /^numpad(\d)$/.exec(c);                 // 'Numpad0' → '0'
+  if (m) return m[1];
+  if (c === 'space' || c === 'spacebar' || c === ' ') return ' ';
+  if (c.startsWith('shift')) return 'shift';  // ShiftLeft / ShiftRight / Shift
+  if (c.startsWith('control') || c === 'ctrl') return 'ctrl';
+  if (c.startsWith('alt')) return 'alt';
+  if (c.startsWith('meta')) return 'meta';
+  return c;                                   // 'arrowup', 'escape', 'w', …
+}
+/* 후보들(e.code, e.key) 중 게임 조작에 해당하는 물리 키 토큰을 찾는다. */
+function resolveKey(...tokens) {
+  for (const t of tokens) {
+    const c = normalizeCode(t);
+    if (c && KEY_ACTIONS[c]) return c;
+  }
+  return '';
+}
+/* Space·방향키만 브라우저 기본 동작(페이지 스크롤)을 막는다.
+   문자키는 막지 않아 Ctrl+F 같은 브라우저 단축키가 살아 있다. */
+function isScrollKey(...tokens) {
+  for (const t of tokens) {
+    const c = String(t || '').toLowerCase();
+    if (c === 'space' || c === 'spacebar' || c === ' ' || c.startsWith('arrow')) return true;
+  }
+  return false;
 }
 const PENDING_RELEASE = new Set();
 function onActionDown(a) {
@@ -2947,11 +2975,15 @@ function toggleMissionPanel() {
 }
 function bindInput(canvas) {
   window.addEventListener('keydown', e => {
-    if (e.repeat) return;
-    if ([' ', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].indexOf(e.key.toLowerCase()) >= 0) e.preventDefault();
-    setKey(e.code || e.key, true);
+    if (isScrollKey(e.code, e.key)) e.preventDefault();   // 키 반복 중에도 스크롤 차단
+    if (e.repeat) return;                                  // 키 반복은 입력 상태를 바꾸지 않는다
+    const c = resolveKey(e.code, e.key);
+    if (c) setKey(c, true);
   });
-  window.addEventListener('keyup', e => { setKey(e.code || e.key, false); });
+  window.addEventListener('keyup', e => {
+    const c = resolveKey(e.code, e.key);
+    if (c) setKey(c, false);
+  });
   window.addEventListener('blur', () => { for (const k in INPUT.down) INPUT.down[k] = false; });
 
   canvas.addEventListener('click', () => {
@@ -3102,11 +3134,10 @@ const TEST_API = {
   test: {
     key(code, down) { setKey(code, !!down); },
     press(code) {
-      const c = normalizeCode(code);
-      const action = KEY_ACTIONS[c];
-      if (!action) return;
+      const c = resolveKey(code);
+      if (!c) return;
       setKey(c, true);
-      PENDING_RELEASE.add(action);
+      PENDING_RELEASE.add(KEY_ACTIONS[c]);
     },
     step(dt) {
       const total = clamp(Number(dt) || 0, 0, 10);
@@ -3138,7 +3169,7 @@ const TEST_API = {
 };
 window.__game = TEST_API;
 /* 자동 검증용 내부 상태 핸들 (계약에 없는 부분은 자유 설계) */
-TEST_API.dbg = { PLAYER, CARS, PEDS, GAME, CITYDATA, WORLD, CAMERA, MISSIONS, CITY, INPUT };
+TEST_API.dbg = { PLAYER, CARS, PEDS, GAME, CITYDATA, WORLD, CAMERA, MISSIONS, CITY, INPUT, normalizeCode, resolveKey, KEY_ACTIONS };
 
 /* 부트 */
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

@@ -21,7 +21,8 @@ function latestRun(slug) {
   for (const f of fs.readdirSync(path.join(root, 'runs'))) {
     if (!f.endsWith('.meta.json')) continue
     const m = read(path.join(root, 'runs', f))
-    if (m && m.task === slug) cands.push(m)
+    if (!m) continue
+    if (m.task === slug || m.fixFor === slug) cands.push(m)
   }
   if (!cands.length) return null
   return cands.sort((a, b) => (a.attempt || 1) - (b.attempt || 1))[cands.length - 1]
@@ -31,10 +32,9 @@ function allRuns(slug) {
     .readdirSync(path.join(root, 'runs'))
     .filter((f) => f.endsWith('.meta.json'))
     .map((f) => read(path.join(root, 'runs', f)))
-    .filter((m) => m && m.task === slug)
+    .filter((m) => m && (m.task === slug || m.fixFor === slug))
     .sort((a, b) => (a.attempt || 1) - (b.attempt || 1))
 }
-
 const web = read(path.join(root, 'web-checks.json')) || []
 const novel = read(path.join(root, 'verification', 'novel-checks.json'))
 const hw = read(path.join(root, 'verification', 'hardware-checks.json'))

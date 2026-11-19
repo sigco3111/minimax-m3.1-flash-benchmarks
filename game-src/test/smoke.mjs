@@ -2,12 +2,16 @@
 /* 한강시 — 헤드리스 크롬 스모크 테스트 (CDP) */
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const FILE = 'file://' + join(here, '..', 'hangang-city.html');
+// 검증 대상 HTML: 인자로 지정하거나, 소스 폴더 옆 / 저장소 루트 순으로 찾는다.
+const HTML = process.argv[2] || [join(here, '..', 'hangang-city.html'), join(here, '..', '..', 'hangang-city.html')]
+  .find(p => existsSync(p));
+if (!HTML) { console.error('hangang-city.html 을 찾지 못했습니다'); process.exit(1); }
+const FILE = 'file://' + HTML;
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const PORT = 9333;
 

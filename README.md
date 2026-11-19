@@ -11,6 +11,7 @@
 | 실행 주체 | MiniMax-M3.1-Flash (OpenCode `opencode` 런타임, effort `max`) |
 | 과제 출처 | 유튜버 코드팩토리의 메타프롬프트 (사용자 제공, 원본 영상 링크 미확인) |
 | 실행 방식 | 5개 과제를 **동일 프롬프트**로 각 **1회** 시도. 과제별 독립 디렉터리 |
+| 수정 라운드 | 02 한강시 게임 1회. 사용자 제보(캐릭터 이동 불가) + 좁혀진 원인 리포트 → 동일 모델(effort max) 재실행. [FIX_ROUND.md](FIX_ROUND.md) |
 | 수정 여부 | 모델 출력 후 사람이 개입해 고친 부분 없음. 발견된 결함도 기록만 하고 수정하지 않음 |
 | 평가 기준 | 기능 충족·화면 품질·재현성·검증 증거·미검증 항목 |
 | 자동 검사 | `web-tests.mjs`(Chrome headless/SwiftShader), `tools/check-novel.mjs`, `tools/check-hardware.mjs` |
@@ -23,7 +24,7 @@
 | 과제 | 모델 | effort | 시작(UTC) | 소요(분) | 종료코드 | 시도 | 검사 통과 | 실패 항목 |
 |---|---|---|---|---|---|---|---|---|
 | 궁전 모션 그래픽 | MiniMax-M3.1-Flash | max | 2026-11-18T22:33:48.171Z | 20.1 | 0 | 1회 | 7/7 | - |
-| 한강시 게임 | MiniMax-M3.1-Flash | max | 2026-11-18T23:16:12.456Z | 29.9 | 0 | 2회 | 16/16 | - |
+| 한강시 게임 | MiniMax-M3.1-Flash | max | 2026-11-19T00:50:15.071Z | 15.7 | 0 | 3회 | 20/20 | - |
 | 소개 페이지 | MiniMax-M3.1-Flash | max | 2026-11-18T22:33:50.105Z | 35.5 | 0 | 1회 | 5/5 | - |
 | 소설 | MiniMax-M3.1-Flash | max | 2026-11-18T23:16:13.457Z | 17.8 | 0 | 2회 | 9/11 | character count reaches 10000+ (no whitespace), hangul syllable count reaches 8000+ |
 | 기판 | MiniMax-M3.1-Flash | max | 2026-11-18T22:33:52.143Z | 34.3 | 0 | 1회 | 15/15 | - |
@@ -45,6 +46,7 @@
 | 과제 | 자체 검증 | 위치 |
 |---|---|---|
 | 한강시 게임 | `test/smoke.mjs` — 걸음·점프·차량 승하차·드리프트·수배 1~3·미션 3종·낮/밤·AI·순찰 추적·성능 | [game-src/test/smoke.mjs](game-src/test/smoke.mjs) |
+| 한강시 게임 | `test/keys.mjs` — **실제 키보드 이벤트**(CDP `Input.dispatchKeyEvent` + 합성 `KeyboardEvent`)로 W/A/S/D 이동·Shift 달리기·F 승하차·E 수배·R 은폐·C 카메라·M 임무 패널·방향키·Space 점프·키 반복·스크롤 방지 확인 (33/33) | [game-src/test/keys.mjs](game-src/test/keys.mjs) |
 | 근정전 | `verify/check.mjs` · `eval.mjs` · `px.py` — 계약 확인·시각 샘플 | [palace-verify/](palace-verify/) |
 | 소개 페이지 | `.dev/check.mjs` — 계약 확인 | `attempts/` 참고 |
 
@@ -54,10 +56,12 @@
 - **근정전 치수**: 화면에 표시되는 25.6 / 23.0 / 26.4 cm 는 코드가 자긴 브릭 모델의 경계 상자 값입니다. 실제 궁궐 실측 치수가 아닙니다.
 - **하드웨어**: 펌웨어는 실제 RP2040 타깃으로 컴파일되고 호스트 테스트가 통과했지만, 실물을 만들거나 OBS와 실제 연동하지는 않았습니다.
 - **재실행 2건**: 한강시 게임과 소설의 1차 시도는 하네스 시간 제한(40분)에 걸려 중간 종료됐습니다. 같은 프롬프트로 시간 제한만 늘려 다시 실행했고, 1차 시도 산출물과 로그를 `attempts/` 에 남겼습니다. 모델이 만든 산출물을 사람이 고친 것은 아닙니다.
+- **한강시 수정 라운드 1건**: 2차 시도 산출물에서 **알파벳 키가 전혀 동작하지 않는 결함**이 사용자 제보로 확인됐습니다(점프·마우스만 동작). 동일 모델(effort max)에 원인 리포트를 넘겨 3차 시도로 고쳤습니다. 상세는 [FIX_ROUND.md](FIX_ROUND.md).
+  - 이 결함을 놓친 것은 **저장소의 검사 공백**이었습니다. 저장소 검사와 모델 자체 테스트 모두 테스트 API만 호출해 실제 `e.code` 입력 경로를 실행하지 않았습니다. 검사를 실제 키보드 이벤트 기반으로 바꿨습니다.
 
 ## 실행
 
-저장소를 다운로드한 뒤 각 HTML을 Chrome/Edge/Safari 등 최신 WebGL 지원 브라우저에서 여세요. 세 웹 과제는 각각 HTML 한 파일이며 3D 에셋을 내려받지 않습니다. Three.js와 소개 페이지의 GSAP/ScrollTrigger만 CDN에서 읽으므로 인터넷 연결이 필요합니다.
+저장소를 다운로드한 뒤 각 HTML을 Chrome/Edge/Safari 등 최신 WebGL 지원 브라우저에서 여세요. 세 웹 과제는 각각 HTML 한 파일이며 3D 에셋을 내려받지 않습니다. 소개 페이지의 GSAP/ScrollTrigger만 CDN에서 읽으므로 그 페이지만 인터넷 연결이 필요합니다.
 
 로컬 서버를 쓰려면:
 
@@ -76,7 +80,10 @@ npm install
 BENCH_MODEL=opencodex/minimax/MiniMax-M3.1-Flash BENCH_EFFORT=max \
   node tools/run-tasks.mjs            # 5개 과제 실행 (runs/*.log, runs/*.meta.json)
 node tools/assemble.mjs               # work/ → 저장소 루트 산출물
+node game-src/build.mjs hangang-city.html   # 한강시 단일 HTML 재생성 (src/ + vendor/three.min.js 인라인)
 npm test                              # 웹 3과제 자동 검사 → web-checks.json
+node game-src/test/keys.mjs           # 한강시 실제 키보드 이벤트 검사 (33항목)
+node game-src/test/smoke.mjs          # 한강시 기능 스모크 검사
 node tools/check-novel.mjs            # 소설 원고 검사
 node tools/check-hardware.mjs         # 기판 납품물 검사
 node tools/report.mjs                 # 실행·검증 요약표 생성
@@ -90,7 +97,7 @@ node tools/report.mjs                 # 실행·검증 요약표 생성
 
 [WEB_VERIFICATION.md](WEB_VERIFICATION.md) · [HARDWARE_VERIFICATION.md](HARDWARE_VERIFICATION.md)에 실행한 검사를 기록했습니다. 검사 결과의 원본은 `web-checks.json`과 `verification/*.json`입니다.
 
-게임 기능 검사는 위치·시간 테스트 훅을 사용한 디지털 검사이며 전체 미션 수동 완주를 대신하지 않습니다. 60fps는 목표이며 모든 기기에서 보장한 실측 결과가 아닙니다. 모델 수치, 물리 강도, 실물 제작, OBS 실제 연동 성공을 지어내지 않습니다.
+게임 기능 검사는 위치·시간 테스트 훅을 사용한 디지털 검사이며 전체 미션 수동 완주를 대신하지 않습니다. 한강시의 알파벳 키 결함만은 실제 키보드 이벤트(CDP `Input.dispatchKeyEvent`)를 넣어 확인했습니다. 60fps는 목표이며 모든 기기에서 보장한 실측 결과가 아닙니다. 모델 수치, 물리 강도, 실물 제작, OBS 실제 연동 성공을 지어내지 않습니다.
 
 `{{MODEL_NAME}}`, `{{EFFORT}}`는 원문 자리표시자입니다. 이 저장소에서는 지정 실행 값인 `MiniMax-M3.1-Flash`와 `max`로 치환해 실행했고, 원문 파일에는 자리표시자를 그대로 남겼습니다.
 
