@@ -1,0 +1,15 @@
+{
+  "task": "02-hangang-city",
+  "attempt": 2,
+  "label": "한강시 게임",
+  "model": "opencodex/minimax/MiniMax-M3.1-Flash",
+  "modelName": "MiniMax-M3.1-Flash",
+  "effort": "max",
+  "startedAt": "2026-11-18T23:16:12.456Z",
+  "workDir": "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2",
+  "timeoutMin": 75,
+  "finishedAt": "2026-11-18T23:46:07.053Z",
+  "seconds": 1795,
+  "exitCode": 0,
+  "timedOut": false
+}

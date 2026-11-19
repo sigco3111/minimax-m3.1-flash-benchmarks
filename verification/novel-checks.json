@@ -1,0 +1,78 @@
+{
+  "file": "novel.md",
+  "chars": {
+    "total": 8956,
+    "manuscript": 8736,
+    "hangul": 7479
+  },
+  "sceneHeadings": [
+    "## 1. 마지막 주문",
+    "## 2. 역상",
+    "## 3. 골목의 시간",
+    "## 4. 1991년 11월 12일",
+    "## 5. 한 장"
+  ],
+  "checks": [
+    {
+      "name": "novel.md exists and is non-empty",
+      "pass": true,
+      "detail": 12223
+    },
+    {
+      "name": "character count reaches 10000+ (no whitespace)",
+      "pass": false,
+      "detail": 8736
+    },
+    {
+      "name": "hangul syllable count reaches 8000+",
+      "pass": false,
+      "detail": 7479
+    },
+    {
+      "name": "title is present",
+      "pass": true,
+      "detail": "# 활자는 거꾸로 읽는다"
+    },
+    {
+      "name": "five-scene outline is present",
+      "pass": true,
+      "detail": 5
+    },
+    {
+      "name": "five scene headings found in manuscript",
+      "pass": true,
+      "detail": [
+        "## 1. 마지막 주문",
+        "## 2. 역상",
+        "## 3. 골목의 시간",
+        "## 4. 1991년 11월 12일",
+        "## 5. 한 장"
+      ]
+    },
+    {
+      "name": "setting year 2031 mentioned",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "print shop and pressman setting present",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "sensory craft detail present",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "late autumn to first snow transition present",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "final scene ends on one printed sheet",
+      "pass": true,
+      "detail": ". 세탁집 아줌마가 자물쇠를 잠그는 소리. 문턱 아래 계단이 어두웠다. 문 씨는 마지막 종이를 창문에 댔다. 창밖으로 눈이 내리고 있었다. 종이 너머로 잉크가 거꾸로 비쳤다. 거꾸로 읽어야만 나오는 한 줄. 「문을 잠그지 마. 내가 먼저 들어갈 테니까.」 잉크는 아직 마르고 있었다. "
+    }
+  ]
+}

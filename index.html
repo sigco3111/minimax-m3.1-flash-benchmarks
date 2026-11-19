@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmarks · MiniMax-M3.1-Flash · 다섯 과제</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2eee6;color:#232a27;font-family:Arial,'Apple SD Gothic Neo',sans-serif}
+main{max-width:1350px;margin:auto;padding:65px 6% 70px}
+.eyebrow{color:#c56b40;font:11px monospace;letter-spacing:3px}
+h1{font-size:clamp(38px,5.6vw,76px);font-weight:400;letter-spacing:-3px;line-height:1.08;margin:24px 0}
+p{color:#6d746d;line-height:1.9;font-size:14px;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+.card{display:block;text-decoration:none;color:inherit;border-top:1px solid #9eaa9d;padding-top:14px}
+.card:hover{border-top-color:#e8612c}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:4px;background:#e4e0d7}
+.card small{font:10px monospace;color:#a77453;letter-spacing:2px;display:block;margin-top:12px}
+.card h2{font-size:22px;font-weight:400;margin:14px 0 8px}
+.card p{font-size:12px;margin:0}
+.badge{display:inline-block;font:10px monospace;color:#8a6a3a;background:#efe7d8;border-radius:3px;padding:2px 7px;margin-left:6px}
+.more{margin-top:50px;border-top:1px solid #c8cec3;padding-top:22px;display:flex;gap:30px;font-size:13px;flex-wrap:wrap}
+.more a{color:inherit}
+.note{margin-top:35px;font:10px monospace;color:#8b9186;line-height:1.8}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.more{flex-wrap:wrap}main{padding:45px 7%}}
+</style>
+<main>
+<span class="eyebrow">BENCHMARKS / FIVE TASKS / ONE MODEL</span>
+<h1>다섯 과제.<br>MiniMax-M3.1-Flash 의 기록.</h1>
+<p>코드팩토리 메타프롬프트의 다섯 과제를 MiniMax-M3.1-Flash(effort max)가 수행한 결과입니다.<br>
+과제별 단독 실행, 사용자 피드백 없음, 사람이 고친 산출물 없음. 숫자는 코드가 실제로 센 값만 씁니다.</p>
+<div class="grid">
+<a class="card" href="palace.html"><img src="verification/shot-palace.png" alt="근정전 브릭 모델"><small>01 / BRICK ANATOMY</small><h2>근정전, 32초의 해부</h2><p>1,185 브릭 · 11 조립 유형 · 시간 슬라이더</p></a>
+<a class="card" href="hangang-city.html"><img src="verification/shot-hangang.png" alt="한강시 강변"><small>02 / OPEN CITY</small><h2>한강시</h2><p>걷고, 운전하고, 세 가지 일을 마치는 도시.</p></a>
+<a class="card" href="model-intro.html"><img src="verification/intro-stage-0.png" alt="모델 소개 페이지"><small>03 / INTELLIGENCE IN MOTION</small><h2>생각이 형태가 되는 순간</h2><p>입자 20,000개가 이어가는 여섯 장면.</p></a>
+<a class="card" href="novel.html"><img src="verification/shot-novel.png" alt="단편 소설 첫 화면"><small>04 / SHORT STORY</small><h2>단편 「활자는 거꾸로 읽는다」</h2><p>2031년 을지로 인쇄소의 마지막 주문 · 8,736자</p></a>
+<a class="card" href="hardware/preview/index.html"><small>05 / DESK CONTROLLER</small><h2>촬영 컨트롤러 REC-1</h2><p>BOM · 배선 · 펌웨어 · CAD · 조립/분해 미리보기</p></a>
+<a class="card" href="RESULTS.md"><small>CHECKS</small><h2>실행·검증 요약</h2><p>54개 자동 검사 결과와 재현 절차.</p></a>
+</div>
+<div class="more">
+<a href="README.md">전체 결과와 실행 조건 ↗</a>
+<a href="RESULTS.md">실행·검증 요약 ↗</a>
+<a href="WEB_VERIFICATION.md">웹 검증 범위 ↗</a>
+<a href="NOVEL_VERIFICATION.md">소설 검증 범위 ↗</a>
+<a href="HARDWARE_VERIFICATION.md">기판 검증 범위 ↗</a>
+<a href="ORIGINAL_PROMPTS.txt">원문 메타프롬프트 ↗</a>
+</div>
+<div class="note">
+원문 출처: 유튜버 코드팩토리 (사용자 제공, 원본 영상 링크 미확인)<br>
+소설 분량은 원문 목표(≈12,000자)에 미달합니다(8,736자). 실물 제작·실제 OBS 연동·60fps 실측은 검증하지 않았습니다.
+</div>
+</main>
+</html>

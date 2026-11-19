@@ -1,0 +1,16 @@
+{
+  "name": "codefactory-five-benchmarks",
+  "version": "1.0.0",
+  "description": "코드팩토리 메타프롬프트 5종 · MiniMax-M3.1-Flash 실행 결과",
+  "private": true,
+  "scripts": {
+    "test": "node web-tests.mjs",
+    "test:novel": "node tools/check-novel.mjs",
+    "test:hardware": "node tools/check-hardware.mjs",
+    "run": "node tools/run-tasks.mjs",
+    "assemble": "node tools/assemble.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.18.1"
+  }
+}

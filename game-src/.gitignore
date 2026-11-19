@@ -1,0 +1,4 @@
+node_modules/
+test/.chrome-profile*/
+test/shots/
+test/shot.png

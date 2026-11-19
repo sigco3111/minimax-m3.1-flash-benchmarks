@@ -1,0 +1,1807 @@
+[0m
+> build · minimax/MiniMax-M3.1-Flash
+I'll start by reading the task prompt and checking the working folder.
+[0m$ [0mfind /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks -maxdepth 3 -name "*.md" -not -path "*/node_modules/*" 2>/dev/null
+(no output)
+[0m$ [0mls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/ && ls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/ 2>/dev/null && ls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/ 2>/dev/null
+total 24
+drwxr-xr-x@ 8 hjshin  staff   256 Nov 19 07:33 .
+drwxr-xr-x@ 5 hjshin  staff   160 Nov 19 06:55 ..
+drwxr-xr-x@ 9 hjshin  staff   288 Nov 19 07:19 .git
+-rw-r--r--@ 1 hjshin  staff  9197 Nov 19 07:19 ORIGINAL_PROMPTS.txt
+drwxr-xr-x@ 8 hjshin  staff   256 Nov 19 07:33 prompts
+drwxr-xr-x@ 7 hjshin  staff   224 Nov 19 07:33 runs
+drwxr-xr-x@ 4 hjshin  staff   128 Nov 19 07:20 tools
+drwxr-xr-x@ 7 hjshin  staff   224 Nov 19 07:33 work
+total 0
+drwxr-xr-x@ 7 hjshin  staff  224 Nov 19 07:33 .
+drwxr-xr-x@ 8 hjshin  staff  256 Nov 19 07:33 ..
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:33 01-palace
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:33 02-hangang-city
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:33 03-model-intro
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:33 04-novel
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:33 05-hardware
+total 0
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:33 .
+drwxr-xr-x@ 7 hjshin  staff  224 Nov 19 07:33 ..
+drwxr-xr-x@ 9 hjshin  staff  288 Nov 19 07:33 .git
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/ORIGINAL_PROMPTS.txt 
+[0m$ [0mls -R /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/ && ls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git
+01-palace.txt
+02-hangang-city.txt
+03-model-intro.txt
+04-novel.txt
+05-hardware.txt
+HARNESS.txt
+total 24
+drwxr-xr-x@  9 hjshin  staff  288 Nov 19 07:33 .
+drwxr-xr-x@  3 hjshin  staff   96 Nov 19 07:33 ..
+-rw-r--r--@  1 hjshin  staff  137 Nov 19 07:33 config
+-rw-r--r--@  1 hjshin  staff   73 Nov 19 07:33 description
+-rw-r--r--@  1 hjshin  staff   21 Nov 19 07:33 HEAD
+drwxr-xr-x@ 16 hjshin  staff  512 Nov 19 07:33 hooks
+drwxr-xr-x@  3 hjshin  staff   96 Nov 19 07:33 info
+drwxr-xr-x@  4 hjshin  staff  128 Nov 19 07:33 objects
+drwxr-xr-x@  4 hjshin  staff  128 Nov 19 07:33 refs
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/03-model-intro.txt 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/HARNESS.txt 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mls -R /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/tools/ 2>/dev/null | head -50; echo "---RUNS---"; ls -R /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/runs/ 2>/dev/null | head -60
+run-tasks.mjs
+split-prompts.mjs
+---RUNS---
+01-palace.meta.json
+02-hangang-city.meta.json
+03-model-intro.meta.json
+04-novel.meta.json
+05-hardware.meta.json
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && cat .git/config && cat .git/HEAD && ls .git/objects && cat .git/info/* 2>/dev/null | head -20
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+ref: refs/heads/main
+info
+pack
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/tools/run-tasks.mjs 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/runs/03-model-intro.meta.json 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mls /Applications/ 2>/dev/null | head -30; echo "---"; ls "/Applications/Google Chrome.app/Contents/MacOS/" 2>/dev/null; echo "---node---"; node -v; echo "---npx---"; which npx
+Android Studio.app
+Aside.app
+Google Chrome.app
+Hermes.app
+NAVER WORKS.app
+Orca.app
+Safari.app
+Sourcetree.app
+Stats.app
+Telegram.app
+Utilities
+Visual Studio Code.app
+WhatsApp.app
+Xcode.app
+ZAP.app
+---
+Google Chrome
+---node---
+v26.11.1
+---npx---
+/opt/homebrew/bin/npx
+[0m$ [0mfor v in 0.160.0 0.155.0 0.152.2 0.150.1 0.128.0; do code=$(curl -s -o /dev/null -w "%{http_code}" "https://cdn.jsdelivr.net/npm/three@$v/build/three.min.js"); echo "$v -> $code"; done
+0.160.0 -> 200
+0.155.0 -> 200
+0.152.2 -> 200
+0.150.1 -> 200
+0.128.0 -> 200
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcurl -s "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" | head -c 400; echo; echo "=== SIZE ==="; curl -s -o /dev/null -w "%{size_download}\n" "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"
+console.warn('Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation'),
+/**
+ * @license
+ * Copyright 2010-2023 Three.js Authors
+ * SPDX-License-Identifier: MIT
+ */
+function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exp
+=== SIZE ===
+669884
+[0m$ [0mcurl -s -o /dev/null -w "gsap %{http_code}\n" "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"; curl -s -o /dev/null -w "st %{http_code}\n" "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"; curl -s -o /dev/null -w "gsap3.13 %{http_code}\n" "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"
+gsap 200
+st 200
+gsap3.13 200
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mfor u in "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js" "https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.module.min.js" "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"; do echo -n "$u -> "; curl -s -o /dev/null -w "%{http_code} %{size_download}\n" "$u"; done
+https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js -> 200 670681
+https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.module.min.js -> 200 645566
+https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js -> 200 1272972
+> build · minimax/MiniMax-M3.1-Flash
+Now I have the full picture. Let me build the page.
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+> build · minimax/MiniMax-M3.1-Flash
+Now let me verify it actually runs. I'll set up a headless Chrome check (temporary dev script, removed afterwards).
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/check.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/check.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/check.mjs "file://$PWD/model-intro.html" 2>&1 | tail -70
+{
+  "errors": [],
+  "logs": [],
+  "intro": {
+    "keys": [
+      "state",
+      "setTheme",
+      "seek",
+      "stateOf"
+    ],
+    "progress": 0,
+    "particles": 20000,
+    "reducedMotion": false,
+    "dark": true,
+    "fps": 60,
+    "types": {
+      "progress": "number",
+      "particles": "number",
+      "reducedMotion": "boolean",
+      "dark": "boolean",
+      "fps": "number"
+    }
+  },
+  "hasThree": true,
+  "canvasSize": {
+    "w": 1440,
+    "h": 813
+  },
+  "webgl": true,
+  "scrolled": {
+    "h": 4878,
+    "max": 4878
+  },
+  "afterScroll": {
+    "progress": 0.5,
+    "fps": 60,
+    "particles": 20000
+  },
+  "atEnd": {
+    "progress": 1,
+    "fps": 60
+  },
+  "screenshot": "skipped"
+}
+> build · minimax/MiniMax-M3.1-Flash
+Core mechanics work. Now let me look at the actual visuals.
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -5 && ls -la .dev/shots
+shots written to .dev/shots
+total 5760
+drwxr-xr-x@ 10 hjshin  staff     320 Nov 19 07:49 .
+drwxr-xr-x@  5 hjshin  staff     160 Nov 19 07:48 ..
+-rw-r--r--@  1 hjshin  staff  573709 Nov 19 07:48 0-hero.png
+-rw-r--r--@  1 hjshin  staff  482693 Nov 19 07:49 1-hero-text.png
+-rw-r--r--@  1 hjshin  staff  415268 Nov 19 07:49 2-tree.png
+-rw-r--r--@  1 hjshin  staff  192087 Nov 19 07:49 3-code.png
+-rw-r--r--@  1 hjshin  staff  360294 Nov 19 07:49 4-context.png
+-rw-r--r--@  1 hjshin  staff  226636 Nov 19 07:49 5-agents.png
+-rw-r--r--@  1 hjshin  staff  404593 Nov 19 07:49 6-ask.png
+-rw-r--r--@  1 hjshin  staff  279388 Nov 19 07:49 7-foot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/2-tree.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/1-hero-text.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/6-ask.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/4-context.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/3-code.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/0-hero.png 
+> build · minimax/MiniMax-M3.1-Flash
+Found several bugs. Let me fix them.
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -334,9 +334,11 @@
+ 
+   var lastActive = -1;
+   function updatePanels() {
+     for (var i = 0; i < panels.length; i++) {
+-      var o = clamp(1 - Math.abs(unit - i) * 1.12, 0, 1);
++      // asymmetric: fades in quickly from below, lingers, then leaves upward — never two panels at once
++      var d = unit - i;
++      var o = d >= 0 ? clamp(1 - d * 1.6, 0, 1) : clamp(1 + d * 2.6, 0, 1);
+       var el = panels[i];
+       if (el._o !== o) {
+         el._o = o;
+         el.style.opacity = o.toFixed(3);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -384,9 +384,9 @@
+   function compileDSL(src) {
+     var ops = [], lines = src.split('\n');
+     for (var i = 0; i < lines.length; i++) {
+       var raw = lines[i].replace(/\/\/.*$/, '').trim();
+-      if (!raw) continue;
++      if (!raw || raw.charAt(0) === '#') continue;
+       var sp = raw.indexOf(' ');
+       var op = (sp < 0 ? raw : raw.slice(0, sp)).toLowerCase();
+       var args = sp < 0 ? [] : raw.slice(sp + 1).trim().split(/[\s,]+/).filter(Boolean);
+       if (op === 'clear') { ops.push({ op: op }); continue; }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -765,9 +765,9 @@
+     'attribute vec3 aPosB;',
+     'attribute vec2 aKind;',
+     'attribute vec2 aGlow;',
+     'attribute float aRand;',
+-    'uniform float uTime,uMix,uSize,uProjScale,uModeA,uModeB,uCodeTop,uCodeH,uAlpha;',
++    'uniform float uTime,uMix,uSize,uProjScale,uModeA,uModeB,uCodeBot,uCodeH,uAlpha;',
+     'uniform vec2 uCursor,uTreeRoot;',
+     'uniform vec3 uNodes[6];',
+     'varying float vGlow,vAlpha;',
+     'float gFade;',
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -788,10 +788,10 @@
+     ' p.z+=sin(uTime*0.8+p.y*0.9+r*6.28318)*0.09*appear;',
+     ' p.xy+=vec2(sin(uTime*0.5+r*12.0),cos(uTime*0.44+r*9.0))*0.018*appear;',
+     ' return p; }',
+     'vec3 dCode(vec3 p,float role,float r){',
+-    ' float y=mod(p.y-uTime*0.55-uCodeTop,uCodeH)+uCodeTop;',
+-    ' float f=(y-uCodeTop)/uCodeH;',
++    ' float y=mod(p.y-uTime*0.55-uCodeBot,uCodeH)+uCodeBot;',
++    ' float f=(y-uCodeBot)/uCodeH;',
+     ' gFade=smoothstep(0.0,0.10,f)*smoothstep(1.0,0.90,f);',
+     ' p.y=y; p.x+=sin(uTime*0.9+r*6.28318)*0.010;',
+     ' return p; }',
+     'vec3 dVortex(vec3 p,float role,float r,float entry){',
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -755,9 +755,9 @@
+       s6.role[hl] = 0; s6.glow[hl] = 0;
+     }
+     scenes.push(s6);
+ 
+-    return { scenes: scenes, nodes: nodes, root: [rootX, rootY], codeTop: codeTop, codeH: codeTop - codeBot };
++    return { scenes: scenes, nodes: nodes, root: [rootX, rootY], codeBot: codeBot, codeH: codeTop - codeBot };
+   }
+ 
+   // ---------------------------------------------------------------- shaders
+   var VERT = [
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -900,12 +900,12 @@
+ 
+     var spriteTex = new THREE.CanvasTexture(makeSprite());
+     var mat = new THREE.ShaderMaterial({
+       uniforms: {
+-        uTime: { value: 0 }, uMix: { value: 0 }, uSize: { value: 0.0115 },
++        uTime: { value: 0 }, uMix: { value: 0 }, uSize: { value: 0.0135 },
+         uProjScale: { value: (vh * dpr) / (2 * Math.tan(FOV * Math.PI / 360)) },
+         uModeA: { value: 0 }, uModeB: { value: 0 },
+-        uCodeTop: { value: built.codeTop }, uCodeH: { value: built.codeH },
++        uCodeBot: { value: built.codeBot }, uCodeH: { value: built.codeH },
+         uCursor: { value: new THREE.Vector2(0, 0) },
+         uTreeRoot: { value: new THREE.Vector2(built.root[0], built.root[1]) },
+         uNodes: { value: built.nodes.map(function (n) { return new THREE.Vector3(n[0], n[1], n[2]); }) },
+         uAlpha: { value: 0.8 },
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -942,9 +942,9 @@
+     }
+     function setTheme(dark) {
+       mat.uniforms.uColBase.value.setHex(dark ? 0xF4EBDD : 0x241E19);
+       mat.uniforms.uColAccent.value.setHex(0xF0561E);
+-      mat.uniforms.uAlpha.value = dark ? 0.85 : 0.55;
++      mat.uniforms.uAlpha.value = dark ? 1.0 : 0.62;
+     }
+     function resize() {
+       vw = window.innerWidth; vh = window.innerHeight;
+       dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -546,14 +546,14 @@
+ 
+     // 1 — model name assembled out of particles
+     var s1 = blank();
+     var nText = Math.round(N * 0.52);
+-    var glyph = sampleGlyphs(MODEL, '600 ' + Math.round(clamp(VH * 0.30, 54, 132)) + 'px Georgia, "Times New Roman", serif', nText, rnd);
+-    var gScale = (VW * 1.62) / glyph.tw;
++    var glyph = sampleGlyphs(MODEL, '600 120px Georgia, "Times New Roman", serif', nText, rnd);
++    var gScale = (VW * 1.40) / glyph.tw;
+     for (var t2 = 0; t2 < nText; t2++) {
+       var pi = (Math.floor(rnd() * (glyph.pts.length / 2))) * 2;
+       s1.pos[t2 * 3] = (glyph.pts[pi] - glyph.w / 2) * gScale;
+-      s1.pos[t2 * 3 + 1] = (glyph.h / 2 - glyph.pts[pi + 1]) * gScale + VH * 0.10;
++      s1.pos[t2 * 3 + 1] = (glyph.h / 2 - glyph.pts[pi + 1]) * gScale + VH * 0.16;
+       s1.pos[t2 * 3 + 2] = (rnd() - 0.5) * 0.10;
+       s1.role[t2] = 1; s1.glow[t2] = 0.22;
+     }
+     fillDust(s1, nText, N);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -639,9 +639,9 @@
+     scenes.push(s3);
+ 
+     // 4 — thousands of pages collapsing into a point
+     var s4 = blank();
+-    var COLS = 20, ROWS = 12, LINES_PER = 12;
++    var COLS = 20, ROWS = 14, LINES_PER = 10;
+     var gw = VW * 3.3 / COLS, gh = VH * 3.5 / ROWS;
+     var perLine = Math.max(2, Math.floor(N * 0.94 / (COLS * ROWS * LINES_PER)));
+     var vi = 0;
+     for (var pg = 0; pg < COLS * ROWS && vi < N; pg++) {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -730,9 +730,9 @@
+       s6.role[bi] = 1; s6.glow[bi] = 0.55;
+     }
+     var nLabel = Math.round(N * 0.26);
+     var lab = sampleGlyphs(MODEL, '600 ' + Math.round(clamp(bh * 0.42, 30, 74)) + 'px Georgia, "Times New Roman", serif', nLabel, rnd);
+-    var lScale = Math.min(bw * 0.80 / lab.tw, bh * 0.5 / lab.h);
++    var lScale = Math.min(bw * 0.62 / lab.tw, bh * 0.80 / lab.h);
+     for (var lb = nBorder; lb < nBorder + nLabel && lb < N; lb++) {
+       var lpi = (Math.floor(rnd() * (lab.pts.length / 2))) * 2;
+       s6.pos[lb * 3] = (lab.pts[lpi] - lab.w / 2) * lScale + (bx0 + bx1) / 2;
+       s6.pos[lb * 3 + 1] = (lab.h / 2 - lab.pts[lpi + 1]) * lScale + (by0 + by1) / 2;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -1044,18 +1044,17 @@
+     $('boot').classList.add('gone');
+     setTimeout(function () { $('boot').style.display = 'none'; }, 700);
+   }
+ 
+-  var raf = null, running = false, lastT = 0;
++  var raf = null, running = false, lastT = 0, lastFps = -1;
+   function loop(now) {
+     raf = requestAnimationFrame(loop);
+     if (!lastT) lastT = now;
+     var dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
+     engine.frame(now);
+     if (Math.abs(unit - 2) < 0.7) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, now);
+     if (Math.abs(unit - 4) < 0.7) drawAgents(agentCtx, agentCv.width, agentCv.height, now);
+-    if (state.reducedMotion) { /* one frame per scroll change */ }
+-    if (raf) { /* keep ticking */ }
++    if (state.fps !== lastFps) { lastFps = state.fps; $('fpsChip').textContent = state.fps + ' FPS'; }
+   }
+   function startLoop() {
+     if (running) return; running = true; lastT = 0;
+     raf = requestAnimationFrame(loop);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -726,9 +726,9 @@
+       else { x6 = bx0; y6 = by0 + (d - 2 * bw - bh); }
+       s6.pos[bi * 3] = x6 + (rnd() - 0.5) * 0.022;
+       s6.pos[bi * 3 + 1] = y6 + (rnd() - 0.5) * 0.022;
+       s6.pos[bi * 3 + 2] = (rnd() - 0.5) * 0.10;
+-      s6.role[bi] = 1; s6.glow[bi] = 0.55;
++      s6.role[bi] = 1; s6.glow[bi] = 0.8;
+     }
+     var nLabel = Math.round(N * 0.26);
+     var lab = sampleGlyphs(MODEL, '600 ' + Math.round(clamp(bh * 0.42, 30, 74)) + 'px Georgia, "Times New Roman", serif', nLabel, rnd);
+     var lScale = Math.min(bw * 0.62 / lab.tw, bh * 0.80 / lab.h);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -1044,13 +1044,20 @@
+     $('boot').classList.add('gone');
+     setTimeout(function () { $('boot').style.display = 'none'; }, 700);
+   }
+ 
+-  var raf = null, running = false, lastT = 0, lastFps = -1;
++  var raf = null, running = false, lastT = 0, lastFps = -1, dirty = true;
+   function loop(now) {
+     raf = requestAnimationFrame(loop);
+     if (!lastT) lastT = now;
+     var dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
++    if (state.reducedMotion) {
++      // honour the preference: no autonomous motion, redraw only when something changed
++      if (dirty) { engine.frame(now); dirty = false; }
++      if (Math.abs(unit - 2) < 0.7) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, 1200);
++      if (Math.abs(unit - 4) < 0.7) drawAgents(agentCtx, agentCv.width, agentCv.height, 1200);
++      return;
++    }
+     engine.frame(now);
+     if (Math.abs(unit - 2) < 0.7) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, now);
+     if (Math.abs(unit - 4) < 0.7) drawAgents(agentCtx, agentCv.width, agentCv.height, now);
+     if (state.fps !== lastFps) { lastFps = state.fps; $('fpsChip').textContent = state.fps + ' FPS'; }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -301,8 +301,9 @@
+     u = clamp(u, 0, TRANSITIONS);
+     if (Math.abs(u - unit) < 0.0004 && pair >= 0) return;
+     unit = u;
+     state.progress = clamp(window.scrollY / scrollRange, 0, 1);
++    dirty = true;
+     var i = clamp(Math.floor(u), 0, TRANSITIONS - 1);
+     var local = u - i;
+     var t = smooth(clamp((local - 0.05) / 0.60, 0, 1));
+     mixT = t;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -354,9 +354,9 @@
+       railBtns.forEach(function (b, i) { b.classList.toggle('on', i === active); });
+       $('chapter').textContent = CHAPTERS[active];
+       if (window.gsap && panels[active]) {
+         var w = panels[active].querySelector('.pwrap');
+-        if (w) gsap.fromTo(w, { y: 22 }, { y: 0, duration: 0.85, ease: 'power3.out', overwrite: 'auto' });
++        if (w) gsap.fromTo(w, { y: state.reducedMotion ? 0 : 22 }, { y: 0, duration: state.reducedMotion ? 0 : 0.85, ease: 'power3.out', overwrite: 'auto' });
+       }
+     }
+     var cp = clamp((unit - 3.0) / 1.0, 0, 1);
+     $('ctxBar').style.width = (cp * 100).toFixed(1) + '%';
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -366,8 +366,9 @@
+   function applyTheme(dark) {
+     state.dark = !!dark;
+     root.classList.toggle('dark', !!dark);
+     $('themeLbl').textContent = dark ? 'DARK' : 'LIGHT';
++    dirty = true;
+     if (scene) scene.onTheme(dark);
+   }
+   $('themeBtn').addEventListener('click', function () { applyTheme(!state.dark); });
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -1073,8 +1073,9 @@
+   function onResize() {
+     vw = window.innerWidth; vh = window.innerHeight;
+     scrollRange = Math.max(1, document.documentElement.scrollHeight - vh);
+     if (engine) engine.resize();
++    dirty = true;
+     setUnit(window.scrollY / vh);
+   }
+ 
+   function readScroll() {
+
+> build · minimax/MiniMax-M3.1-Flash
+Now let me re-render and check.
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -3
+shots written to .dev/shots
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/1-hero-text.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/3-code.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -333,12 +333,13 @@
+   });
+   var railBtns = [].slice.call(rail.querySelectorAll('button'));
+ 
+   var lastActive = -1;
++  var ANCHOR = [0, 1.35, 2.35, 3.35, 4.35, 5.35, 6.35];  // copy lands as its scene finishes forming
+   function updatePanels() {
+     for (var i = 0; i < panels.length; i++) {
+       // asymmetric: fades in quickly from below, lingers, then leaves upward — never two panels at once
+-      var d = unit - i;
++      var d = unit - ANCHOR[i];
+       var o = d >= 0 ? clamp(1 - d * 1.6, 0, 1) : clamp(1 + d * 2.6, 0, 1);
+       var el = panels[i];
+       if (el._o !== o) {
+         el._o = o;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -554,9 +554,9 @@
+     var gScale = (VW * 1.40) / glyph.tw;
+     for (var t2 = 0; t2 < nText; t2++) {
+       var pi = (Math.floor(rnd() * (glyph.pts.length / 2))) * 2;
+       s1.pos[t2 * 3] = (glyph.pts[pi] - glyph.w / 2) * gScale;
+-      s1.pos[t2 * 3 + 1] = (glyph.h / 2 - glyph.pts[pi + 1]) * gScale + VH * 0.16;
++      s1.pos[t2 * 3 + 1] = (glyph.h / 2 - glyph.pts[pi + 1]) * gScale + VH * 0.26;
+       s1.pos[t2 * 3 + 2] = (rnd() - 0.5) * 0.10;
+       s1.role[t2] = 1; s1.glow[t2] = 0.22;
+     }
+     fillDust(s1, nText, N);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -414,26 +414,28 @@
+     for (var i = 0; i < ops.length; i++) {
+       var o = ops[i];
+       if (o.op === 'clear') { ctx.fillStyle = '#17110D'; ctx.fillRect(0, 0, w, h); }
+       else if (o.op === 'bg') { ctx.fillStyle = o.c; ctx.fillRect(0, 0, w, h); }
+-      else if (o.op === 'circle') { ctx.fillStyle = ACCENT; ctx.beginPath(); ctx.arc(o.a[0], o.a[1], o.a[2], 0, 6.2832); ctx.fill(); }
++      else if (o.op === 'circle') { ctx.fillStyle = ACCENT; ctx.shadowColor = 'rgba(240,86,30,.55)'; ctx.shadowBlur = 18; ctx.beginPath(); ctx.arc(o.a[0], o.a[1], o.a[2], 0, 6.2832); ctx.fill(); ctx.shadowBlur = 0; }
+       else if (o.op === 'rect') { ctx.strokeStyle = '#E9DED0'; ctx.lineWidth = 2; ctx.strokeRect(o.a[0], o.a[1], o.a[2], o.a[3]); }
+       else if (o.op === 'line') { ctx.strokeStyle = '#E9DED0'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(o.a[0], o.a[1]); ctx.lineTo(o.a[2], o.a[3]); ctx.stroke(); }
+       else if (o.op === 'arc') {
+-        ctx.strokeStyle = ACCENT; ctx.lineWidth = 3; ctx.beginPath();
++        ctx.strokeStyle = ACCENT; ctx.lineWidth = 4; ctx.shadowColor = 'rgba(240,86,30,.5)'; ctx.shadowBlur = 16;
++        ctx.beginPath();
+         var sweep = (o.a.length > 4 ? o.a[4] : 300) * Math.PI / 180;
+         ctx.arc(o.a[0], o.a[1], o.a[2], -Math.PI / 2, -Math.PI / 2 + sweep * (0.45 + 0.55 * (0.5 + 0.5 * Math.sin(t * 0.0012))));
+-        ctx.stroke();
++        ctx.stroke(); ctx.shadowBlur = 0;
+       }
+       else if (o.op === 'spiral') {
+-        ctx.strokeStyle = ACCENT; ctx.lineWidth = 2; ctx.beginPath();
++        ctx.strokeStyle = ACCENT; ctx.lineWidth = 3; ctx.shadowColor = 'rgba(240,86,30,.45)'; ctx.shadowBlur = 14;
++        ctx.beginPath();
+         var turns = o.a[3] || 3, ph = (t * 0.00022) % 1;
+         for (var k = 0; k <= 180; k++) {
+           var u = k / 180, ang = u * turns * 6.2832 * 2, rr = (o.a[2] || 60) * u * (0.35 + 0.65 * ph);
+           var x = o.a[0] + Math.cos(ang) * rr, y = o.a[1] + Math.sin(ang) * rr;
+           if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+         }
+-        ctx.stroke();
++        ctx.stroke(); ctx.shadowBlur = 0;
+       }
+     }
+   }
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/variants.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/variants.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/variants.mjs "file://$PWD/model-intro.html" 2>&1 | tail -20
+light ok {"progress":0.8571135711357114,"particles":20000,"reducedMotion":false,"dark":false,"fps":60}
+mobile ok {"progress":0.14288859533245266,"particles":20000,"reducedMotion":false,"dark":true,"fps":60}
+reduced state {"progress":0,"particles":5000,"reducedMotion":true,"dark":true,"fps":0}
+reduced ok {"progress":0.2857728577285773,"particles":5000,"reducedMotion":true,"dark":true,"fps":0}
+done
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots2/mobile-hero.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots2/light-tree.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -68,12 +68,14 @@
+ 
+ /* ---------- copy stage ---------- */
+ #stage{position:fixed;inset:0;z-index:4;pointer-events:none}
+ .panel{position:absolute;inset:0;opacity:0;pointer-events:none;
+-  transition:opacity .5s ease;will-change:opacity}
++  display:flex;align-items:center;justify-content:flex-start;
++  padding:0 clamp(20px,6vw,90px);transition:opacity .5s ease;will-change:opacity}
+ .panel.act .inter{pointer-events:auto}
+-.pwrap{position:absolute;left:clamp(20px,6vw,90px);top:50%;transform:translateY(-50%);
+-  width:min(46vw,520px)}
++.pwrap{position:relative;width:min(46vw,520px)}
++.pwrap.hero{align-self:flex-end;margin-bottom:clamp(56px,9vh,110px)}
++.pwrap.center{align-self:center;margin-left:auto;margin-right:auto;text-align:center}
+ .pwrap .back{position:absolute;inset:-8vh -14vw -8vh -12vw;z-index:-1;pointer-events:none;
+   background:radial-gradient(60% 60% at 30% 50%,var(--panel) 0%,transparent 72%)}
+ .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--accent);
+   text-transform:uppercase;margin:0 0 18px}
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -90,9 +90,8 @@
+ .hint em{font-style:normal;color:var(--accent);animation:blink 1.8s infinite}
+ @keyframes blink{0%,45%{opacity:1}55%,100%{opacity:.25}}
+ 
+ /* hero */
+-.pwrap.hero{left:clamp(20px,6vw,90px);top:auto;bottom:clamp(56px,9vh,110px);transform:none;width:min(52vw,560px)}
+ .pwrap.hero .back{inset:-14vh -20vw -16vh -12vw}
+ 
+ /* reasoning */
+ .trace{list-style:none;padding:0;margin:0;font-family:var(--mono);font-size:12px;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -147,14 +147,18 @@
+   transition:opacity .6s ease}
+ #boot.gone{opacity:0;pointer-events:none}
+ 
+ @media (max-width:820px){
+-  .pwrap,.pwrap.hero{left:20px;right:20px;width:auto;top:auto;bottom:12vh;transform:none}
+-  .pwrap.center{left:20px;right:20px;width:auto;top:50%;bottom:auto;transform:translateY(-50%)}
++  .panel{padding:0 20px;align-items:flex-end}
++  .pwrap{width:auto;max-width:none}
++  .pwrap.hero{margin-bottom:13vh}
++  .pwrap.center{align-self:center;margin:0}
+   .pwrap .back{inset:-8vh -20vw}
+   .rail{display:none}
+   .mini{max-width:none}
+   .lede{max-width:none}
++  h1{font-size:clamp(34px,10vw,52px)}
++  h2{font-size:clamp(28px,8vw,40px)}
+ }
+ @media (prefers-reduced-motion:reduce){
+   .hint em{animation:none}
+   *{scroll-behavior:auto!important}
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -338,14 +338,14 @@
+   });
+   var railBtns = [].slice.call(rail.querySelectorAll('button'));
+ 
+   var lastActive = -1;
+-  var ANCHOR = [0, 1.35, 2.35, 3.35, 4.35, 5.35, 6.35];  // copy lands as its scene finishes forming
++  var ANCHOR = [0, 1.3, 2.3, 3.3, 4.3, 5.3, 6.0];  // copy lands as its scene finishes forming
+   function updatePanels() {
+     for (var i = 0; i < panels.length; i++) {
+       // asymmetric: fades in quickly from below, lingers, then leaves upward — never two panels at once
+       var d = unit - ANCHOR[i];
+-      var o = d >= 0 ? clamp(1 - d * 1.6, 0, 1) : clamp(1 + d * 2.6, 0, 1);
++      var o = d >= 0 ? clamp(1 - d * 1.35, 0, 1) : clamp(1 + d * 3.2, 0, 1);
+       var el = panels[i];
+       if (el._o !== o) {
+         el._o = o;
+         el.style.opacity = o.toFixed(3);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -972,9 +972,9 @@
+       hasPointer = true;
+     }, { passive: true });
+     window.addEventListener('pointerleave', function () { hasPointer = false; });
+ 
+-    var time = 0, last = performance.now(), acc = 0, frames = 0;
++    var time = 0, last = performance.now();
+ 
+     function frame(now) {
+       var dt = Math.min(0.05, (now - last) / 1000); last = now;
+       time += dt;
+@@ -984,10 +984,8 @@
+       mat.uniforms.uTime.value = time;
+       mat.uniforms.uMix.value = mixT;
+       mat.uniforms.uCursor.value.set(cursorX, cursorY);
+       renderer.render(threeScene, camera);
+-      acc += dt; frames++;
+-      if (acc >= 0.5) { state.fps = Math.round(frames / acc); acc = 0; frames = 0; }
+     }
+     return { setPair: setPair, setTheme: setTheme, resize: resize, frame: frame, N: N };
+   }
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -1052,13 +1052,18 @@
+     $('boot').classList.add('gone');
+     setTimeout(function () { $('boot').style.display = 'none'; }, 700);
+   }
+ 
+-  var raf = null, running = false, lastT = 0, lastFps = -1, dirty = true;
++  var raf = null, running = false, lastT = 0, lastFps = -1, dirty = true, fpsAcc = 0, fpsFrames = 0;
+   function loop(now) {
+     raf = requestAnimationFrame(loop);
+     if (!lastT) lastT = now;
+     var dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
++    fpsAcc += dt; fpsFrames++;
++    if (fpsAcc >= 0.5) {
++      state.fps = Math.round(fpsFrames / fpsAcc); fpsAcc = 0; fpsFrames = 0;
++      $('fpsChip').textContent = state.fps + ' FPS';
++    }
+     if (state.reducedMotion) {
+       // honour the preference: no autonomous motion, redraw only when something changed
+       if (dirty) { engine.frame(now); dirty = false; }
+       if (Math.abs(unit - 2) < 0.7) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, 1200);
+@@ -1067,9 +1072,8 @@
+     }
+     engine.frame(now);
+     if (Math.abs(unit - 2) < 0.7) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, now);
+     if (Math.abs(unit - 4) < 0.7) drawAgents(agentCtx, agentCv.width, agentCv.height, now);
+-    if (state.fps !== lastFps) { lastFps = state.fps; $('fpsChip').textContent = state.fps + ' FPS'; }
+   }
+   function startLoop() {
+     if (running) return; running = true; lastT = 0;
+     raf = requestAnimationFrame(loop);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -1052,9 +1052,9 @@
+     $('boot').classList.add('gone');
+     setTimeout(function () { $('boot').style.display = 'none'; }, 700);
+   }
+ 
+-  var raf = null, running = false, lastT = 0, lastFps = -1, dirty = true, fpsAcc = 0, fpsFrames = 0;
++  var raf = null, running = false, lastT = 0, dirty = true, fpsAcc = 0, fpsFrames = 0;
+   function loop(now) {
+     raf = requestAnimationFrame(loop);
+     if (!lastT) lastT = now;
+     var dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
+@@ -1062,18 +1062,22 @@
+     if (fpsAcc >= 0.5) {
+       state.fps = Math.round(fpsFrames / fpsAcc); fpsAcc = 0; fpsFrames = 0;
+       $('fpsChip').textContent = state.fps + ' FPS';
+     }
++    var codeNear = Math.abs(unit - 2) < 0.7, agentNear = Math.abs(unit - 4) < 0.7;
+     if (state.reducedMotion) {
+       // honour the preference: no autonomous motion, redraw only when something changed
+-      if (dirty) { engine.frame(now); dirty = false; }
+-      if (Math.abs(unit - 2) < 0.7) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, 1200);
+-      if (Math.abs(unit - 4) < 0.7) drawAgents(agentCtx, agentCv.width, agentCv.height, 1200);
++      if (dirty) {
++        engine.frame(now);
++        if (codeNear) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, 1200);
++        if (agentNear) drawAgents(agentCtx, agentCv.width, agentCv.height, 1200);
++        dirty = false;
++      }
+       return;
+     }
+     engine.frame(now);
+-    if (Math.abs(unit - 2) < 0.7) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, now);
+-    if (Math.abs(unit - 4) < 0.7) drawAgents(agentCtx, agentCv.width, agentCv.height, now);
++    if (codeNear) drawDSL(codeCtx, codeOps, codeCv.width, codeCv.height, now);
++    if (agentNear) drawAgents(agentCtx, agentCv.width, agentCv.height, now);
+   }
+   function startLoop() {
+     if (running) return; running = true; lastT = 0;
+     raf = requestAnimationFrame(loop);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -477,8 +477,9 @@
+     var r = compileDSL(codeTa.value);
+     codeOps = r.ops; codeErr = r.err;
+     $('codeMsg').textContent = codeErr || 'ok · ' + codeOps.length + ' ops';
+     $('codeMsg').className = codeErr ? 'ph' : '';
++    dirty = true;
+   }
+   codeTa.value = DEFAULT_CODE;
+   var codeTimer = null;
+   codeTa.addEventListener('input', function () { clearTimeout(codeTimer); codeTimer = setTimeout(compile, 320); });
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots .dev/shots2 && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -3 && node .dev/variants.mjs "file://$PWD/model-intro.html" 2>&1 | tail -6
+shots written to .dev/shots
+light ok {"progress":0.8571135711357114,"particles":20000,"reducedMotion":false,"dark":false,"fps":60}
+mobile ok {"progress":0.14288859533245266,"particles":20000,"reducedMotion":false,"dark":true,"fps":60}
+reduced state {"progress":0,"particles":5000,"reducedMotion":true,"dark":true,"fps":60}
+reduced ok {"progress":0.2857728577285773,"particles":5000,"reducedMotion":true,"dark":true,"fps":60}
+done
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/7-foot.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/6-ask.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m✱ [0mGrep "pwrap|\.panel\{|align-items|justify-content" [90min /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html · 31 matches[0m
+> build · minimax/MiniMax-M3.1-Flash
+Found it — a stale CSS rule was overriding the new layout.
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -122,9 +122,9 @@
+ /* agents mini app */
+ #agentCv{width:100%;max-width:420px;height:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+ 
+ /* ask */
+-.pwrap.center{left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,720px);text-align:center}
++.pwrap.center{width:min(92vw,720px)}
+ .pwrap.center .back{inset:-20vh -10vw;background:radial-gradient(55% 55% at 50% 50%,var(--panel) 0%,transparent 74%)}
+ .ask{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+ .ask input{flex:1 1 320px;min-width:240px;background:transparent;color:var(--ink);
+   border:1px solid var(--line);border-radius:999px;padding:13px 20px;font-family:var(--serif);font-size:15px;outline:none;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -2
+shots written to .dev/shots
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/6-ask.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/4-context.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -338,9 +338,9 @@
+   });
+   var railBtns = [].slice.call(rail.querySelectorAll('button'));
+ 
+   var lastActive = -1;
+-  var ANCHOR = [0, 1.3, 2.3, 3.3, 4.3, 5.3, 6.0];  // copy lands as its scene finishes forming
++  var ANCHOR = [0, 1.65, 2.65, 3.65, 4.65, 5.65, 6.0];  // copy lands as its scene finishes forming
+   function updatePanels() {
+     for (var i = 0; i < panels.length; i++) {
+       // asymmetric: fades in quickly from below, lingers, then leaves upward — never two panels at once
+       var d = unit - ANCHOR[i];
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots.mjs
+@@ -46,10 +46,11 @@
+ 
+   const ev = async (e) => (await rpc(ws, 'Runtime.evaluate', { expression: e, awaitPromise: true, returnByValue: true })).result.value
+ 
+   const names = ['0-hero', '1-hero-text', '2-tree', '3-code', '4-context', '5-agents', '6-ask', '7-foot']
++  const units = [0.0, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7, 6.0]
+   for (let i = 0; i < names.length; i++) {
+-    await ev(`window.scrollTo({top: (document.documentElement.scrollHeight - innerHeight) * ${i / 7}, behavior:'auto'})`)
++    await ev(`window.scrollTo({top: innerHeight * ${units[i]}, behavior:'auto'})`)
+     await sleep(2200)
+     const shot = await rpc(ws, 'Page.captureScreenshot', { format: 'png' })
+     fs.writeFileSync(path.join(outDir, names[i] + '.png'), Buffer.from(shot.data, 'base64'))
+   }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -2
+shots written to .dev/shots
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/6-ask.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/5-agents.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && cp model-intro.html /tmp/mi-backup.html && python3 - <<'EOF'
+import re
+p='model-intro.html'
+s=open(p).read()
+s=s.replace("""    var r = $('askInput').getBoundingClientRect();""","""    var r = $('askInput').getBoundingClientRect();
+    console.log('ASKRECT', JSON.stringify({top:r.top,left:r.left,w:r.width,h:r.height}), 'vw',vw,'vh',vh,'center', getComputedStyle(panels[5].querySelector('.pwrap')).alignSelf);""")
+open(p,'w').write(s)
+EOF
+grep -n "ASKRECT" model-intro.html | head -2
+727:    console.log('ASKRECT', JSON.stringify({top:r.top,left:r.left,w:r.width,h:r.height}), 'vw',vw,'vh',vh,'center', getComputedStyle(panels[5].querySelector('.pwrap')).alignSelf);
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/check.mjs "file://$PWD/model-intro.html" 2>&1 | head -30
+{
+  "errors": [],
+  "logs": [
+    "log: ASKRECT {\"top\":695.3125,\"left\":360,\"w\":458.578125,\"h\":45} vw 1440 vh 813 center center"
+  ],
+  "intro": {
+    "keys": [
+      "state",
+      "setTheme",
+      "seek",
+      "stateOf"
+    ],
+    "progress": 0,
+    "particles": 20000,
+    "reducedMotion": false,
+    "dark": true,
+    "fps": 60,
+    "types": {
+      "progress": "number",
+      "particles": "number",
+      "reducedMotion": "boolean",
+      "dark": "boolean",
+      "fps": "number"
+    }
+  },
+  "hasThree": true,
+  "canvasSize": {
+    "w": 1440,
+    "h": 813
+  },
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && python3 - <<'EOF'
+p='model-intro.html'
+s=open(p).read()
+old="""    console.log('ASKRECT', JSON.stringify({top:r.top,left:r.left,w:r.width,h:r.height}), 'vw',vw,'vh',vh,'center', getComputedStyle(panels[5].querySelector('.pwrap')).alignSelf);"""
+new="""    (function(){var w=panels[5].querySelector('.pwrap');var pr=panels[5].getBoundingClientRect();var sr=document.getElementById('stage').getBoundingClientRect();
+    console.log('ASKRECT', JSON.stringify({top:r.top,left:r.left,w:r.width,h:r.height}), 'vw',vw,'vh',vh,
+      'pwrap', JSON.stringify({t:w.getBoundingClientRect().top,h:w.getBoundingClientRect().height,transform:getComputedStyle(w).transform}),
+      'panel', JSON.stringify({t:pr.top,h:pr.height,ai:getComputedStyle(panels[5]).alignItems}), 'stage', JSON.stringify({t:sr.top,h:sr.height}));})();"""
+s=s.replace(old,new)
+open(p,'w').write(s)
+EOF
+node .dev/check.mjs "file://$PWD/model-intro.html" 2>&1 | head -8
+{
+  "errors": [],
+  "logs": [
+    "log: ASKRECT {\"top\":695.3125,\"left\":360,\"w\":458.578125,\"h\":45} vw 1440 vh 813 pwrap {\"t\":521.6875,\"h\":229.625,\"transform\":\"none\"} panel {\"t\":230,\"h\":813,\"ai\":\"center\"} stage {\"t\":0,\"h\":813}"
+  ],
+  "intro": {
+    "keys": [
+      "state",
+> build · minimax/MiniMax-M3.1-Flash
+Found it — a parallax transform was skewing the measurement. Let me fix it properly.
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && python3 - <<'EOF'
+p='model-intro.html'
+s=open(p).read()
+old="""    (function(){var w=panels[5].querySelector('.pwrap');var pr=panels[5].getBoundingClientRect();var sr=document.getElementById('stage').getBoundingClientRect();
+    console.log('ASKRECT', JSON.stringify({top:r.top,left:r.left,w:r.width,h:r.height}), 'vw',vw,'vh',vh,
+      'pwrap', JSON.stringify({t:w.getBoundingClientRect().top,h:w.getBoundingClientRect().height,transform:getComputedStyle(w).transform}),
+      'panel', JSON.stringify({t:pr.top,h:pr.height,ai:getComputedStyle(panels[5]).alignItems}), 'stage', JSON.stringify({t:sr.top,h:sr.height}));})();"""
+new="""    // measure relative to the panel: getBoundingClientRect includes the parallax transform
+    var pr = panels[5].getBoundingClientRect();
+    var lx = r.left - pr.left, ly = r.top - pr.top;
+    var bx0 = -VW + 2 * VW * (lx / vw), bx1 = -VW + 2 * VW * ((lx + r.width) / vw);
+    var by1 = VH - 2 * VH * (ly / vh), by0 = VH - 2 * VH * ((ly + r.height) / vh);"""
+assert old in s
+s=s.replace(old,new)
+old2="""    var bx0 = -VW + 2 * VW * (r.left / vw), bx1 = -VW + 2 * VW * (r.right / vw);
+    var by1 = VH - 2 * VH * (r.top / vh), by0 = VH - 2 * VH * (r.bottom / vh);
+"""
+assert old2 in s
+s=s.replace(old2,"")
+open(p,'w').write(s)
+print("ok")
+EOF
+grep -n "bx0\|var lx" model-intro.html | head
+ok
+666:        var lx = px0 - gw * 0.40;
+729:    var lx = r.left - pr.left, ly = r.top - pr.top;
+730:    var bx0 = -VW + 2 * VW * (lx / vw), bx1 = -VW + 2 * VW * ((lx + r.width) / vw);
+732:    var bw = bx1 - bx0, bh = by1 - by0;
+737:      if (d < bw) { x6 = bx0 + d; y6 = by1; }
+740:      else { x6 = bx0; y6 = by0 + (d - 2 * bw - bh); }
+751:      s6.pos[lb * 3] = (lab.pts[lpi] - lab.w / 2) * lScale + (bx0 + bx1) / 2;
+758:      s6.pos[ct * 3] = bx0 + bw * 0.05 + (rnd() - 0.5) * 0.012;
+766:      s6.pos[hl * 3] = (bx0 + bx1) / 2 + Math.cos(ha) * bw * (0.58 + hr * 0.32);
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -725,11 +725,11 @@
+     var s6 = blank();
+     var r = $('askInput').getBoundingClientRect();
+     // measure relative to the panel: getBoundingClientRect includes the parallax transform
+     var pr = panels[5].getBoundingClientRect();
+-    var lx = r.left - pr.left, ly = r.top - pr.top;
+-    var bx0 = -VW + 2 * VW * (lx / vw), bx1 = -VW + 2 * VW * ((lx + r.width) / vw);
+-    var by1 = VH - 2 * VH * (ly / vh), by0 = VH - 2 * VH * ((ly + r.height) / vh);
++    var ox = r.left - pr.left, oy = r.top - pr.top;
++    var bx0 = -VW + 2 * VW * (ox / vw), bx1 = -VW + 2 * VW * ((ox + r.width) / vw);
++    var by1 = VH - 2 * VH * (oy / vh), by0 = VH - 2 * VH * ((oy + r.height) / vh);
+     var bw = bx1 - bx0, bh = by1 - by0;
+     var nBorder = Math.round(N * 0.40);
+     var per = 2 * (bw + bh);
+     for (var bi = 0; bi < nBorder; bi++) {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -2
+shots written to .dev/shots
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/6-ask.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && cat > .dev/probe.mjs <<'EOF'
+import { spawn } from 'node:child_process'
+import os from 'node:os'; import path from 'node:path'
+const CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+const url=process.argv[2]; const port=9911
+const chrome=spawn(CHROME,['--headless=new',`--remote-debugging-port=${port}`,`--user-data-dir=${path.join(os.tmpdir(),'cdp-'+port)}`,'--no-first-run','--window-size=1440,900','--hide-scrollbars',url],{stdio:'ignore'})
+const sleep=ms=>new Promise(r=>setTimeout(r,ms)); let id=0
+function rpc(ws,method,params){return new Promise((res,rej)=>{const mid=++id;const h=e=>{const m=JSON.parse(e.data);if(m.id===mid){ws.removeEventListener('message',h);m.error?rej(new Error(JSON.stringify(m.error))):res(m.result)}};ws.addEventListener('message',h);ws.send(JSON.stringify({id:mid,method,params}))})}
+let list=null; for(let i=0;i<60;i++){try{list=await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();if(list.some(t=>t.type==='page'))break}catch{} await sleep(250)}
+const page=list.find(t=>t.type==='page'); const ws=new WebSocket(page.webSocketDebuggerUrl)
+await new Promise((r,j)=>{ws.addEventListener('open',r);ws.addEventListener('error',j)})
+await rpc(ws,'Runtime.enable'); await sleep(4000)
+const ev=async e=>(await rpc(ws,'Runtime.evaluate',{expression:e,awaitPromise:true,returnByValue:true})).result.value
+await ev(`window.scrollTo({top: innerHeight*5.7, behavior:'auto'})`); await sleep(1800)
+console.log(await ev(`JSON.stringify({
+  scrollY: window.scrollY, unit: window.scrollY/innerHeight,
+  ops: [...document.querySelectorAll('.panel')].map(p=>p.style.opacity),
+  acts: [...document.querySelectorAll('.panel')].map(p=>p.classList.contains('act')),
+  footerRect: (()=>{const r=document.querySelectorAll('.panel')[6].querySelector('h2').getBoundingClientRect();return {t:r.top,l:r.left,w:r.width,h:r.height}})(),
+  inputRect: (()=>{const r=document.getElementById('askInput').getBoundingClientRect();return {t:r.top,l:r.left,w:r.width,h:r.height}})()
+})`))
+chrome.kill('SIGKILL'); process.exit(0)
+EOF
+node .dev/probe.mjs "file://$PWD/model-intro.html"
+{"scrollY":4634,"unit":5.699876998769987,"ops":["0","0","0","0","0","0.933","0.04"],"acts":[false,false,false,false,false,true,false],"footerRect":{"t":334.73748779296875,"l":360,"w":720,"h":58.3125},"inputRect":{"t":433.11248779296875,"l":360,"w":458.578125,"h":45}}
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && python3 - <<'EOF'
+import zlib, struct
+def read_png(p):
+    d=open(p,'rb').read(); assert d[:8]==b'\x89PNG\r\n\x1a\n'
+    i=8; idat=b''; w=h=bd=ct=None
+    while i<len(d):
+        ln=struct.unpack('>I',d[i:i+4])[0]; typ=d[i+4:i+8]; data=d[i+8:i+8+ln]; i+=12+ln
+        if typ==b'IHDR': w,h,bd,ct=struct.unpack('>IIBB',data[:10])
+        elif typ==b'IDAT': idat+=data
+        elif typ==b'IEND': break
+    raw=zlib.decompress(idat); ch={0:1,2:3,4:2,6:4}[ct]; stride=w*ch
+    out=bytearray(); prev=bytearray(stride); pos=0
+    for y in range(h):
+        f=raw[pos]; pos+=1; line=bytearray(raw[pos:pos+stride]); pos+=stride
+        for x in range(stride):
+            a=line[x-ch] if x>=ch else 0; b=prev[x]; c=prev[x-ch] if x>=ch else 0
+            if f==1: line[x]=(line[x]+a)&255
+            elif f==2: line[x]=(line[x]+b)&255
+            elif f==3: line[x]=(line[x]+(a+b)//2)&255
+            elif f==4:
+                pp=a+b-c; pa=abs(pp-a); pb=abs(pp-b); pc=abs(pp-c)
+                pr=a if (pa<=pb and pa<=pc) else (b if pb<=pc else c)
+                line[x]=(line[x]+pr)&255
+        out+=line; prev=line
+    return w,h,ch,bytes(out)
+w,h,ch,px=read_png('.dev/shots/6-ask.png')
+def at(x,y):
+    o=(y*w+x)*ch; return tuple(px[o:o+3])
+print('size',w,h,ch)
+for pt in [(700,360),(520,360),(950,360),(700,300),(700,470),(120,60),(700,700)]:
+    print(pt, at(*pt))
+EOF
+size 1440 813 3
+(700, 360) (16, 14, 12)
+(520, 360) (16, 14, 12)
+(950, 360) (21, 18, 16)
+(700, 300) (16, 14, 12)
+(700, 470) (54, 23, 17)
+(120, 60) (19, 17, 14)
+(700, 700) (16, 14, 12)
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -348,9 +348,9 @@
+       var el = panels[i];
+       if (el._o !== o) {
+         el._o = o;
+         el.style.opacity = o.toFixed(3);
+-        el.style.transform = 'translate3d(0,' + ((unit - i) * -46).toFixed(1) + 'px,0)';
++        el.style.transform = 'translate3d(0,' + ((unit - ANCHOR[i]) * -46).toFixed(1) + 'px,0)';
+       }
+       var act = o > 0.55;
+       if (el._act !== act) { el._act = act; el.classList.toggle('act', act); }
+     }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -729,9 +729,9 @@
+     var ox = r.left - pr.left, oy = r.top - pr.top;
+     var bx0 = -VW + 2 * VW * (ox / vw), bx1 = -VW + 2 * VW * ((ox + r.width) / vw);
+     var by1 = VH - 2 * VH * (oy / vh), by0 = VH - 2 * VH * ((oy + r.height) / vh);
+     var bw = bx1 - bx0, bh = by1 - by0;
+-    var nBorder = Math.round(N * 0.40);
++    var nBorder = Math.round(N * 0.06);
+     var per = 2 * (bw + bh);
+     for (var bi = 0; bi < nBorder; bi++) {
+       var d = (bi / nBorder) * per, x6, y6;
+       if (d < bw) { x6 = bx0 + d; y6 = by1; }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -742,9 +742,9 @@
+       s6.pos[bi * 3 + 1] = y6 + (rnd() - 0.5) * 0.022;
+       s6.pos[bi * 3 + 2] = (rnd() - 0.5) * 0.10;
+       s6.role[bi] = 1; s6.glow[bi] = 0.8;
+     }
+-    var nLabel = Math.round(N * 0.26);
++    var nLabel = Math.round(N * 0.05);
+     var lab = sampleGlyphs(MODEL, '600 ' + Math.round(clamp(bh * 0.42, 30, 74)) + 'px Georgia, "Times New Roman", serif', nLabel, rnd);
+     var lScale = Math.min(bw * 0.62 / lab.tw, bh * 0.80 / lab.h);
+     for (var lb = nBorder; lb < nBorder + nLabel && lb < N; lb++) {
+       var lpi = (Math.floor(rnd() * (lab.pts.length / 2))) * 2;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -752,9 +752,9 @@
+       s6.pos[lb * 3 + 1] = (lab.h / 2 - lab.pts[lpi + 1]) * lScale + (by0 + by1) / 2;
+       s6.pos[lb * 3 + 2] = (rnd() - 0.5) * 0.08;
+       s6.role[lb] = 1; s6.glow[lb] = 0.75;
+     }
+-    var nCaret = Math.round(N * 0.03);
++    var nCaret = Math.round(N * 0.012);
+     for (var ct = nBorder + nLabel; ct < nBorder + nLabel + nCaret && ct < N; ct++) {
+       s6.pos[ct * 3] = bx0 + bw * 0.05 + (rnd() - 0.5) * 0.012;
+       s6.pos[ct * 3 + 1] = by0 + bh * (0.25 + rnd() * 0.5);
+       s6.pos[ct * 3 + 2] = (rnd() - 0.5) * 0.05;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -2
+shots written to .dev/shots
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/6-ask.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/3-code.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/4-context.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/7-foot.png 
+> build · minimax/MiniMax-M3.1-Flash
+Let me refine the panel timing, the footer layout, and the vortex collapse.
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -339,13 +339,14 @@
+   var railBtns = [].slice.call(rail.querySelectorAll('button'));
+ 
+   var lastActive = -1;
+   var ANCHOR = [0, 1.65, 2.65, 3.65, 4.65, 5.65, 6.0];  // copy lands as its scene finishes forming
++  var HOLD = [0.70, 0.45, 0.45, 0.45, 0.45, 0.45, 1.0];    // how long the copy stays after landing
+   function updatePanels() {
+     for (var i = 0; i < panels.length; i++) {
+       // asymmetric: fades in quickly from below, lingers, then leaves upward — never two panels at once
+       var d = unit - ANCHOR[i];
+-      var o = d >= 0 ? clamp(1 - d * 1.35, 0, 1) : clamp(1 + d * 3.2, 0, 1);
++      var o = d >= 0 ? clamp(1 - d / HOLD[i], 0, 1) : clamp(1 + d * 3.2, 0, 1);
+       var el = panels[i];
+       if (el._o !== o) {
+         el._o = o;
+         el.style.opacity = o.toFixed(3);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -237,9 +237,9 @@
+     </form>
+     <p class="small" id="askMsg"></p>
+   </div></div>
+ 
+-  <div class="panel" data-i="6"><div class="pwrap center"><div class="back"></div>
++  <div class="panel" data-i="6"><div class="pwrap foot"><div class="back"></div>
+     <p class="eyebrow">Model card · draft</p>
+     <h2>MiniMax-M3.1-Flash</h2>
+     <div class="spec">
+       <div><span>Context</span><b>1M <i>(명세)</i></b></div>
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -123,8 +123,9 @@
+ #agentCv{width:100%;max-width:420px;height:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+ 
+ /* ask */
+ .pwrap.center{width:min(92vw,720px)}
++.pwrap.foot{align-self:flex-end;margin:0 auto clamp(46px,9vh,96px);text-align:center;width:min(92vw,760px)}
+ .pwrap.center .back{inset:-20vh -10vw;background:radial-gradient(55% 55% at 50% 50%,var(--panel) 0%,transparent 74%)}
+ .ask{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+ .ask input{flex:1 1 320px;min-width:240px;background:transparent;color:var(--ink);
+   border:1px solid var(--line);border-radius:999px;padding:13px 20px;font-family:var(--serif);font-size:15px;outline:none;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -152,8 +152,9 @@
+   .panel{padding:0 20px;align-items:flex-end}
+   .pwrap{width:auto;max-width:none}
+   .pwrap.hero{margin-bottom:13vh}
+   .pwrap.center{align-self:center;margin:0}
++  .pwrap.foot{align-self:flex-end;margin:0 0 10vh}
+   .pwrap .back{inset:-8vh -20vw}
+   .rail{display:none}
+   .mini{max-width:none}
+   .lede{max-width:none}
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -814,9 +814,10 @@
+     'vec3 dVortex(vec3 p,float role,float r,float entry){',
+     ' float rr=length(p.xy); float ang=uTime*0.30+rr*0.85+r*2.4;',
+     ' float s=sin(ang),co=cos(ang);',
+     ' p.xy=mix(p.xy,vec2(p.x*co-p.y*s,p.x*s+p.y*co),0.9);',
+-    ' p.xy*=1.0-0.985*entry; p.y*=1.0-0.22*entry;',
++    ' float k=1.0-entry*(0.985-0.78*smoothstep(0.0,2.6,rr));',
++    ' p.xy*=k; p.y*=1.0-0.22*entry;',
+     ' p.z=mix(p.z,0.0,entry)+(1.0-entry)*0.55*sin(uTime*1.3+r*6.28318);',
+     ' return p; }',
+     'vec3 dAgents(vec3 p,float role,float r){',
+     ' if(role>14.5){ p.xy+=vec2(cos(uTime*0.8+r*20.0),sin(uTime*0.8+r*20.0))*0.025; }',
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -2
+shots written to .dev/shots
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/7-foot.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/4-context.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -341,9 +341,9 @@
+   var railBtns = [].slice.call(rail.querySelectorAll('button'));
+ 
+   var lastActive = -1;
+   var ANCHOR = [0, 1.65, 2.65, 3.65, 4.65, 5.65, 6.0];  // copy lands as its scene finishes forming
+-  var HOLD = [0.70, 0.45, 0.45, 0.45, 0.45, 0.45, 1.0];    // how long the copy stays after landing
++  var HOLD = [0.70, 0.45, 0.45, 0.45, 0.45, 0.25, 1.0];    // how long the copy stays after landing
+   function updatePanels() {
+     for (var i = 0; i < panels.length; i++) {
+       // asymmetric: fades in quickly from below, lingers, then leaves upward — never two panels at once
+       var d = unit - ANCHOR[i];
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -123,9 +123,9 @@
+ #agentCv{width:100%;max-width:420px;height:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+ 
+ /* ask */
+ .pwrap.center{width:min(92vw,720px)}
+-.pwrap.foot{align-self:flex-end;margin:0 auto clamp(46px,9vh,96px);text-align:center;width:min(92vw,760px)}
++.pwrap.foot{align-self:flex-end;margin:0 auto clamp(30px,6vh,70px);text-align:center;width:min(92vw,760px)}
+ .pwrap.center .back{inset:-20vh -10vw;background:radial-gradient(55% 55% at 50% 50%,var(--panel) 0%,transparent 74%)}
+ .ask{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+ .ask input{flex:1 1 320px;min-width:240px;background:transparent;color:var(--ink);
+   border:1px solid var(--line);border-radius:999px;padding:13px 20px;font-family:var(--serif);font-size:15px;outline:none;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -2 && node .dev/variants.mjs "file://$PWD/model-intro.html" 2>&1 | tail -5
+shots written to .dev/shots
+light ok {"progress":0.8571135711357114,"particles":20000,"reducedMotion":false,"dark":false,"fps":60}
+mobile ok {"progress":0.14288859533245266,"particles":20000,"reducedMotion":false,"dark":true,"fps":60}
+reduced state {"progress":0,"particles":5000,"reducedMotion":true,"dark":true,"fps":60}
+reduced ok {"progress":0.2857728577285773,"particles":5000,"reducedMotion":true,"dark":true,"fps":60}
+done
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots2/mobile-hero.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/7-foot.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && cat > .dev/mob2.mjs <<'EOF'
+import { spawn } from 'node:child_process'
+import os from 'node:os'; import path from 'node:path'; import fs from 'node:fs'
+const CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+const url=process.argv[2]; const port=9933
+fs.mkdirSync('.dev/shots3',{recursive:true})
+const chrome=spawn(CHROME,['--headless=new',`--remote-debugging-port=${port}`,`--user-data-dir=${path.join(os.tmpdir(),'cdp-'+port)}`,'--no-first-run','--window-size=390,844','--force-device-scale-factor=2','--hide-scrollbars',url],{stdio:'ignore'})
+const sleep=ms=>new Promise(r=>setTimeout(r,ms)); let id=0
+function rpc(ws,m,p){return new Promise((res,rej)=>{const mid=++id;const h=e=>{const m2=JSON.parse(e.data);if(m2.id===mid){ws.removeEventListener('message',h);m2.error?rej(new Error(JSON.stringify(m2.error))):res(m2.result)}};ws.addEventListener('message',h);ws.send(JSON.stringify({id:mid,method:m,params:p}))})}
+let list=null; for(let i=0;i<60;i++){try{list=await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();if(list.some(t=>t.type==='page'))break}catch{} await sleep(250)}
+const page=list.find(t=>t.type==='page'); const ws=new WebSocket(page.webSocketDebuggerUrl)
+await new Promise((r,j)=>{ws.addEventListener('open',r);ws.addEventListener('error',j)})
+await rpc(ws,'Runtime.enable'); await rpc(ws,'Page.enable'); await sleep(4500)
+const ev=async e=>(await rpc(ws,'Runtime.evaluate',{expression:e,awaitPromise:true,returnByValue:true})).result.value
+for (const [u,n] of [[0.2,'m-top'],[2.6,'m-code'],[5.6,'m-ask']]) {
+  await ev(`window.scrollTo({top: innerHeight*${u}, behavior:'auto'})`); await sleep(2000)
+  const s=await rpc(ws,'Page.captureScreenshot',{format:'png'})
+  fs.writeFileSync('.dev/shots3/'+n+'.png', Buffer.from(s.data,'base64'))
+}
+console.log(await ev(`JSON.stringify(window.__intro.state)`))
+chrome.kill('SIGKILL'); process.exit(0)
+EOF
+node .dev/mob2.mjs "file://$PWD/model-intro.html"
+{"progress":0.9332892998678997,"particles":20000,"reducedMotion":false,"dark":true,"fps":60}
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots3/m-code.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots3/m-top.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -630,9 +630,10 @@
+     var totalChars = LINES.reduce(function (s, l) { return s + l.length; }, 0);
+     var maxChars = LINES.reduce(function (s, l) { return Math.max(s, l.length); }, 0);
+     var cx0 = wide ? VW * 0.10 : -VW * 0.80, cx1 = VW * 0.97;
+     var cw = (cx1 - cx0) / (maxChars + 3);
+-    var codeTop = VH * 0.80, codeBot = -VH * 0.80;
++    var codeTop = wide ? VH * 0.80 : VH * 0.99;
++    var codeBot = wide ? -VH * 0.80 : VH * 0.70;
+     var lh = (codeTop - codeBot) / LINES.length;
+     var nCode = Math.round(N * 0.58);
+     var ci = 0;
+     for (var li = 0; li < LINES.length && ci < nCode; li++) {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -148,9 +148,9 @@
+   transition:opacity .6s ease}
+ #boot.gone{opacity:0;pointer-events:none}
+ 
+ @media (max-width:820px){
+-  .panel{padding:0 20px;align-items:flex-end}
++  .panel{padding:0 20px 62px;align-items:flex-end}
+   .pwrap{width:auto;max-width:none}
+   .pwrap.hero{margin-bottom:13vh}
+   .pwrap.center{align-self:center;margin:0}
+   .pwrap.foot{align-self:flex-end;margin:0 0 10vh}
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/mob2.mjs "file://$PWD/model-intro.html" 2>&1 | tail -2
+{"progress":0.9332892998678997,"particles":20000,"reducedMotion":false,"dark":true,"fps":60}
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots3/m-ask.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots3/m-code.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -130,9 +130,9 @@
+ .ask input{flex:1 1 320px;min-width:240px;background:transparent;color:var(--ink);
+   border:1px solid var(--line);border-radius:999px;padding:13px 20px;font-family:var(--serif);font-size:15px;outline:none;
+   transition:border-color .25s}
+ .ask input:focus{border-color:var(--accent)}
+-.ask input::placeholder{color:var(--ink2);opacity:.8}
++.ask input::placeholder{color:var(--ink2);opacity:0}  /* the particle label fills the box instead */
+ 
+ /* footer */
+ .spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;
+   background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:26px 0 20px}
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -630,10 +630,10 @@
+     var totalChars = LINES.reduce(function (s, l) { return s + l.length; }, 0);
+     var maxChars = LINES.reduce(function (s, l) { return Math.max(s, l.length); }, 0);
+     var cx0 = wide ? VW * 0.10 : -VW * 0.80, cx1 = VW * 0.97;
+     var cw = (cx1 - cx0) / (maxChars + 3);
+-    var codeTop = wide ? VH * 0.80 : VH * 0.99;
+-    var codeBot = wide ? -VH * 0.80 : VH * 0.70;
++    var codeTop = wide ? VH * 0.80 : VH * 1.05;
++    var codeBot = wide ? -VH * 0.80 : VH * 0.86;
+     var lh = (codeTop - codeBot) / LINES.length;
+     var nCode = Math.round(N * 0.58);
+     var ci = 0;
+     for (var li = 0; li < LINES.length && ci < nCode; li++) {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/mob2.mjs "file://$PWD/model-intro.html" 2>&1 | tail -1 && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -1
+{"progress":0.9332892998678997,"particles":20000,"reducedMotion":false,"dark":true,"fps":60}
+shots written to .dev/shots
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/6-ask.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/0-hero.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -78,10 +78,10 @@
+ .pwrap .back{position:absolute;inset:-8vh -14vw -8vh -12vw;z-index:-1;pointer-events:none;
+   background:radial-gradient(60% 60% at 30% 50%,var(--panel) 0%,transparent 72%)}
+ .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--accent);
+   text-transform:uppercase;margin:0 0 18px}
+-h1,h2{margin:0 0 18px;font-weight:400;letter-spacing:-.01em;line-height:1.08}
+-h1{font-size:clamp(38px,5.4vw,76px)}
++h1,h2{margin:0 0 18px;font-weight:400;letter-spacing:-.01em;line-height:1.08;word-break:keep-all}
++h1{font-size:clamp(32px,4.4vw,60px)}
+ h2{font-size:clamp(30px,3.9vw,54px)}
+ .lede{font-size:clamp(15px,1.25vw,18px);line-height:1.7;color:var(--ink2);margin:0 0 22px;max-width:44ch}
+ .small{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink2);line-height:1.8}
+ .ph{color:var(--accent)}
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots .dev/shots2 && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -1 && node .dev/variants.mjs "file://$PWD/model-intro.html" 2>&1 | tail -5
+shots written to .dev/shots
+light ok {"progress":0.8571135711357114,"particles":20000,"reducedMotion":false,"dark":false,"fps":60}
+mobile ok {"progress":0.14288859533245266,"particles":20000,"reducedMotion":false,"dark":true,"fps":60}
+reduced state {"progress":0,"particles":5000,"reducedMotion":true,"dark":true,"fps":60}
+reduced ok {"progress":0.2857728577285773,"particles":5000,"reducedMotion":true,"dark":true,"fps":60}
+done
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/0-hero.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots2/light-ask.png 
+> build · minimax/MiniMax-M3.1-Flash
+Let me verify the offline fallback paths (CDN blocked).
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/offline.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/offline.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/offline.mjs "file://$PWD/model-intro.html" 2>&1 | tail -8
+no-three | state: {"progress":0.2833128331283313,"particles":20000,"reducedMotion":false,"dark":true,"fps":60} | gsap: true
+no-gsap | state: {"progress":0.2833128331283313,"particles":20000,"reducedMotion":false,"dark":true,"fps":60} | gsap: false
+no-cdn | state: {"progress":0.2833128331283313,"particles":20000,"reducedMotion":false,"dark":true,"fps":60} | gsap: false
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots3/no-cdn.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -216,10 +216,10 @@
+   </div></div>
+ 
+   <div class="panel" data-i="3"><div class="pwrap"><div class="back"></div>
+     <p class="eyebrow">03 / Long Context</p>
+-    <h2>책 한 권이<br>한 점으로</h2>
+-    <p class="lede">수천 페이지가 한 점으로 빨려 들어갑니다. 1M 컨텍스트를 모래가 빠지는 것처럼 보여 줍니다.</p>
++    <h2>페이지가<br>한 점으로</h2>
++    <p class="lede">한 화면에 담긴 페이지가 한 점으로 빨려 들어갑니다. 1M 컨텍스트를 모래가 빠지는 것처럼 보여 줍니다.</p>
+     <div class="meter"><i id="ctxBar"></i></div>
+     <p class="small">1M CONTEXT · 속도·벤치마크 <span class="ph">— 미측정</span></p>
+   </div></div>
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html [90m[offset=300, limit=120][0m
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -305,11 +305,11 @@
+   var scrollRange = 1;
+ 
+   function setUnit(u) {
+     u = clamp(u, 0, TRANSITIONS);
++    state.progress = clamp(window.scrollY / scrollRange, 0, 1);
+     if (Math.abs(u - unit) < 0.0004 && pair >= 0) return;
+     unit = u;
+-    state.progress = clamp(window.scrollY / scrollRange, 0, 1);
+     dirty = true;
+     var i = clamp(Math.floor(u), 0, TRANSITIONS - 1);
+     var local = u - i;
+     var t = smooth(clamp((local - 0.05) / 0.60, 0, 1));
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html [90m[limit=95, offset=1055][0m
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -1116,10 +1116,10 @@
+         onUpdate: function (s) { setUnit(s.progress * TRANSITIONS); }
+       });
+     } catch (e) { gsapOK = false; }
+   }
+-  if (!gsapOK) window.addEventListener('scroll', readScroll, { passive: true });
+-  else window.addEventListener('scroll', readScroll, { passive: true }); // keeps progress in sync when ScrollTrigger is idle
++  // the native listener keeps state in sync even when ScrollTrigger is idle or missing
++  window.addEventListener('scroll', readScroll, { passive: true });
+   window.addEventListener('resize', onResize);
+ 
+   // public helpers for automated checks
+   intro.setTheme = function (d) { applyTheme(!!d); };
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && grep -n "gsapOK" model-intro.html
+1109:  var gsapOK = false;
+1113:      gsapOK = true;
+1118:    } catch (e) { gsapOK = false; }
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html [90m[offset=1106, limit=16][0m
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/model-intro.html
+@@ -1105,18 +1105,16 @@
+     scrollRange = Math.max(1, document.documentElement.scrollHeight - vh);
+     setUnit(window.scrollY / vh);
+   }
+ 
+-  var gsapOK = false;
+   if (window.gsap && window.ScrollTrigger) {
+     try {
+       gsap.registerPlugin(ScrollTrigger);
+-      gsapOK = true;
+       ScrollTrigger.create({
+         trigger: '#scroll', start: 'top top', end: 'bottom bottom',
+         onUpdate: function (s) { setUnit(s.progress * TRANSITIONS); }
+       });
+-    } catch (e) { gsapOK = false; }
++    } catch (e) { /* ScrollTrigger unavailable — the native listener below drives everything */ }
+   }
+   // the native listener keeps state in sync even when ScrollTrigger is idle or missing
+   window.addEventListener('scroll', readScroll, { passive: true });
+   window.addEventListener('resize', onResize);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/check.mjs "file://$PWD/model-intro.html" 2>&1 | head -45
+{
+  "errors": [],
+  "logs": [],
+  "intro": {
+    "keys": [
+      "state",
+      "setTheme",
+      "seek",
+      "stateOf"
+    ],
+    "progress": 0,
+    "particles": 20000,
+    "reducedMotion": false,
+    "dark": true,
+    "fps": 60,
+    "types": {
+      "progress": "number",
+      "particles": "number",
+      "reducedMotion": "boolean",
+      "dark": "boolean",
+      "fps": "number"
+    }
+  },
+  "hasThree": true,
+  "canvasSize": {
+    "w": 1440,
+    "h": 813
+  },
+  "webgl": true,
+  "scrolled": {
+    "h": 4878,
+    "max": 4878
+  },
+  "afterScroll": {
+    "progress": 0.5,
+    "fps": 60,
+    "particles": 20000
+  },
+  "atEnd": {
+    "progress": 1,
+    "fps": 60
+  },
+  "screenshot": "skipped"
+}
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/interact.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/interact.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/interact.mjs "file://$PWD/model-intro.html" 2>&1 | tail -20
+{
+  "themeBefore": true,
+  "themeAfter": "false/",
+  "railScroll": 3,
+  "dslOk": "ok · 4 ops",
+  "dslErr": "ok · 4 ops",
+  "askMsg": "데모 페이지입니다 — 실제 응답은 MiniMax-M3.1-Flash API 연결이 필요합니다.",
+  "seek": 0.5
+}
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && python3 - <<'EOF'
+p='.dev/interact.mjs'
+s=open(p).read()
+s=s.replace("await ev(`const t=document.getElementById('codeIn'); t.value='clear\\\\nbg #20161A\\\\nrect 40 40 200 120\\\\ncircle 400 220 60'; document.getElementById('codeRun').click(); 1`)",
+            "await ev(`(function(){var t=document.getElementById('codeIn'); t.value='clear\\\\nbg #20161A\\\\nrect 40 40 200 120\\\\ncircle 400 220 60'; document.getElementById('codeRun').click(); return 1})()`)")
+s=s.replace("await ev(`const t=document.getElementById('codeIn'); t.value='frobnicate 3'; document.getElementById('codeRun').click(); 1`)",
+            "await ev(`(function(){var t=document.getElementById('codeIn'); t.value='frobnicate 3'; document.getElementById('codeRun').click(); return 1})()`)")
+s=s.replace("await ev(`const t=document.getElementById('codeIn'); t.value=document.getElementById('codeIn').defaultValue; document.getElementById('codeRun').click(); 1`)",
+            "await ev(`(function(){var t=document.getElementById('codeIn'); t.value='clear\\\\nbg #17110D\\\\nspiral 260 150 104 3.2\\\\ncircle 260 150 14\\\\nline 36 286 484 286\\\\narc 452 74 46 0 300'; document.getElementById('codeRun').click(); return 1})()`)")
+open(p,'w').write(s)
+EOF
+node .dev/interact.mjs "file://$PWD/model-intro.html" 2>&1 | tail -12
+{
+  "themeBefore": true,
+  "themeAfter": "false/",
+  "railScroll": 3,
+  "dslOk": "ok · 4 ops",
+  "dslErr": "1행: 알 수 없는 명령 ‘frobnicate’",
+  "askMsg": "데모 페이지입니다 — 실제 응답은 MiniMax-M3.1-Flash API 연결이 필요합니다.",
+  "seek": 0.5
+}
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev/shots && node .dev/shots.mjs "file://$PWD/model-intro.html" .dev/shots 2>&1 | tail -1
+shots written to .dev/shots
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/2-tree.png 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.dev/shots/1-hero-text.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && grep -n "console.log\|ASKRECT\|TODO\|FIXME" model-intro.html; echo "--- size ---"; wc -l model-intro.html; du -h model-intro.html
+--- size ---
+    1134 model-intro.html
+ 52K	model-intro.html
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && node .dev/check.mjs "file://$PWD/model-intro.html" 2>&1 | head -30 && node .dev/variants.mjs "file://$PWD/model-intro.html" 2>&1 | tail -4
+{
+  "errors": [],
+  "logs": [],
+  "intro": {
+    "keys": [
+      "state",
+      "setTheme",
+      "seek",
+      "stateOf"
+    ],
+    "progress": 0,
+    "particles": 20000,
+    "reducedMotion": false,
+    "dark": true,
+    "fps": 60,
+    "types": {
+      "progress": "number",
+      "particles": "number",
+      "reducedMotion": "boolean",
+      "dark": "boolean",
+      "fps": "number"
+    }
+  },
+  "hasThree": true,
+  "canvasSize": {
+    "w": 1440,
+    "h": 813
+  },
+  "webgl": true,
+  "scrolled": {
+mobile ok {"progress":0.14288859533245266,"particles":20000,"reducedMotion":false,"dark":true,"fps":60}
+reduced state {"progress":0,"particles":5000,"reducedMotion":true,"dark":true,"fps":60}
+reduced ok {"progress":0.2857728577285773,"particles":5000,"reducedMotion":true,"dark":true,"fps":60}
+done
+> build · minimax/MiniMax-M3.1-Flash
+Everything checks out. Cleaning up the temporary harness.
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro && rm -rf .dev && ls -la && git status --short 2>/dev/null | head
+total 104
+drwxr-xr-x@ 4 hjshin  staff    128 Nov 19 08:09 .
+drwxr-xr-x@ 7 hjshin  staff    224 Nov 19 07:33 ..
+drwxr-xr-x@ 9 hjshin  staff    288 Nov 19 07:33 .git
+-rw-r--r--@ 1 hjshin  staff  51674 Nov 19 08:06 model-intro.html
+?? model-intro.html
+> build · minimax/MiniMax-M3.1-Flash
+완료했습니다. 산출물: `work/03-model-intro/model-intro.html` (단일 파일 51 KB).
+
+## 구현 구조
+
+**한 입자 구름, 7개 상태, 스크롤로만 변형** — `THREE.Points` 드로우콜 1개에 커스텀 GLSL. 상태별 목표 좌표를 CPU에서 1회 생성해 `position`(현재 장) / `aPosB`(다음 장) 두 버퍼에 업로드하고, 정점 셰이더가 `uMix`로 보간합니다(파티클마다 `aRand` 지연 → 순차 조립). 섹션 전환이 아니라 **같은 구름이 계속 형태를 바꾸는** 구조라 과제 요구를 그대로 만족합니다.
+
+| 장 | 상태 | 연출 |
+|---|---|---|
+| 0 히어로 | 입자 구름 → 글자 | 커서 반경 내 소용돌이·밀어내기, `MiniMax-M3.1-Flash`를 캔버스 래스터→입자 샘플로 조립 |
+| 1 추론 | 가지 사고 트리 | 재귀 분기 트리가 뿌리에서 자람, 한 경로만 액센트로 발광(강조 경로는 `role=2`) |
+| 2 코딩 | 코드 줄 | 실제 코드 문자열을 모노스페이스 격자에 배치해 아래로 흐름. **미니 UI는 진짜 실행됨** |
+| 3 긴 맥락 | 페이지 수축 | 280페이지×10줄 텍스트 라인 → 반경 의존 수축으로 밝은 코어 + 나선 원반 |
+| 4 에이전트 | 노드 오케스트레이션 | 6노드 + 베지어 스트림이 중앙으로 합류(셰이더에서 재생) |
+| 5 엔딩 | 입력창 | **실제 `<input>`의 DOM 사각형을 월드 좌표로 변환**해 입자 테두리·모델명·캐럿이 그려냄 |
+
+- 라이브러리: three.js(ESM 동적 import, 실패 시 2D 캔버스 폴백) + GSAP ScrollTrigger(CDN). 외부 3D/이미지/폰트 없음, 시스템 세리프만 사용.
+- 설계: 오프화이트 `#F3EDE3` / 먹색 `#100E0C` 두 테마, 액센트 `#F0561E` 단일, 세리프 헤드라인 + 모노 라벨. 한국어 카피 6줄.
+- 성능 수치·벤치마크는 전부 자리표시자(`— 미측정 / — 미확인`). `1M (명세)`만 과제 원문에서 온 값.
+- `prefers-reduced-motion` 감지 시 자동 모션 정지(변경 시에만 재렌더), 입자 5000개로 감축, GSAP 지속시간 0.
+
+## 자동 검증 인터페이스
+
+```js
+window.__intro = { state: { progress, particles, reducedMotion, dark, fps }, setTheme(d), seek(p), stateOf() }
+```
+`progress` 0~1, `particles` 실제 렌더 개수, `reducedMotion`는 `matchMedia` 연동, `dark`는 테마 토글과 동기.
+
+## 헤드리스 Chrome으로 실행 검증
+
+60fps(1440×900 / 390×844 에뮬레이션)·콘솔 에러 0 · 라이트/다크 토글 · 레일 내비게이션 · 미니 DSL 컴파일(`ok · 4 ops` / `1행: 알 수 없는 명령 ‘frobnicate’`) · 폼 제출 · `seek()` · CDN 차단 시(three/gsap 모두) 2D 폴백으로 트리 정상 렌더 + `__intro` 유지 · `prefers-reduced-motion` 강제 시 `reducedMotion:true, particles:5000`.
+
+**남은 실물 검증 항목**: 실제 iOS/Android 기기 GPU에서의 60fps(에뮬레이션은 SwiftShader/데스크톱 기준), 실제 터치 드래그 시 커서 필드 반응, Safari/iOS WebGL에서의 셰이더·동적 import 동작, 한국어 세리프 폴백(시스템 폰트 없으면 대체 세리프로 렌더됨), 성능 수치 스펙 그리드는 실제 벤치마크로 채워야 합니다.
+
+건너뛴 것: 사운드, 웹폰트, 이미지 텍스처(스프라이트는 절차적 생성), 실제 모델 API 연결(폼은 데모 안내만 출력). 위험: 실측 벤치마크가 없는 페이지는 자리표시자를 그대로 노출하며, 폰트에 의존한 입자 글자 형태는 OS별 미세 차이가 납니다.

@@ -1,0 +1,15 @@
+{
+  "task": "04-novel",
+  "attempt": 2,
+  "label": "소설",
+  "model": "opencodex/minimax/MiniMax-M3.1-Flash",
+  "modelName": "MiniMax-M3.1-Flash",
+  "effort": "max",
+  "startedAt": "2026-11-18T23:16:13.457Z",
+  "workDir": "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel-a2",
+  "timeoutMin": 75,
+  "finishedAt": "2026-11-18T23:34:02.094Z",
+  "seconds": 1069,
+  "exitCode": 0,
+  "timedOut": false
+}

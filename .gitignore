@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+
+# 실행 작업 디렉터리 (결과물은 루트로 복사됨)
+work/
+
+# 모델이 헤드리스 Chrome을 돌리며 남긴 프로필/캐시
+.chrome-profile*/
+**/.chrome-profile*/
+__pycache__/
+*.pyc

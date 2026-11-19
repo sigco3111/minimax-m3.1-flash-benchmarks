@@ -1,0 +1,129 @@
+{
+  "dir": "hardware",
+  "checks": [
+    {
+      "name": "REQUIREMENTS.md present",
+      "pass": true,
+      "detail": [
+        "REQUIREMENTS.md"
+      ]
+    },
+    {
+      "name": "ARCHITECTURE.md present",
+      "pass": true,
+      "detail": [
+        "ARCHITECTURE.md"
+      ]
+    },
+    {
+      "name": "BOM.csv present",
+      "pass": true,
+      "detail": [
+        "BOM.csv"
+      ]
+    },
+    {
+      "name": "wiring table or schematic present",
+      "pass": true,
+      "detail": [
+        "SCHEMATIC.svg",
+        "WIRING.md",
+        "tools/make_schematic.py"
+      ]
+    },
+    {
+      "name": "firmware sources present",
+      "pass": true,
+      "detail": 13
+    },
+    {
+      "name": "firmware build config present",
+      "pass": true,
+      "detail": [
+        "firmware/build.sh",
+        "firmware/test/Makefile"
+      ]
+    },
+    {
+      "name": "firmware source files present",
+      "pass": true,
+      "detail": [
+        "firmware/rec_controller/buttons.cpp",
+        "firmware/rec_controller/buttons.h",
+        "firmware/rec_controller/config.h",
+        "firmware/rec_controller/protocol.cpp",
+        "firmware/rec_controller/protocol.h",
+        "firmware/rec_controller/rec_controller.ino",
+        "firmware/rec_controller/ui.cpp",
+        "firmware/rec_controller/ui.h",
+        "firmware/test/test_portable.cpp"
+      ]
+    },
+    {
+      "name": "parametric CAD source present",
+      "pass": true,
+      "detail": [
+        "enclosure/dims.scad",
+        "enclosure/rec1_case.scad"
+      ]
+    },
+    {
+      "name": "STL mesh present",
+      "pass": true,
+      "detail": [
+        "enclosure/rec1_bottom.stl",
+        "enclosure/rec1_top.stl"
+      ]
+    },
+    {
+      "name": "preview visualization present",
+      "pass": true,
+      "detail": 5
+    },
+    {
+      "name": "README.md present",
+      "pass": true,
+      "detail": [
+        "README.md"
+      ]
+    },
+    {
+      "name": "VERIFICATION.md present",
+      "pass": true,
+      "detail": [
+        "VERIFICATION.md"
+      ]
+    },
+    {
+      "name": "STL files are non-empty valid meshes",
+      "pass": true,
+      "detail": [
+        {
+          "file": "enclosure/rec1_bottom.stl",
+          "bytes": 429371,
+          "triangles": 2676,
+          "valid": true
+        },
+        {
+          "file": "enclosure/rec1_top.stl",
+          "bytes": 426285,
+          "triangles": 2572,
+          "valid": true
+        }
+      ]
+    },
+    {
+      "name": "CAD source contains dimensional parameters",
+      "pass": true,
+      "detail": [
+        "enclosure/dims.scad",
+        "enclosure/rec1_case.scad"
+      ]
+    },
+    {
+      "name": "no credentials embedded in deliverables",
+      "pass": true,
+      "detail": []
+    }
+  ]
+}

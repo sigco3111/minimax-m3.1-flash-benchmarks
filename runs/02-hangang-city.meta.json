@@ -1,0 +1,16 @@
+{
+  "task": "02-hangang-city",
+  "label": "한강시 게임",
+  "model": "opencodex/minimax/MiniMax-M3.1-Flash",
+  "modelName": "MiniMax-M3.1-Flash",
+  "effort": "max",
+  "startedAt": "2026-11-18T22:33:49.079Z",
+  "workDir": "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city",
+  "timeoutMin": 40,
+  "finishedAt": "2026-11-18T23:13:49.129Z",
+  "seconds": 2400,
+  "exitCode": 143,
+  "timedOut": true,
+  "attempt": 1,
+  "note": "1차 시도. 하네스 시간 제한(40분)에 의한 종료."
+}

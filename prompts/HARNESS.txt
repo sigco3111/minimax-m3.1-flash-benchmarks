@@ -1,0 +1,71 @@
+[벤치마크 공통 지침 · 원문 메타프롬프트 밖의 실행 하네스]
+
+이 지침은 다섯 과제 모두에 동일하게 적용되는 실행 하네스입니다.
+과제 원문은 prompts/01..05 파일에 그대로 있고, 이 파일은 그 앞에 붙는 실행 조건입니다.
+
+1. 작업 폴더
+   - 작업 폴더는 {{TASK_DIR}} 입니다. 이 폴더와 그 하위 폴더만 만드거나 고치세요.
+   - 그 밖의 경로(저장소 루트, 다른 과제 폴더, 사용자 홈)는 읽지도 쓰지도 마세요.
+   - 산출물은 아래 규칙대로 파일 이름을 정해 이 폴더 안에 저장하세요.
+     01 → palace.html          02 → hangang-city.html
+     03 → model-intro.html     04 → novel.md, novel.html
+     05 → 아래 4절의 파일 구성
+
+2. 실행 조건
+   - 아래 과제 원문 하나만 수행합니다. 과제 원문에 없는 기능 추가, 외부 3D/이미지/폰트 에셋,
+     유료 생성, 배포, 커밋은 하지 않습니다.
+   - 결과물은 실제 동작하는 상태여야 합니다. 설명만 남기고 파일을 만들지 않는 것은 실패로 봅니다.
+   - 실행에 쓰인 모델 이름은 {{MODEL_NAME}}, effort는 {{EFFORT}} 입니다.
+     성능 수치·벤치마크 수치를 지어내지 마세요. 모르는 값은 자리표시자로 둡니다.
+
+3. 자동 검증을 위한 인터페이스 (완성 후 반드시 구현)
+   아래 계약은 검증을 자동화하기 위한 최소 규격입니다. 이름과 속성 이름을 정확히 지켜야 합니다.
+   계약에 없는 내부 구조는 자유롭게 설계하세요.
+
+   [01 palace.html]
+   window.__palace = {
+     stats: {
+       bricks: Number,          // 실제로 생성한 브릭 총개수
+       parts: Number,           // 조립 유형(파트) 개수
+       groups: { terrace:Number, pillars:Number, brackets:Number, roof:Number, courtyard:Number },
+       dimensionsCm: [Number, Number, Number],
+       generationMs: Number
+     },
+     seek(t: Number): void     // 0~32초 타임라인으로 즉시 이동(애니메이션 시간은 그대로)
+   }
+   window.__palace.stats.groups의 다섯 값 합은 stats.bricks와 같아야 합니다.
+
+   [02 hangang-city.html]
+   window.__game = {
+     state: { wanted:Number, mission:String|null, completed:Array<String>, elapsed:Number, fps:Number },
+     test: {
+       key(code:String, down:Boolean): void,     // 'w','a','s','d','shift' 등
+       press(code:String): void,                 // ' ','f','e','r' 등 한 프레임 입력
+       step(dt:Number): void,                    // dt초 만큼 시뮬레이션 진행(고정 시간 스텝)
+       teleport(x:Number, z:Number, y?:Number): void,
+       begin(mission:String): void,              // 'delivery' | 'escape' | 'roof'
+       setTime(t:Number): void                   // 낮/노을/밤 시각(0~180초)
+     }
+   }
+   test.step()은 렌더링과 무관하게 게임 상태만 전진시켜야 합니다(결정론적).
+
+   [03 model-intro.html]
+   window.__intro = { state: { progress:Number, particles:Number, reducedMotion:Boolean, dark:Boolean, fps:Number } }
+   prefers-reduced-motion: reduce 를 감지하면 state.reducedMotion이 true가 되어야 합니다.
+
+   [04 novel]
+   - novel.md : 제목, 다섯 장면 구성, 그리고 본문 전체.
+   - novel.html : 같은 원고를 읽는 단일 파일 화면(별도 원고 복사 금지, novel.html이 novel.md 본문을 담을 것).
+
+   [05 기판]
+   - 폴더 안에 원문에서 요구한 파일을 모두 만듭니다.
+     REQUIREDMENTS.md, ARCHITECTURE.md, BOM.csv, 배선표(또는 회로도),
+     firmware/ (전체 소스 + 재현 가능한 빌드 설정), host/ (필요 시 브리지 앱),
+     enclosure/ (편집 가능한 파라메트릭 CAD 원본 + STL), preview/ (로컬 실행 가능한 시각화),
+     README.md(조립·플래시·실행), VERIFICATION.md(실행한 검증·로그·한계).
+   - 인증정보(키·토큰·비밀번호)는 파일에 넣지 않습니다.
+   - CAD 원본은 .scad, .step, .stl, .f3d 중 편집 가능한 파라메트릭 형식과 STL을 함께 포함합니다.
+
+4. 마지막 보고
+   - 과제 원문에서 요구한 마무리 보고(예: 조작키와 구현 구조 요약)를 답변에 포함하세요.
+   - 남은 실물 검증 항목을 분명히 밝히세요.

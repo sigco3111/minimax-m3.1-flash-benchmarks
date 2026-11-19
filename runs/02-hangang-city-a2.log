@@ -1,0 +1,3563 @@
+[0m
+> build · minimax/MiniMax-M3.1-Flash
+I'll start by exploring the workspace structure and reading the task files.
+[0m$ [0mls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/ 2>&1
+total 56
+drwxr-xr-x@  8 hjshin  staff   256 Nov 19 07:33 .
+drwxr-xr-x@ 25 hjshin  staff   800 Nov 19 08:16 ..
+-rw-r--r--@  1 hjshin  staff  1435 Nov 19 07:36 01-palace.txt
+-rw-r--r--@  1 hjshin  staff  1106 Nov 19 07:36 02-hangang-city.txt
+-rw-r--r--@  1 hjshin  staff  1287 Nov 19 07:36 03-model-intro.txt
+-rw-r--r--@  1 hjshin  staff  1113 Nov 19 07:36 04-novel.txt
+-rw-r--r--@  1 hjshin  staff  3349 Nov 19 07:36 05-hardware.txt
+-rw-r--r--@  1 hjshin  staff  4320 Nov 19 07:33 HARNESS.txt
+[0m$ [0mls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/ 2>&1 | head -50
+total 1744
+drwxr-xr-x@ 25 hjshin  staff     800 Nov 19 08:16 .
+drwxr-xr-x@  5 hjshin  staff     160 Nov 19 06:55 ..
+drwxr-xr-x@  9 hjshin  staff     288 Nov 19 07:19 .git
+-rw-r--r--@  1 hjshin  staff      43 Nov 19 07:35 .gitignore
+drwxr-xr-x@  8 hjshin  staff     256 Nov 19 08:15 .parts
+drwxr-xr-x@  8 hjshin  staff     256 Nov 19 08:16 attempts
+-rw-r--r--@  1 hjshin  staff     765 Nov 19 08:15 build.py
+-rw-r--r--@  1 hjshin  staff  709755 Nov 19 08:15 hangang-city.html
+drwxr-xr-x@ 14 hjshin  staff     448 Nov 19 08:15 hardware
+-rw-r--r--@  1 hjshin  staff    3046 Nov 19 07:35 index.html
+-rw-r--r--@  1 hjshin  staff   51674 Nov 19 08:15 model-intro.html
+drwxr-xr-x@ 27 hjshin  staff     864 Nov 19 07:33 node_modules
+-rw-r--r--@  1 hjshin  staff    9199 Nov 19 07:35 ORIGINAL_PROMPTS.txt
+-rw-r--r--@  1 hjshin  staff   12136 Nov 19 07:33 package-lock.json
+-rw-r--r--@  1 hjshin  staff     479 Nov 19 07:35 package.json
+-rw-r--r--@  1 hjshin  staff   50096 Nov 19 08:15 palace.html
+drwxr-xr-x@  8 hjshin  staff     256 Nov 19 07:33 prompts
+-rw-r--r--@  1 hjshin  staff   12700 Nov 19 07:36 README.md
+drwxr-xr-x@ 10 hjshin  staff     320 Nov 19 08:16 runs
+drwxr-xr-x@  8 hjshin  staff     256 Nov 19 08:15 src
+drwxr-xr-x@  9 hjshin  staff     288 Nov 19 07:36 tools
+drwxr-xr-x@  3 hjshin  staff      96 Nov 19 08:15 vendor
+drwxr-xr-x@  5 hjshin  staff     160 Nov 19 08:15 verify
+-rw-r--r--@  1 hjshin  staff    7208 Nov 19 07:34 web-tests.mjs
+drwxr-xr-x@  7 hjshin  staff     224 Nov 19 08:16 work
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/HARNESS.txt 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/02-hangang-city.txt 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mls /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/ 2>&1
+01-palace
+02-hangang-city-a2
+03-model-intro
+04-novel-a2
+05-hardware
+[0m$ [0mls -laR /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 2>&1 | head -60
+total 0
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 08:16 .
+drwxr-xr-x@ 7 hjshin  staff  224 Nov 19 08:16 ..
+drwxr-xr-x@ 9 hjshin  staff  288 Nov 19 08:16 .git
+
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/.git:
+total 24
+drwxr-xr-x@  9 hjshin  staff  288 Nov 19 08:16 .
+drwxr-xr-x@  3 hjshin  staff   96 Nov 19 08:16 ..
+-rw-r--r--@  1 hjshin  staff  137 Nov 19 08:16 config
+-rw-r--r--@  1 hjshin  staff   73 Nov 19 08:16 description
+-rw-r--r--@  1 hjshin  staff   21 Nov 19 08:16 HEAD
+drwxr-xr-x@ 16 hjshin  staff  512 Nov 19 08:16 hooks
+drwxr-xr-x@  3 hjshin  staff   96 Nov 19 08:16 info
+drwxr-xr-x@  4 hjshin  staff  128 Nov 19 08:16 objects
+drwxr-xr-x@  4 hjshin  staff  128 Nov 19 08:16 refs
+
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/.git/hooks:
+total 128
+drwxr-xr-x@ 16 hjshin  staff   512 Nov 19 08:16 .
+drwxr-xr-x@  9 hjshin  staff   288 Nov 19 08:16 ..
+-rwxr-xr-x@  1 hjshin  staff   478 Nov 19 08:16 applypatch-msg.sample
+-rwxr-xr-x@  1 hjshin  staff  1972 Nov 19 08:16 commit-msg.sample
+-rwxr-xr-x@  1 hjshin  staff  4611 Nov 19 08:16 fsmonitor-watchman.sample
+-rwxr-xr-x@  1 hjshin  staff   189 Nov 19 08:16 post-update.sample
+-rwxr-xr-x@  1 hjshin  staff   424 Nov 19 08:16 pre-applypatch.sample
+-rwxr-xr-x@  1 hjshin  staff  1649 Nov 19 08:16 pre-commit.sample
+-rwxr-xr-x@  1 hjshin  staff   416 Nov 19 08:16 pre-merge-commit.sample
+-rwxr-xr-x@  1 hjshin  staff  1374 Nov 19 08:16 pre-push.sample
+-rwxr-xr-x@  1 hjshin  staff  4898 Nov 19 08:16 pre-rebase.sample
+-rwxr-xr-x@  1 hjshin  staff   544 Nov 19 08:16 pre-receive.sample
+-rwxr-xr-x@  1 hjshin  staff  1492 Nov 19 08:16 prepare-commit-msg.sample
+-rwxr-xr-x@  1 hjshin  staff  2783 Nov 19 08:16 push-to-checkout.sample
+-rwxr-xr-x@  1 hjshin  staff  2308 Nov 19 08:16 sendemail-validate.sample
+-rwxr-xr-x@  1 hjshin  staff  3650 Nov 19 08:16 update.sample
+
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/.git/info:
+total 8
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 08:16 .
+drwxr-xr-x@ 9 hjshin  staff  288 Nov 19 08:16 ..
+-rw-r--r--@ 1 hjshin  staff  240 Nov 19 08:16 exclude
+
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/.git/objects:
+total 0
+drwxr-xr-x@ 4 hjshin  staff  128 Nov 19 08:16 .
+drwxr-xr-x@ 9 hjshin  staff  288 Nov 19 08:16 ..
+drwxr-xr-x@ 2 hjshin  staff   64 Nov 19 08:16 info
+drwxr-xr-x@ 2 hjshin  staff   64 Nov 19 08:16 pack
+
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/.git/objects/info:
+total 0
+drwxr-xr-x@ 2 hjshin  staff   64 Nov 19 08:16 .
+drwxr-xr-x@ 4 hjshin  staff  128 Nov 19 08:16 ..
+
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/.git/objects/pack:
+total 0
+drwxr-xr-x@ 2 hjshin  staff   64 Nov 19 08:16 .
+drwxr-xr-x@ 4 hjshin  staff  128 Nov 19 08:16 ..
+
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/.git/refs:
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /private/var/folders/5z/khzkzvw94_j68xs6_4sthpwh0000gn/T/opencode && curl -sSL -o three.module.js --max-time 60 "https://unpkg.com/three@0.169.0/build/three.module.js" && ls -la three.module.js && head -c 200 three.module.js
+-rw-r--r--@ 1 hjshin  staff  1304820 Nov 19 08:16 three.module.js
+/**
+ * @license
+ * Copyright 2010-2024 Three.js Authors
+ * SPDX-License-Identifier: MIT
+ */
+const REVISION = '169';
+
+const MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
+const
+[0m$ [0mnode --version; npm --version; python3 --version
+v26.11.1
+11.20.0
+Python 3.9.6
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /private/var/folders/5z/khzkzvw94_j68xs6_4sthpwh0000gn/T/opencode && tail -c 4000 three.module.js | tr ',' '\n' | grep -n " as " | head -40
+(no output)
+[0m$ [0mcd /private/var/folders/5z/khzkzvw94_j68xs6_4sthpwh0000gn/T/opencode && for v in 0.169.0 0.150.1 0.149.0; do echo "== $v"; curl -sSI --max-time 30 "https://unpkg.com/three@$v/build/three.min.js" | head -3; done
+== 0.169.0
+HTTP/2 404 
+date: Wed, 18 Nov 2026 23:16:27 GMT
+content-type: text/plain;charset=UTF-8
+== 0.150.1
+HTTP/2 200 
+date: Wed, 18 Nov 2026 23:16:27 GMT
+content-type: text/javascript; charset=utf-8
+== 0.149.0
+HTTP/2 200 
+date: Wed, 18 Nov 2026 23:16:27 GMT
+content-type: text/javascript; charset=utf-8
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /private/var/folders/5z/khzkzvw94_j68xs6_4sthpwh0000gn/T/opencode && curl -sSL --max-time 60 -o three.min.js "https://unpkg.com/three@0.150.1/build/three.min.js" && ls -la three.min.js && head -c 300 three.min.js && echo "" && grep -c "REVISION" three.min.js
+-rw-r--r--@ 1 hjshin  staff  613740 Nov 19 08:16 three.min.js
+console.warn( 'Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation' );
+/**
+ * @license
+ * Copyright 2010-2023 Three.js Authors
+ * SPD
+1
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /private/var/folders/5z/khzkzvw94_j68xs6_4sthpwh0000gn/T/opencode && for v in 0.159.0 0.155.0; do echo "== $v"; curl -sSI --max-time 20 "https://unpkg.com/three@$v/build/three.min.js" | head -1; done
+== 0.159.0
+HTTP/2 200 
+== 0.155.0
+HTTP/2 200
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /private/var/folders/5z/khzkzvw94_j68xs6_4sthpwh0000gn/T/opencode && curl -sSL --max-time 90 -o three159.min.js "https://unpkg.com/three@0.159.0/build/three.min.js" && ls -la three159.min.js && for s in "SRGBColorSpace" "outputColorSpace" "InstancedMesh" "CapsuleGeometry" "REVISION=" "ACESFilmicToneMapping" "useLegacyLights" "onBeforeCompile"; do printf "%-24s %s\n" "$s" "$(grep -c "$s" three159.min.js)"; done
+-rw-r--r--@ 1 hjshin  staff  668024 Nov 19 08:18 three159.min.js
+SRGBColorSpace           1
+outputColorSpace         1
+InstancedMesh            1
+CapsuleGeometry          1
+REVISION=                1
+ACESFilmicToneMapping    1
+useLegacyLights          1
+onBeforeCompile          1
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /private/var/folders/5z/khzkzvw94_j68xs6_4sthpwh0000gn/T/opencode && head -c 400 three159.min.js && echo "" && grep -o "REVISION=\"[0-9]*\"\|REVISION='[0-9]*'" three159.min.js | head -2
+console.warn('Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation'),
+/**
+ * @license
+ * Copyright 2010-2023 Three.js Authors
+ * SPDX-License-Identifier: MIT
+ */
+function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exp
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && mkdir -p src vendor && python3 - <<'PY'
+import re, io
+src = open('/private/var/folders/5z/khzkzvw94_j68xs6_4sthpwh0000gn/T/opencode/three159.min.js', encoding='utf-8').read()
+lines = src.split('\n')
+assert lines[0].startswith("console.warn("), lines[0][:50]
+out = '\n'.join(lines[1:])
+open('vendor/three.min.js','w',encoding='utf-8').write(out)
+print('bytes', len(out))
+PY
+ls -la vendor/
+bytes 667788
+total 1312
+drwxr-xr-x@ 3 hjshin  staff      96 Nov 19 08:18 .
+drwxr-xr-x@ 5 hjshin  staff     160 Nov 19 08:18 ..
+-rw-r--r--@ 1 hjshin  staff  667788 Nov 19 08:18 three.min.js
+> build · minimax/MiniMax-M3.1-Flash
+Now let me build the game. I'll structure it as source files assembled into a single HTML.
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/00-util.js
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/00-util.js
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+> build · minimax/MiniMax-M3.1-Flash
+Now let me fix several issues I've identified and build the HTML template.
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -46,9 +46,9 @@
+ const isRiverRow = (j) => j === 6 || j === 7;
+ 
+ function districtProfile(i, j) {
+   if (isRiverRow(j)) return 'river';
+-  if (i >= 11 && j >= 9 && i <= 12 && j <= 10) return 'sky';
++  if (i >= 7 && j >= 9 && i <= 8 && j <= 10) return 'sky';
+   if (j < 6) { if (i >= 8) return 'biz'; if (i >= 3) return 'comm'; return 'hood'; }
+   if (i >= 9) return 'biz';
+   if (i >= 4) return 'hood2';
+   return 'old';
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -324,47 +324,57 @@
+     addCollider({ x0: b.x - b.w / 2, z0: b.z - b.d / 2, x1: b.x + b.w / 2, z1: b.z + b.d / 2, h: b.h });
+   }
+ }
+ 
+-/* ---------------- 옥상(스카이) 코스 ---------------- */
++/* ---------------- 옥상(스카이) 코스 ----------------
++   나선형 고가 코스: 지면 램프 → 평평한 발판 → 경사 램프 → ... (체크포인트 7개) */
+ function buildSkyCourse() {
+   const c = CITYDATA.skyCourse;
+   c.platforms.length = 0; c.checkpoints.length = 0;
+-  const x0 = roadX(11) + CITY.ROAD / 2, z0 = roadZ(9) + CITY.ROAD / 2;
+-  const cx = x0 + 40, cz = z0 + 40;
+-
+-  // 시작 지점(지면) -> 램프 -> 플랫폼 ...
+-  const plats = [
+-    { x: cx - 10, z: cz - 16, w: 22, d: 16, h: 1.2, y: 1.2 },
+-    { x: cx + 4, z: cz - 10, w: 18, d: 18, h: 7.0, y: 7.0 },
+-    { x: cx + 18, z: cz + 6, w: 16, d: 16, h: 12.5, y: 12.5 },
+-    { x: cx + 2, z: cz + 20, w: 16, d: 14, h: 17.5, y: 17.5 },
+-    { x: cx - 16, z: cz + 14, w: 15, d: 15, h: 22.5, y: 22.5 },
+-    { x: cx - 20, z: cz - 6, w: 15, d: 15, h: 27.0, y: 27.0 },
+-    { x: cx - 2, z: cz - 20, w: 14, d: 14, h: 31.0, y: 31.0 }
++  const cx = 76, cz = 215;               // 하늘 구역 블록(i 7~8, j 9~10) 중앙
++  const PW = 18, PD = 16;
++  const nodes = [
++    { x: cx - 30, z: cz - 24, y: 1.5 },
++    { x: cx + 4, z: cz - 24, y: 6.0 },
++    { x: cx + 4, z: cz + 10, y: 10.5 },
++    { x: cx - 30, z: cz + 10, y: 15.0 },
++    { x: cx - 30, z: cz + 44, y: 19.5 },
++    { x: cx + 4, z: cz + 44, y: 24.0 },
++    { x: cx + 4, z: cz + 78, y: 28.0 }
+   ];
+-  for (let i = 0; i < plats.length; i++) {
+-    const p = plats[i];
+-    p.x0 = p.x - p.w / 2; p.x1 = p.x + p.w / 2; p.z0 = p.z - p.d / 2; p.z1 = p.z + p.d / 2;
+-    p.top = p.y; p.base = p.y - p.h;
++  const plats = [];
++  for (let i = 0; i < nodes.length; i++) {
++    const n = nodes[i];
++    const p = { x: n.x, z: n.z, w: PW, d: PD, y: n.y, h: n.y, top: n.y, base: 0 };
++    p.x0 = p.x - p.w / 2; p.x1 = p.x + p.w / 2;
++    p.z0 = p.z - p.d / 2; p.z1 = p.z + p.d / 2;
++    plats.push(p);
+     c.platforms.push(p);
+     addSurface({ x0: p.x0, x1: p.x1, z0: p.z0, z1: p.z1, top: p.y });
+     c.checkpoints.push({ x: p.x, y: p.y + 2.2, z: p.z, idx: i, passed: false });
+   }
+-  // 램프: 지면 → 1단, 그리고 각 단 사이 연결
+-  const ramp = (ax, az, aw, ad, ay0, ay1, axis) => {
+-    const s = { x0: ax - aw / 2, x1: ax + aw / 2, z0: az - ad / 2, z1: az + ad / 2, y0: ay0, y1: ay1, ramp: true, axis };
+-    addSurface(s); c.platforms.push(s);
++  // 지면 -> 1단 램프
++  const g = plats[0];
++  const startRamp = {
++    ramp: true, axis: 'z',
++    x0: g.x0, x1: g.x1, z0: g.z0 - 12, z1: g.z0,
++    y0: 0, y1: g.y
+   };
+-  ramp(cx - 10, cz - 26, 10, 20, 0, 1.2, 'z');
+-  ramp(cx - 3, cz - 10, 22, 8, 1.2, 7.0, 'x');
+-  ramp(cx + 11, cz - 2, 16, 8, 7.0, 12.5, 'z');
+-  ramp(cx + 10, cz + 13, 8, 16, 12.5, 17.5, 'x');
+-  ramp(cx - 8, cz + 20, 16, 8, 17.5, 22.5, 'x');
+-  ramp(cx - 18, cz + 4, 8, 20, 22.5, 27.0, 'z');
+-  ramp(cx - 11, cz - 13, 18, 8, 27.0, 31.0, 'x');
+-  c.start = { x: cx - 10, z: cz - 34 };
+-  // 코스 주변 임시 구조물(난간 등)은 props 로
++  addSurface(startRamp); c.platforms.push(startRamp);
++  // 단 사이 램프
++  for (let i = 0; i < plats.length - 1; i++) {
++    const a = plats[i], b = plats[i + 1];
++    let s;
++    if (Math.abs(b.x - a.x) >= Math.abs(b.z - a.z)) {
++      const x0 = Math.min(a.x1, b.x1), x1 = Math.max(a.x0, b.x0);
++      s = { ramp: true, axis: 'x', x0: x0, x1: x1, z0: a.z - a.d / 2, z1: a.z + a.d / 2, y0: a.y, y1: b.y };
++    } else {
++      const z0 = Math.min(a.z1, b.z1), z1 = Math.max(a.z0, b.z0);
++      s = { ramp: true, axis: 'z', x0: a.x - a.w / 2, x1: a.x + a.w / 2, z0: z0, z1: z1, y0: a.y, y1: b.y };
++    }
++    addSurface(s); c.platforms.push(s);
++  }
++  c.start = { x: g.x, z: g.z0 - 20 };
+ }
+ 
+ /* ---------------- 도로 네트워크 ---------------- */
+ function buildRoadNetwork(rng) {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -20,9 +20,9 @@
+ /* ---------------- 상태 ---------------- */
+ const PLAYER = {
+   x: 0, y: 0, z: 0, vx: 0, vz: 0, vy: 0,
+   yaw: 0, onGround: true, car: null, hidden: false, hiddenT: 0,
+-  phase: 0, speed: 0, radius: 0.42, inCarSpeed: 0
++  phase: 0, speed: 0, radius: 0.42, inCarSpeed: 0, jumpQueued: false, spinT: 0
+ };
+ const CARS = [];
+ const PEDS = [];
+ const GAME = {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -396,12 +396,14 @@
+   playerCollide();
+ 
+   // 중력 / 점프
+   const gy = groundAt(PLAYER.x, PLAYER.z, PLAYER.y);
+-  if (PLAYER.onGround && inputHeld('jump')) {
++  if (PLAYER.onGround && (inputHeld('jump') || PLAYER.jumpQueued)) {
+     PLAYER.vy = 7.4;
+     PLAYER.onGround = false;
++    PLAYER.jumpQueued = false;
+   }
++  PLAYER.jumpQueued = false;
+   PLAYER.vy -= 24 * dt;
+   PLAYER.y += PLAYER.vy * dt;
+   if (PLAYER.y <= gy) {
+     PLAYER.y = gy;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -531,35 +531,42 @@
+ /* =========================================================
+    시뮬레이션 스텝 (렌더링과 독립)
+    ========================================================= */
+ function simulateStep(dt, t) {
+-  GAME.time = t;
++  GAME.time = (GAME.time + dt) % 180;
+   GAME.elapsed += dt;
++  const wt = GAME.time;
+ 
++  // 근처 차량 목록 (차량 간 충돌/보행자 회피용)
++  refreshNearbyCars(PLAYER.x, PLAYER.z);
++
+   // 차량 AI
+   for (const c of CARS) {
+     if (c === PLAYER.car) continue;
+     if (c.police) {
+       stepPoliceAI(c, dt);
+     } else if (c.ai) {
+-      stepTrafficAI(c, dt, t);
++      stepTrafficAI(c, dt, wt);
+     } else {
+       c.throttle = 0; c.brake = 1; c.hand = 0; c.steer = 0;
+     }
++    // 멀리 있는 주차 차량은 물리 계산 생략
++    if (c.static && !c.police && Math.hypot(c.x - PLAYER.x, c.z - PLAYER.z) > 90) continue;
+     stepCarPhysics(c, dt);
+   }
+   // 플레이어
+   stepPlayer(dt);
+ 
+   // 보행자
+-  refreshNearbyCars(PLAYER.x, PLAYER.z);
+   for (const p of PEDS) stepPed(p, dt);
+ 
+   // 수배/경찰 관리
+   if (GAME.wanted > 0) {
+     const seen = policeSeePlayer();
+-    if (seen) GAME.policeLostT = 0;
+-    else GAME.policeLostT += dt;
++    let nearest = 1e9;
++    for (const c of CARS) if (c.police) nearest = Math.min(nearest, Math.hypot(c.x - PLAYER.x, c.z - PLAYER.z));
++    if (!seen && nearest > 45) GAME.policeLostT += dt;
++    else GAME.policeLostT = 0;
+     if (GAME.policeLostT > 5.0) { lowerWanted(); GAME.policeLostT = 0; }
+     managePoliceCars(dt);
+   } else {
+     // 경찰 차량 회수
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -137,9 +137,9 @@
+     car.long *= 0.55; car.lat *= 0.55;
+     car.shakeT = Math.min(1, car.shakeT + Math.abs(vn) * 0.06);
+   }
+   // 차량 간 충돌
+-  for (const o of CARS) {
++  for (const o of CEDS_NEAR) {
+     if (o === car) continue;
+     const dx = car.x - o.x, dz = car.z - o.z;
+     const d = Math.hypot(dx, dz);
+     const minD = car.radius + o.radius;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -226,31 +226,28 @@
+     car.hand = 0;
+   }
+ 
+   if (dist < 7) {
+-    // 다음 노드 선택
+-    const edges = to.edges.filter(e => e.to !== ai.from || to.edges.length === 1);
+-    const pickEdge = edges.length ? edges[Math.floor(GAME.simRng() * edges.length)] : to.edges[0];
++    // 다음 노드 선택 (되돌아가지 않는 간선 우선)
++    const outs = to.edges.filter(e => e.to !== ai.from);
++    const list = outs.length ? outs : to.edges;
++    const pickEdge = list[Math.floor(GAME.simRng() * list.length) % list.length];
+     if (pickEdge) {
+-      const prevFrom = ai.from, prevTo = ai.to;
+-      ai.from = ai.to; ai.to = pickEdge.to;
++      ai.from = ai.to;
++      ai.to = pickEdge.to;
+       ai.edge = pickEdge.edge;
+-      if (pickEdge.to === prevFrom && to.edges.length > 1) {
+-        ai.from = ai.to; ai.to = pickEdge.to;
+-      }
+     }
+   }
+ }
+ function carForwardClear(car, dist) {
+   const fx = Math.sin(car.yaw), fz = Math.cos(car.yaw);
+   const boxes = queryColliders(car.x + fx * dist * 0.5, car.z + fz * dist * 0.5, dist * 0.5 + 3);
+   let best = dist;
+   for (const b of boxes) {
+-    // AABB 레이
+     const t = rayBox(car.x, car.y + 0.8, car.z, fx, 0, fz, b, dist);
+     if (t < best) best = t;
+   }
+-  for (const o of CARS) {
++  for (const o of CEDS_NEAR) {
+     if (o === car) continue;
+     const rx = o.x - car.x, rz = o.z - car.z;
+     const proj = rx * fx + rz * fz;
+     if (proj < 0 || proj > best) continue;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -277,16 +277,37 @@
+   const tx = PLAYER.x, tz = PLAYER.z;
+   let dx = tx - car.x, dz = tz - car.z;
+   const d = Math.hypot(dx, dz) || 1;
+   dx /= d; dz /= d;
+-  const desired = Math.atan2(dx, dz);
++  let desired = Math.atan2(dx, dz);
++  // 장애물 회피: 정방향/좌우 후보 중 가장 뚫린 방향
++  const clearF = carForwardClear(car, 16);
++  if (clearF < 13) {
++    let bestAng = desired, bestClear = -1;
++    for (const off of [0, 0.55, -0.55, 1.1, -1.1]) {
++      const a = desired + off;
++      const c = rayClearAhead(car, a, 14);
++      if (c > bestClear) { bestClear = c; bestAng = a; }
++    }
++    desired = bestAng;
++  }
+   const diff = wrapAngle(desired - car.yaw);
+   car.steer = clamp(diff * 2.1, -1, 1);
+   const clear = carForwardClear(car, 18);
+-  if (clear < 9) { car.throttle = 0.1; car.brake = 0.7; }
++  if (clear < 7) { car.throttle = 0.1; car.brake = 0.8; }
+   else { car.throttle = 1; car.brake = 0; }
+   car.hand = 0;
+ }
++function rayClearAhead(car, ang, dist) {
++  const fx = Math.sin(ang), fz = Math.cos(ang);
++  const boxes = queryColliders(car.x + fx * dist * 0.5, car.z + fz * dist * 0.5, dist * 0.5 + 3);
++  let best = dist;
++  for (const b of boxes) {
++    const t = rayBox(car.x, car.y + 0.8, car.z, fx, 0, fz, b, dist);
++    if (t < best) best = t;
++  }
++  return best;
++}
+ 
+ /* ---------------- 보행자 ---------------- */
+ function spawnPed(x, z) {
+   const rng = GAME.simRng;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -426,13 +426,13 @@
+   renderer.toneMapping = THREE.ACESFilmicToneMapping;
+   renderer.toneMappingExposure = 1.05;
+ 
+   camera3 = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.4, 1400);
++  generateCity(20241115);
+   scene = buildScene(renderer);
+   WORLD.renderer = renderer;
+   WORLD.camera = camera3;
+ 
+-  generateCity(20241115);
+   chooseSpawn();
+   buildMissionMarker(scene);
+   buildCharacter();
+   buildVehicleParts();
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -38,9 +38,9 @@
+   scene.add(charShadow);
+ }
+ 
+ function buildVehicleParts() {
+-  const maxCars = 120;
++  const maxCars = 240;
+   const bodyMat = flatMaterial(0xffffff, 0.35, 0.35);
+   const cabinMat = flatMaterial(0x1b2230, 0.15, 0.2);
+   const wheelMat = flatMaterial(0x14161a, 0.9, 0.0);
+   const wheelGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.30, 12);
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -301,9 +301,9 @@
+ }
+ function toggleHide() {
+   if (PLAYER.hidden) { PLAYER.hidden = false; PLAYER.hiddenT = 0; setNotice('은폐 해제'); return; }
+   PLAYER.hidden = true; PLAYER.hiddenT = 0;
+-  setNotice('은폐 — 주변을 숨겨 순찰대를甩쳐냅니다'.replace('甩', ''));
++  setNotice('은폐 — 시야를 감춰 순찰대를甩쳐냅니다'.replace('甩', ''));
+ }
+ function toggleMissionPanel() {
+   missionPanelOpen = !missionPanelOpen;
+   const p = document.getElementById('missions');
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+@@ -16,8 +16,9 @@
+   HUD.el.notice = document.getElementById('notice');
+   HUD.el.toast = document.getElementById('toast');
+   HUD.el.prompt = document.getElementById('prompt');
+   HUD.el.arrow = document.getElementById('arrow');
++  HUD.el.arrowLabel = document.getElementById('arrowLabel');
+   HUD.el.fps = document.getElementById('fps');
+   HUD.el.speedLabel = document.getElementById('speedLabel');
+   HUD.el.help = document.getElementById('help');
+ 
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -301,9 +301,9 @@
+ }
+ function toggleHide() {
+   if (PLAYER.hidden) { PLAYER.hidden = false; PLAYER.hiddenT = 0; setNotice('은폐 해제'); return; }
+   PLAYER.hidden = true; PLAYER.hiddenT = 0;
+-  setNotice('은폐 — 시야를 감춰 순찰대를甩쳐냅니다'.replace('甩', ''));
++  setNotice('은폐 — 시야를 감춰 순찰대를 따돌립니다');
+ }
+ function toggleMissionPanel() {
+   missionPanelOpen = !missionPanelOpen;
+   const p = document.getElementById('missions');
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/build.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/build.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && node --check src/00-util.js && for f in src/10-world.js src/15-mesh.js src/20-entities.js src/30-missions.js src/40-hud.js src/50-main.js; do node --check "$f" || echo "FAIL $f"; done && echo "syntax OK"
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 772.7 KB
+syntax OK
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mls /Applications 2>/dev/null | head -20; echo "---"; which chromium chrome google-chrome-stable 2>/dev/null; echo "---"; ls "/Applications/Google Chrome.app/Contents/MacOS/" 2>/dev/null; echo "---"; npm ls -g --depth=0 2>/dev/null | head
+Android Studio.app
+Aside.app
+Google Chrome.app
+Hermes.app
+NAVER WORKS.app
+Orca.app
+Safari.app
+Sourcetree.app
+Stats.app
+Telegram.app
+Utilities
+Visual Studio Code.app
+WhatsApp.app
+Xcode.app
+ZAP.app
+---
+chromium not found
+chrome not found
+google-chrome-stable not found
+---
+Google Chrome
+---
+/opt/homebrew/lib
+├── @anthropic-ai/claude-code@2.1.296
+├── @bitkyc08/opencodex@2.100.4
+├── @openai/codex@0.162.1
+├── npm@11.20.0
+└── tokscale@4.18.0
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && timeout 180 node test/smoke.mjs 2>&1 | tail -80
+ready: false
+{
+  "init": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'state')\n    at <anonymous>:1:36"
+  },
+  "fatal": "",
+  "step": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'state')\n    at <anonymous>:1:33\n    at <anonymous>:1:195"
+  },
+  "step2": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'state')\n    at <anonymous>:1:33\n    at <anonymous>:1:152"
+  },
+  "walk": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'test')\n    at <anonymous>:2:32\n    at <anonymous>:8:3"
+  },
+  "playerPos": {
+    "error": "ReferenceError: PLAYER is not defined\n    at <anonymous>:1:39\n    at <anonymous>:1:142"
+  },
+  "teleport": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'test')\n    at <anonymous>:1:27\n    at <anonymous>:1:174"
+  },
+  "enter": {
+    "error": "ReferenceError: CARS is not defined\n    at <anonymous>:3:11\n    at <anonymous>:9:3"
+  },
+  "drive": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'test')\n    at <anonymous>:3:5\n    at <anonymous>:8:3"
+  },
+  "wanted": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'test')\n    at <anonymous>:1:35\n    at <anonymous>:1:151"
+  },
+  "police": {
+    "error": "ReferenceError: CARS is not defined\n    at <anonymous>:1:35\n    at <anonymous>:1:128"
+  },
+  "missionDelivery": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'test')\n    at <anonymous>:1:35\n    at <anonymous>:1:209"
+  },
+  "missionEscape": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'test')\n    at <anonymous>:1:35\n    at <anonymous>:1:146"
+  },
+  "missionRoof": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'test')\n    at <anonymous>:1:35\n    at <anonymous>:1:164"
+  },
+  "roofRun": {
+    "error": "ReferenceError: CITYDATA is not defined\n    at <anonymous>:2:30\n    at <anonymous>:10:3"
+  },
+  "time": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'test')\n    at <anonymous>:1:35\n    at <anonymous>:1:281"
+  },
+  "fps": "{\"fps\":60.4}"
+}
+--- console logs (0) ---
+--- errors (2) ---
+EXCEPTION: SyntaxError: Function statements require a function name
+EXCEPTION: ReferenceError: THREE is not defined
+    at file:///Users/hjshin/work/%E1%84%89%E1%85%B5%E1%86%AF%E1%84%92%E1%85%A5%E1%86%B7/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html:1167:13
+    at file:///Users/hjshin/work/%E1%84%89%E1%85%B5%E1%86%AF%E1%84%92%E1%85%A5%E1%86%B7/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html:3045:3
+screenshot -> shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && python3 - <<'PY'
+p='vendor/three.min.js'
+s=open(p,encoding='utf-8').read()
+assert s.startswith('/**\n * @license'), s[:40]
+# UMD 본문이 `console.warn(...), function(...){}` 콤마 표현식이라 앞부분을 0 으로 치환
+s = '0,\n' + s
+open(p,'w',encoding='utf-8').write(s)
+print(s[:120])
+PY
+node -e "const fs=require('fs');const vm=require('vm');const c=fs.readFileSync('vendor/three.min.js','utf8');const ctx={console};ctx.global=ctx;ctx.window=ctx;ctx.self=ctx;vm.createContext(ctx);vm.runInContext(c,ctx);console.log('THREE ok', ctx.THREE && ctx.THREE.REVISION);"
+0,
+/**
+ * @license
+ * Copyright 2010-2023 Three.js Authors
+ * SPDX-License-Identifier: MIT
+ */
+function(t,e){"object"==t
+THREE ok 159
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 200 node test/smoke.mjs 2>&1 | tail -70
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 772.7 KB
+ready: true
+{
+  "init": "{\"fps\":5.806451612903227,\"elapsed\":0.2333333333333333,\"wanted\":0,\"mission\":null,\"completed\":[]}",
+  "fatal": "",
+  "step": "{\"before\":0.2333333333333333,\"after\":1.2333333333333325,\"delta\":1}",
+  "step2": "{\"delta\":0.5}",
+  "walk": "{\"elapsed\":2.73}",
+  "playerPos": {
+    "error": "ReferenceError: PLAYER is not defined\n    at <anonymous>:1:39\n    at <anonymous>:1:142"
+  },
+  "teleport": {
+    "error": "ReferenceError: PLAYER is not defined\n    at <anonymous>:1:105\n    at <anonymous>:1:174"
+  },
+  "enter": {
+    "error": "ReferenceError: CARS is not defined\n    at <anonymous>:3:11\n    at <anonymous>:9:3"
+  },
+  "drive": {
+    "error": "ReferenceError: PLAYER is not defined\n    at <anonymous>:7:34\n    at <anonymous>:8:3"
+  },
+  "wanted": "{\"wanted\":2}",
+  "police": {
+    "error": "ReferenceError: CARS is not defined\n    at <anonymous>:1:35\n    at <anonymous>:1:128"
+  },
+  "missionDelivery": {
+    "error": "ReferenceError: GAME is not defined\n    at <anonymous>:1:131\n    at <anonymous>:1:209"
+  },
+  "missionEscape": "{\"mission\":\"escape\",\"wanted\":3}",
+  "missionRoof": {
+    "error": "ReferenceError: CITYDATA is not defined\n    at <anonymous>:1:123\n    at <anonymous>:1:164"
+  },
+  "roofRun": {
+    "error": "ReferenceError: CITYDATA is not defined\n    at <anonymous>:2:30\n    at <anonymous>:10:3"
+  },
+  "time": {
+    "error": "ReferenceError: WORLD is not defined\n    at <anonymous>:1:77\n    at <anonymous>:1:281"
+  },
+  "fps": "{\"fps\":6.4}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shot.png 
+> build · minimax/MiniMax-M3.1-Flash
+The game boots and renders. Let me fix the instance color bug (numeric tint treated as hex → black) and color space issues.
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -352,15 +352,20 @@
+   mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(max * 3), 3);
+   mesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
+   return mesh;
+ }
+-const _m4 = new THREE.Matrix4(), _q = new THREE.Quaternion(), _v3 = new THREE.Vector3(), _s3 = new THREE.Vector3(), _col = new THREE.Color();
++const _m4 = new THREE.Matrix4(), _q = new THREE.Quaternion(), _v3 = new THREE.Vector3(), _s3 = new THREE.Vector3(), _col = new THREE.Color(), _eul = new THREE.Euler();
+ function setInst(mesh, i, x, y, z, rx, ry, rz, sx, sy, sz, color) {
+-  _q.setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0));
++  _eul.set(rx || 0, ry || 0, rz || 0);
++  _q.setFromEuler(_eul);
+   _v3.set(x, y, z); _s3.set(sx, sy, sz);
+   _m4.compose(_v3, _q, _s3);
+   mesh.setMatrixAt(i, _m4);
+-  if (color !== undefined) { _col.set(color); mesh.setColorAt(i, _col); }
++  if (color !== undefined) {
++    if (typeof color === 'number') _col.setRGB(clamp(color, 0, 1), clamp(color, 0, 1), clamp(color, 0, 1));
++    else _col.set(color);
++    mesh.setColorAt(i, _col);
++  }
+ }
+ 
+ /* =========================================================
+    씬 구축
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -140,10 +140,14 @@
+ }
+ 
+ /* =========================================================
+    메시 빌더 (병합 지오메트리)
++   정점 색상은 sRGB 로 기술하고 선형 공간으로 변환해 저장한다.
+    ========================================================= */
+ function MeshBuilder() { this.pos = []; this.nor = []; this.col = []; this.idx = []; }
++MeshBuilder.prototype.pushColor = function (c) {
++  this.col.push(Math.pow(c[0], 2.2), Math.pow(c[1], 2.2), Math.pow(c[2], 2.2));
++};
+ MeshBuilder.prototype.quad = function (a, b, c, d, color) {
+   const ux = b[0] - a[0], uy = b[1] - a[1], uz = b[2] - a[2];
+   const vx = d[0] - a[0], vy = d[1] - a[1], vz = d[2] - a[2];
+   let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+@@ -152,10 +156,10 @@
+   const pts = [a, b, c, d];
+   for (const p of pts) {
+     this.pos.push(p[0], p[1], p[2]);
+     this.nor.push(nx, ny, nz);
+-    this.col.push(color[0], color[1], color[2]);
+   }
++  this.pushColor(color);
+   this.idx.push(base, base + 1, base + 2, base, base + 2, base + 3);
+ };
+ MeshBuilder.prototype.box = function (cx, cy, cz, w, h, d, color) {
+   const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - h / 2, y1 = cy + h / 2, z0 = cz - d / 2, z1 = cz + d / 2;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -112,14 +112,14 @@
+ /* ---------- 지면/도로 메시 ---------- */
+ function buildGroundMesh() {
+   const b = new MeshBuilder();
+   const H = CITY.HALF, R = CITY.ROAD / 2;
+-  const C_ASPHALT = [0.105, 0.112, 0.125];
+-  const C_GROUND = [0.175, 0.185, 0.175];
+-  const C_SIDEWALK = [0.40, 0.395, 0.375];
+-  const C_CURB = [0.30, 0.30, 0.29];
+-  const C_DASH = [0.62, 0.60, 0.48];
+-  const C_CROSS = [0.72, 0.72, 0.70];
++  const C_ASPHALT = [0.205, 0.215, 0.235];
++  const C_GROUND = [0.285, 0.300, 0.260];
++  const C_SIDEWALK = [0.520, 0.510, 0.485];
++  const C_CURB = [0.430, 0.425, 0.405];
++  const C_DASH = [0.760, 0.730, 0.560];
++  const C_CROSS = [0.800, 0.800, 0.780];
+ 
+   // 바탕 땅
+   b.quad([-H - 40, 0, -H - 40], [H + 40, 0, -H - 40], [H + 40, 0, H + 40], [-H - 40, 0, H + 40], C_GROUND);
+ 
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -211,9 +211,9 @@
+   for (let i = 0; i <= N; i++) {
+     const x = -CITY.HALF - 20 + (CITY.WORLD + 40) * (i / N);
+     samples.push({ x, z: CITY.EXPR_Z, y: expresswayHeight(x) + 0.2, dx: 1, dz: 0 });
+   }
+-  ribbon(b, CITY.EXPRESS_W / 2, 1.1, [0.16, 0.165, 0.175], samples);
++  ribbon(b, CITY.EXPRESS_W / 2, 1.1, [0.255, 0.262, 0.272], samples);
+   // 중앙 분리 볼라드 대신 황색 가장자리선
+   for (let i = 0; i < samples.length - 1; i++) {
+     const s0 = samples[i], s1 = samples[i + 1];
+     if (s0.y < 1) continue;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -247,9 +247,9 @@
+     for (let i = 0; i <= N; i++) {
+       const z = -180 + 360 * (i / N);
+       samples.push({ x: bx, z, y: bridgeHeight(bx, z) + 0.2, dx: 0, dz: 1 });
+     }
+-    ribbon(b, 13, 1.2, [0.165, 0.17, 0.18], samples);
++    ribbon(b, 13, 1.2, [0.262, 0.268, 0.278], samples);
+     // 중앙선
+     for (let i = 0; i < samples.length - 1; i++) {
+       const s0 = samples[i], s1 = samples[i + 1];
+       if (s0.y < 1.2) continue;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+@@ -34,9 +34,9 @@
+   #help b{color:var(--ink);font-weight:700}
+   #center{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);text-align:center}
+   #prompt{font-size:15px;font-weight:700;letter-spacing:1px;color:#fff;
+     text-shadow:0 0 14px rgba(63,216,255,.85);min-height:22px}
+-  #arrow{position:absolute;left:50%;top:50%;width:0;height:0;margin:0;pointer-events:none}
++  #arrow{position:absolute;left:50%;top:74%;width:0;height:0;margin:0;pointer-events:none}
+   #arrow .tri{position:absolute;left:-11px;top:-11px;width:22px;height:22px;
+     border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:19px solid var(--cyan);
+     filter:drop-shadow(0 0 6px rgba(63,216,255,.8))}
+   #arrowLabel{position:absolute;left:50%;top:16px;transform:translateX(-50%);font-size:11px;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+@@ -97,10 +97,11 @@
+     </div>
+   </div>
+ 
+   <div id="center">
+-    <div id="arrow"><div class="tri"></div><div id="arrowLabel">0m</div></div>
++    <div id="prompt"></div>
+   </div>
++  <div id="arrow"><div class="tri"></div><div id="arrowLabel">0m</div></div>
+   <div id="notice"></div>
+   <div id="toast"></div>
+   <div id="prompt"></div>
+   <div id="lockHint">화면을 클릭하면 마우스로 시점을 돌릴 수 있습니다</div>
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -501,8 +501,10 @@
+     setTime(t) { GAME.time = clamp(Number(t) || 0, 0, 179.999); }
+   }
+ };
+ window.__game = TEST_API;
++/* 자동 검증용 내부 상태 핸들 (계약에 없는 부분은 자유 설계) */
++TEST_API.dbg = { PLAYER, CARS, PEDS, GAME, CITYDATA, WORLD, CAMERA, MISSIONS, CITY, INPUT };
+ 
+ /* 부트 */
+ if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+ else init();
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && python3 - <<'PY'
+import re
+p='test/smoke.mjs'
+s=open(p,encoding='utf-8').read()
+s=s.replace("PLAYER.x","g.PLAYER.x").replace("PLAYER.z","g.PLAYER.z").replace("PLAYER.y","g.PLAYER.y")
+s=s.replace("PLAYER.speed","g.PLAYER.speed").replace("PLAYER.car","g.PLAYER.car").replace("PLAYER.inCarSpeed","g.PLAYER.inCarSpeed")
+s=s.replace("CARS[0]","g.CARS[0]").replace("CARS.length","g.CARS.length").replace("CARS[i].police","g.CARS[i].police")
+s=s.replace("CITYDATA.skyCourse","g.CITYDATA.skyCourse").replace("WORLD.night","g.WORLD.night").replace("GAME.target","g.GAME.target")
+s=s.replace("var g=window.__game;\n  var c =","var g=window.__game; var D=g.dbg; var g2=D;\n  var c =")
+open(p,'w',encoding='utf-8').write(s)
+print("patched")
+PY
+grep -n "PLAYER\|CARS\|CITYDATA\|WORLD\|GAME" test/smoke.mjs | head -40
+patched
+105:results.playerPos = await evaluate('(function(){return JSON.stringify({x:+g.PLAYER.x.toFixed(2), z:+g.PLAYER.z.toFixed(2), y:+g.PLAYER.y.toFixed(2), speed:+g.PLAYER.speed.toFixed(2)})})()');
+108:results.teleport = await evaluate('(function(){window.__game.test.teleport(100,100);window.__game.test.step(0.2);return JSON.stringify({x:+g.PLAYER.x.toFixed(2),z:+g.PLAYER.z.toFixed(2),y:+g.PLAYER.y.toFixed(2)})})()');
+113:  var c = g.CARS[0];
+118:  return JSON.stringify({inCar: !!g.PLAYER.car, kind: g.PLAYER.car?g.PLAYER.car.kind:null});
+126:  return JSON.stringify({speed:+(g.PLAYER.car?g.PLAYER.car.long:0).toFixed(2), kmh:+(Math.abs(g.PLAYER.inCarSpeed)*3.6).toFixed(1)});
+131:results.police = await evaluate('(function(){var n=0;for(var i=0;i<g.CARS.length;i++) if(g.CARS[i].police) n++;return JSON.stringify({police:n, cars:g.CARS.length})})()');
+134:results.missionDelivery = await evaluate(`(function(){var g=window.__game;g.test.begin('delivery');g.test.step(0.3);return JSON.stringify({mission:g.state.mission, target: g.GAME.target?{x:+g.GAME.target.x.toFixed(1),z:+g.GAME.target.z.toFixed(1)}:null})})()`);
+136:results.missionRoof = await evaluate(`(function(){var g=window.__game;g.test.begin('roof');g.test.step(0.3);return JSON.stringify({mission:g.state.mission, cps:g.CITYDATA.skyCourse.checkpoints.length})})()`);
+138:  var g=window.__game; var c=g.CITYDATA.skyCourse;
+149:results.time = await evaluate(`(function(){var g=window.__game;g.test.setTime(10);g.test.step(0.1);var day=g.WORLD.night;g.test.setTime(120);g.test.step(0.1);var night=g.WORLD.night;return JSON.stringify({dayNight:+day.toFixed(2), nightNight:+night.toFixed(2), clock:document.getElementById('clock').textContent})})()`);
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangar-city-a2/test/smoke.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangar-city-a2/test/smoke.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/smoke.mjs 2>&1 | tail -60
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.2 KB
+ready: true
+{
+  "init": "{\"fps\":0,\"elapsed\":0.016666666666666666,\"wanted\":0,\"mission\":null,\"completed\":[]}",
+  "fatal": "",
+  "step": "{\"before\":0.016666666666666666,\"after\":1.0166666666666666,\"delta\":1}",
+  "step2": "{\"delta\":0.5}",
+  "walk": "{\"elapsed\":2.52}",
+  "playerPos": {
+    "error": "ReferenceError: g is not defined\n    at <anonymous>:1:39\n    at <anonymous>:1:150"
+  },
+  "teleport": {
+    "error": "ReferenceError: g is not defined\n    at <anonymous>:1:105\n    at <anonymous>:1:180"
+  },
+  "enter": {
+    "error": "TypeError: Cannot read properties of undefined (reading '0')\n    at <anonymous>:3:17\n    at <anonymous>:9:3"
+  },
+  "drive": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'car')\n    at <anonymous>:7:43\n    at <anonymous>:8:3"
+  },
+  "wanted": "{\"wanted\":2}",
+  "police": {
+    "error": "ReferenceError: g is not defined\n    at <anonymous>:1:35\n    at <anonymous>:1:134"
+  },
+  "missionDelivery": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'target')\n    at <anonymous>:1:138\n    at <anonymous>:1:215"
+  },
+  "missionEscape": "{\"mission\":\"escape\",\"wanted\":3}",
+  "missionRoof": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'skyCourse')\n    at <anonymous>:1:134\n    at <anonymous>:1:166"
+  },
+  "roofRun": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'skyCourse')\n    at <anonymous>:2:41\n    at <anonymous>:10:3"
+  },
+  "time": {
+    "error": "TypeError: Cannot read properties of undefined (reading 'night')\n    at <anonymous>:1:85\n    at <anonymous>:1:285"
+  },
+  "fps": "{\"fps\":1.5}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && head -20 test/smoke.mjs && echo "=== grep new keys ===" && grep -c "R.perf" test/smoke.mjs
+#!/usr/bin/env node
+/* 한강시 — 헤드리스 크롬 스모크 테스트 (CDP) */
+import { spawn } from 'node:child_process';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const here = dirname(fileURLToPath(import.meta.url));
+const FILE = 'file://' + join(here, '..', 'hangang-city.html');
+const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const PORT = 9333;
+
+const chrome = spawn(CHROME, [
+  '--headless=new', '--remote-debugging-port=' + PORT, '--no-sandbox', '--disable-dev-shm-usage',
+  '--enable-unsafe-swiftshader', '--use-gl=angle', '--use-angle=swiftshader',
+  '--window-size=1280,760', '--hide-scrollbars', '--mute-audio',
+  '--user-data-dir=' + join(here, '.chrome-profile'),
+  FILE
+], { stdio: ['ignore', 'ignore', 'pipe'] });
+=== grep new keys ===
+0
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && wc -l test/smoke.mjs && grep -n "dbg\|R\.init\|playerPos" test/smoke.mjs | head -20 && ls -la test/
+168 test/smoke.mjs
+105:results.playerPos = await evaluate('(function(){return JSON.stringify({x:+g.PLAYER.x.toFixed(2), z:+g.PLAYER.z.toFixed(2), y:+g.PLAYER.y.toFixed(2), speed:+g.PLAYER.speed.toFixed(2)})})()');
+112:  var g=window.__game; var D=g.dbg; var g2=D;
+total 312
+drwxr-xr-x@  5 hjshin  staff     160 Nov 19 08:25 .
+drwxr-xr-x@  8 hjshin  staff     256 Nov 19 08:24 ..
+drwx------@ 44 hjshin  staff    1408 Nov 19 08:26 .chrome-profile
+-rw-r--r--@  1 hjshin  staff  146035 Nov 19 08:26 shot.png
+-rw-r--r--@  1 hjshin  staff    8357 Nov 19 08:25 smoke.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && rm -f test/smoke.mjs && echo removed
+removed
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && grep -c "R.perf" test/smoke.mjs && timeout 240 node test/smoke.mjs 2>&1 | tail -70
+1
+ready: true
+{
+  "init": "{\"fps\":5.8,\"elapsed\":0.22,\"wanted\":0,\"mission\":null,\"completed\":[],\"player\":[-138.5,227.2,0],\"cars\":89,\"peds\":80,\"buildings\":461,\"blocks\":196,\"signs\":195,\"stores\":76,\"calls\":38,\"tris\":93030}",
+  "step1": "{\"delta\":1}",
+  "step2": "{\"delta\":0.5}",
+  "step3": "{\"delta\":0.25}",
+  "walk": "{\"dx\":0,\"dz\":-5.1,\"speed\":3.5}",
+  "run": "{\"dist\":10.91}",
+  "jump": "{\"y0\":0,\"afterJump\":1.05,\"landed\":0}",
+  "teleport": "{\"x\":100,\"z\":100,\"y\":0}",
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":0.4}",
+  "drift": "{\"lat\":0.01}",
+  "exit": "{\"inCar\":false}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-499.9,\"z\":-523.1},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"escape\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0,\"night\":0,\"c1\":\"낮 01:54\",\"c2\":\"낮 01:54\",\"c3\":\"낮 01:54\"}",
+  "perf": {}
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shot.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m✗ [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js failed
+[91m[1mError: [0mCould not find oldString in /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js. It must match exactly, including whitespace and indentation.
+
+The closest lines in the file:
+223: function updateSky() {
+224:   const t = GAME.time;
+225:   const night = nightFactor(t);
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -551,8 +551,9 @@
+    ========================================================= */
+ function simulateStep(dt, t) {
+   GAME.time = (GAME.time + dt) % 180;
+   GAME.elapsed += dt;
++  GAME.night = nightFactor(GAME.time);
+   const wt = GAME.time;
+ 
+   // 근처 차량 목록 (차량 간 충돌/보행자 회피용)
+   refreshNearbyCars(PLAYER.x, PLAYER.z);
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -28,9 +28,9 @@
+ const GAME = {
+   time: 0, wanted: 0, mission: null, completed: [], elapsed: 0,
+   fps: 0, notice: '', noticeT: 0, toast: '', toastT: 0,
+   wantedCool: 0, policeLostT: 0, target: null, missionData: null,
+-  simRng: mulberry32(20241115), shake: 0, nitro: 1
++  simRng: mulberry32(20241115), shake: 0, nitro: 1, night: 0
+ };
+ 
+ function makeCar(x, z, yaw, colorIdx, kind) {
+   return {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m✗ [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js failed
+[91m[1mError: [0mCould not find oldString in /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js. It must match exactly, including whitespace and indentation.
+
+The closest lines in the file:
+223: function updateSky() {
+224:   const t = GAME.time;
+225:   const night = nightFactor(t);
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+@@ -64,9 +64,9 @@
+   GAME.missionData = { t: 0, stage: 0, pickup: null, drop: null, cp: 0, hideout: null };
+   const D = GAME.missionData;
+ 
+   if (id === 'delivery') {
+-    const st = nearestStore(PLAYER.x, PLAYER.z, 260, 0) || CITYDATA.stores[0];
++    const st = nearestStore(PLAYER.x, PLAYER.z, 600, 0) || CITYDATA.stores[0];
+     D.pickup = { x: st.x, z: st.z };
+     // 먼 배달지
+     let best = null, bd = -1;
+     for (const s of CITYDATA.stores) {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js [90m[offset=220, limit=12][0m
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -221,9 +221,9 @@
+   return lerp(1, 0.28, smoothstep(158, 180, t));
+ }
+ function updateSky() {
+   const t = GAME.time;
+-  const night = nightFactor(t);
++  const night = GAME.night;
+   WORLD.night = night;
+   GLOBAL_U.uNight.value = night;
+   const duskT = clamp(1 - Math.abs(t - 78) / 34, 0, 1);
+   const dayMix = clamp(1 - night, 0, 1);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -20
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.2 KB
+captured 01-day-street
+captured 02-day-biz
+captured 03-sunset
+captured 04-night
+captured 05-night-neon
+captured 06-bridge
+captured 07-expressway
+captured 08-skycourse
+captured 09-river
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/01-day-street.png 
+> build · minimax/MiniMax-M3.1-Flash
+Found the main bug: canvas alpha=0 pixels get premultiplied to black. Let me replace the alpha mask with an analytic window rect in the shader.
+[0m✗ [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js failed
+[91m[1mError: [0mCould not find oldString in /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js. It must match exactly, including whitespace and indentation.
+
+The closest lines in the file:
+21: /* ---------- 파사드 셰이더 패치 ---------- */
+22: function patchFacadeMaterial(mat, cell, roofColor) {
+23:   mat.onBeforeCompile = (shader) => {
+24:     shader.uniforms.uNight = GLOBAL_U.uNight;
+25:     shader.uniforms.uWindowLit = GLOBAL_U.uWindowLit;
+26:     shader.uniforms.uCell = { value: new THREE.Vector2(cell[0], cell[1]) };
+27:     shader.uniforms.uRoofColor = { value: new THREE.Color(roofColor) };
+28:     shader.vertexShader = shader.vertexShader
+29:       .replace('#include <common>', '#include <common>\nuniform vec2 uCell;\nvarying vec2 vFacadeUv;\nvarying vec2 vFacadeSeed;\nvarying float vUpFace;')
+30:       .replace('#include <begin_vertex>', [
+31:         '#include <begin_vertex>',
+32:         '{',
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js [90m[offset=21, limit=80][0m
+> build · minimax/MiniMax-M3.1-Flash
+Now I'll apply the targeted edits to the facade shader:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -18,13 +18,14 @@
+   uTime: { value: 0 }
+ };
+ 
+ /* ---------- 파사드 셰이더 패치 ---------- */
+-function patchFacadeMaterial(mat, cell, roofColor) {
++function patchFacadeMaterial(mat, cell, roofColor, rect) {
+   mat.onBeforeCompile = (shader) => {
+     shader.uniforms.uNight = GLOBAL_U.uNight;
+     shader.uniforms.uWindowLit = GLOBAL_U.uWindowLit;
+     shader.uniforms.uCell = { value: new THREE.Vector2(cell[0], cell[1]) };
++    shader.uniforms.uRect = { value: new THREE.Vector4(rect[0], rect[1], rect[2], rect[3]) };
+     shader.uniforms.uRoofColor = { value: new THREE.Color(roofColor) };
+     shader.vertexShader = shader.vertexShader
+       .replace('#include <common>', '#include <common>\nuniform vec2 uCell;\nvarying vec2 vFacadeUv;\nvarying vec2 vFacadeSeed;\nvarying float vUpFace;')
+       .replace('#include <begin_vertex>', [
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -52,8 +52,9 @@
+       .replace('#include <common>', [
+         '#include <common>',
+         'uniform float uNight;',
+         'uniform float uWindowLit;',
++        'uniform vec4 uRect;',
+         'uniform vec3 uRoofColor;',
+         'varying vec2 vFacadeUv;',
+         'varying vec2 vFacadeSeed;',
+         'varying float vUpFace;',
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -61,23 +61,21 @@
+         'float h21f(vec2 p){ p = fract(p*vec2(127.31,311.7)); p += dot(p, p+34.23); return fract(p.x*p.y); }'
+       ].join('\n'))
+       .replace('#include <map_fragment>', [
+         'vec4 _texel = texture2D( map, vFacadeUv );',
+-        'float _glass = _texel.a;',
+-        'vec3 _wall = _texel.rgb;',
+-        'vec3 _gcol = _wall * 0.45 + vec3(0.015,0.022,0.038);',
+-        'diffuseColor.rgb *= mix(_wall, _gcol, _glass);',
++        'diffuseColor.rgb *= _texel.rgb;',
+         'if ( vUpFace > 0.5 ) diffuseColor.rgb = uRoofColor * (0.8 + 0.35*_texel.r);'
+       ].join('\n'))
+       .replace('#include <emissivemap_fragment>', [
+         '#include <emissivemap_fragment>',
+         'if ( vUpFace < 0.5 && uNight > 0.01 ) {',
+-        '  vec4 _t2 = texture2D( map, vFacadeUv );',
+-        '  if ( _t2.a > 0.5 ) {',
++        '  vec2 _f = fract(vFacadeUv);',
++        '  float _in = step(uRect.x, _f.x) * step(_f.x, uRect.z) * step(uRect.y, _f.y) * step(_f.y, uRect.w);',
++        '  if ( _in > 0.5 ) {',
+         '    vec2 _cid = floor(vFacadeUv) + floor(vFacadeSeed * 0.37);',
+         '    float _r = h21f(_cid);',
+         '    float _lit = step(1.0 - uWindowLit * uNight, _r);',
+-        '    totalEmissiveRadiance += vec3(1.0,0.85,0.60) * _lit * uNight * 1.5;',
++        '    totalEmissiveRadiance += vec3(1.0,0.85,0.60) * _lit * uNight * 1.6;',
+         '  }',
+         '}'
+       ].join('\n'));
+   };
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -464,9 +464,9 @@
+   for (let i = 0; i < FACADE_STYLES.length; i++) {
+     const st = FACADE_STYLES[i];
+     const tex = canvasTex(makeFacadeTexture(st), { aniso: 8 });
+     const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: st.rough, metalness: st.metal });
+-    patchFacadeMaterial(mat, st.cell, 0x4a4a48);
++    patchFacadeMaterial(mat, st.cell, 0x4a4a48, st.rect);
+     WORLD.facades.push({ style: st, mat, mesh: null, list: [] });
+   }
+   // 원거리용 통합 머티리얼
+   {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/00-util.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/00-util.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/00-util.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/00-util.js
+@@ -81,19 +81,8 @@
+   // 창 구분 프레임
+   ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+   ctx.lineWidth = 1;
+   ctx.beginPath(); ctx.moveTo((x0 + x1) / 2 + 0.5, y0); ctx.lineTo((x0 + x1) / 2 + 0.5, y1); ctx.stroke();
+-  // 알파 = 유리 마스크 (0 벽 / 1 유리)
+-  const img = ctx.getImageData(0, 0, S, S);
+-  const d = img.data;
+-  for (let y = 0; y < S; y++) {
+-    for (let x = 0; x < S; x++) {
+-      const i = (y * S + x) * 4;
+-      const inside = (x >= x0 && x < x1 && y >= y0 && y < y1) ? 255 : 0;
+-      d[i + 3] = inside;
+-    }
+-  }
+-  ctx.putImageData(img, 0, 0);
+   return cv;
+ }
+ 
+ /* 보행자/차량/가로등 등 단순 색상 머티리얼용 헬퍼 */
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -472,9 +472,9 @@
+   {
+     const st = { key: 'far', wall: [0.42, 0.42, 0.44], glass: [0.22, 0.26, 0.32], cell: [2.6, 3.3], rect: [0.12, 0.18, 0.88, 0.76] };
+     const tex = canvasTex(makeFacadeTexture(st), { aniso: 4 });
+     const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9, metalness: 0.02 });
+-    patchFacadeMaterial(mat, st.cell, 0x46464a);
++    patchFacadeMaterial(mat, st.cell, 0x46464a, st.rect);
+     WORLD.bldFarMat = mat;
+   }
+ 
+   // 간판/상가
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -5
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.0 KB
+captured 06-bridge
+captured 07-expressway
+captured 08-skycourse
+captured 09-river
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/01-day-street.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+Wrote file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && timeout 240 node test/shots.mjs 2>&1 | tail -4
+captured 08-skycourse
+captured 09-river
+captured 10-housing-alley
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/01-day-street.png 
+> build · minimax/MiniMax-M3.1-Flash
+Found a critical bug in the vertex color push (only 1 color per 4 vertices). Let me fix it:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -153,13 +153,14 @@
+   let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+   const l = Math.hypot(nx, ny, nz) || 1; nx /= l; ny /= l; nz /= l;
+   const base = this.pos.length / 3;
+   const pts = [a, b, c, d];
++  const r = Math.pow(color[0], 2.2), g = Math.pow(color[1], 2.2), bl = Math.pow(color[2], 2.2);
+   for (const p of pts) {
+     this.pos.push(p[0], p[1], p[2]);
+     this.nor.push(nx, ny, nz);
++    this.col.push(r, g, bl);
+   }
+-  this.pushColor(color);
+   this.idx.push(base, base + 1, base + 2, base, base + 2, base + 3);
+ };
+ MeshBuilder.prototype.box = function (cx, cy, cz, w, h, d, color) {
+   const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - h / 2, y1 = cy + h / 2, z0 = cz - d / 2, z1 = cz + d / 2;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+@@ -2,9 +2,9 @@
+    한강시 — HUD (미니맵 / 속도계 / 상태 표시)
+    ========================================================= */
+ 
+ const HUD = {
+-  el: {}, mapStatic: null, mapScale: 0.62, mapSize: 700,
++  el: {}, mapStatic: null, mapScale: 0.62, mapSize: 960,
+   mapCtx: null, speedoCtx: null, lastNotice: '', lastToast: ''
+ };
+ 
+ function initHUD() {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -143,11 +143,8 @@
+    메시 빌더 (병합 지오메트리)
+    정점 색상은 sRGB 로 기술하고 선형 공간으로 변환해 저장한다.
+    ========================================================= */
+ function MeshBuilder() { this.pos = []; this.nor = []; this.col = []; this.idx = []; }
+-MeshBuilder.prototype.pushColor = function (c) {
+-  this.col.push(Math.pow(c[0], 2.2), Math.pow(c[1], 2.2), Math.pow(c[2], 2.2));
+-};
+ MeshBuilder.prototype.quad = function (a, b, c, d, color) {
+   const ux = b[0] - a[0], uy = b[1] - a[1], uz = b[2] - a[2];
+   const vx = d[0] - a[0], vy = d[1] - a[1], vz = d[2] - a[2];
+   let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -3
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.0 KB
+captured 09-river
+captured 10-housing-alley
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/01-day-street.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -36,10 +36,10 @@
+         '  iscale = vec3(length(instanceMatrix[0].xyz), length(instanceMatrix[1].xyz), length(instanceMatrix[2].xyz));',
+         '#endif',
+         '  vUpFace = abs(normal.y) > 0.5 ? 1.0 : 0.0;',
+         '  float sx = (abs(normal.x) > 0.5) ? iscale.z : iscale.x;',
+-        '  float u = (abs(normal.x) > 0.5) ? (position.z / max(iscale.z,0.001) + 0.5) : (position.x / max(iscale.x,0.001) + 0.5);',
+-        '  float vv = position.y / max(iscale.y,0.001) + 0.5;',
++        '  float u = (abs(normal.x) > 0.5) ? (position.z + 0.5) : (position.x + 0.5);',
++        '  float vv = position.y + 0.5;',
+         '  vFacadeUv = vec2(u * sx / uCell.x, vv * iscale.y / uCell.y);',
+         '  vec4 _wp = vec4(transformed, 1.0);',
+         '#ifdef USE_INSTANCING',
+         '  _wp = instanceMatrix * _wp;',
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -114,10 +114,10 @@
+   const b = new MeshBuilder();
+   const H = CITY.HALF, R = CITY.ROAD / 2;
+   const C_ASPHALT = [0.205, 0.215, 0.235];
+   const C_GROUND = [0.285, 0.300, 0.260];
+-  const C_SIDEWALK = [0.520, 0.510, 0.485];
+-  const C_CURB = [0.430, 0.425, 0.405];
++  const C_SIDEWALK = [0.430, 0.420, 0.395];
++  const C_CURB = [0.360, 0.355, 0.340];
+   const C_DASH = [0.760, 0.730, 0.560];
+   const C_CROSS = [0.800, 0.800, 0.780];
+ 
+   // 바탕 땅
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -3
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 772.9 KB
+captured 09-river
+captured 10-housing-alley
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/02-day-biz.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/04-night.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -213,8 +213,13 @@
+   _cA.setHex(a); _cB.setHex(b);
+   out.setRGB(lerp(_cA.r, _cB.r, t), lerp(_cA.g, _cB.g, t), lerp(_cA.b, _cB.b, t));
+   return out;
+ }
++function mixHex(target, amount, out) {
++  _cB.setHex(target);
++  out.setRGB(lerp(out.r, _cB.r, amount), lerp(out.g, _cB.g, amount), lerp(out.b, _cB.b, amount));
++  return out;
++}
+ function nightFactor(t) {
+   if (t < 48) return 0;
+   if (t < 92) return smoothstep(48, 92, t);
+   if (t < 158) return 1;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -235,9 +235,9 @@
+ 
+   // 하늘 색
+   lerpHex(SKY_KEYS.day.zenith, SKY_KEYS.night.zenith, night, WORLD.sky.material.uniforms.uZenith.value);
+   lerpHex(SKY_KEYS.day.horizon, SKY_KEYS.night.horizon, night, WORLD.sky.material.uniforms.uHorizon.value);
+-  lerpHex(SKY_KEYS.day.horizon, SKY_KEYS.dusk.horizon, duskT * 0.9, WORLD.sky.material.uniforms.uHorizon.value);
++  mixHex(SKY_KEYS.dusk.horizon, duskT * 0.85, WORLD.sky.material.uniforms.uHorizon.value);
+   lerpHex(SKY_KEYS.day.ground, SKY_KEYS.night.ground, night, WORLD.sky.material.uniforms.uGround.value);
+ 
+   // 태양/달
+   let elev;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -261,9 +261,9 @@
+   WORLD.ambient.intensity = lerp(SKY_KEYS.day.amb, SKY_KEYS.night.amb, night);
+ 
+   // 안개
+   lerpHex(SKY_KEYS.day.horizon, SKY_KEYS.night.horizon, night, scene.fog.color);
+-  lerpHex(SKY_KEYS.day.horizon, SKY_KEYS.dusk.horizon, duskT * 0.9, scene.fog.color);
++  mixHex(SKY_KEYS.dusk.horizon, duskT * 0.85, scene.fog.color);
+   scene.fog.near = lerp(SKY_KEYS.day.fogNear, SKY_KEYS.night.fogNear, night);
+   scene.fog.far = lerp(SKY_KEYS.day.fogFar, SKY_KEYS.night.fogFar, night);
+ 
+   // 가로등 / 네온
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -3
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.0 KB
+captured 09-river
+captured 10-housing-alley
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/03-sunset.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/06-bridge.png 
+> build · minimax/MiniMax-M3.1-Flash
+The player can't walk on bridges/overpasses. Let me make surface height selection height-aware:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -68,11 +68,11 @@
+   }
+   return { x: pushX, z: pushZ, hit };
+ }
+ 
+-/* 건물 위가 아닌 곳에서의 지면 높이 (차량용) */
+-function carGroundHeight(x, z) {
+-  return surfaceHeight(x, z);
++/* 차량이 밟는 지면(고가도로/다리) — 현재 높이를 기준으로 구조물을 고른다 */
++function carGroundHeight(x, z, curY) {
++  return surfaceHeight(x, z, curY === undefined ? 0 : curY);
+ }
+ 
+ /* =========================================================
+    차량 물리 (아케이드)
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -129,13 +129,22 @@
+     return lerp(0.2, CITY.BRIDGE_H, clamp(t, 0, 1));
+   }
+   return 0;
+ }
+-function surfaceHeight(x, z) {
++/* ---- 도로 표면 높이 (고가도로 / 다리).
++   curY 보다 높은 구조물은 밟지 못한다(지하 도로·다리 밑을 걸어다닐 수 있게). ---- */
++function surfaceHeight(x, z, curY) {
++  const base = curY === undefined ? 0 : curY;
+   let h = 0;
+-  if (Math.abs(z - CITY.EXPR_Z) < CITY.EXPRESS_W / 2 + 1) h = Math.max(h, expresswayHeight(x));
++  if (Math.abs(z - CITY.EXPR_Z) < CITY.EXPRESS_W / 2 + 1) {
++    const e = expresswayHeight(x);
++    if (e <= base + 1.6 && e > h) h = e;
++  }
+   for (const bx of CITY.BRIDGE_X) {
+-    if (Math.abs(x - bx) < 15) h = Math.max(h, bridgeHeight(bx, z));
++    if (Math.abs(x - bx) < 15) {
++      const b = bridgeHeight(bx, z);
++      if (b <= base + 1.6 && b > h) h = b;
++    }
+   }
+   return h;
+ }
+ 
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -158,9 +158,9 @@
+       }
+     }
+   }
+   // 지면 높이 (고가도로/다리)
+-  const gy = carGroundHeight(car.x, car.z);
++  const gy = carGroundHeight(car.x, car.z, car.y);
+   car.y = damp(car.y, gy, 12, dt);
+ 
+   // 시각적 요동
+   car.wheelSpin += car.long * dt * 2.2;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -95,8 +95,10 @@
+ const walkSurfaces = [];
+ function addSurface(s) { walkSurfaces.push(s); }
+ function groundAt(x, z, feetY) {
+   let best = 0;
++  const sh = surfaceHeight(x, z, feetY);
++  if (sh <= feetY + 0.8 && sh > best) best = sh;
+   for (let i = 0; i < walkSurfaces.length; i++) {
+     const s = walkSurfaces[i];
+     if (x < s.x0 || x > s.x1 || z < s.z0 || z > s.z1) continue;
+     let top;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -492,13 +492,13 @@
+     },
+     teleport(x, z, y) {
+       const nx = Number(x) || 0, nz = Number(z) || 0;
+       PLAYER.x = nx; PLAYER.z = nz;
+-      PLAYER.y = (y === undefined || y === null) ? groundAt(nx, nz, 2.0) : Number(y);
++      PLAYER.y = (y === undefined || y === null) ? groundAt(nx, nz, 16) : Number(y);
+       PLAYER.vx = 0; PLAYER.vz = 0; PLAYER.vy = 0;
+       if (PLAYER.car) {
+         PLAYER.car.x = nx; PLAYER.car.z = nz;
+-        PLAYER.car.y = surfaceHeight(nx, nz);
++        PLAYER.car.y = surfaceHeight(nx, nz, PLAYER.car.y);
+         PLAYER.car.vx = 0; PLAYER.car.vz = 0;
+       }
+       CAMERA.y = PLAYER.y;
+     },
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -112,10 +112,8 @@
+ }
+ 
+ /* ---- 도로 표면 높이 (차량용): 고가도로 / 다리 ---- */
+ function expresswayHeight(x) {
+-  const z = CITY.EXPR_Z;
+-  if (Math.abs(x - roadX(4)) < 14 || Math.abs(x - roadX(11)) < 14) { /* 아래에서 따로 처리 */ }
+   const westStart = -CITY.HALF + 40, westEnd = -CITY.HALF + 210;
+   const eastStart = CITY.HALF - 210, eastEnd = CITY.HALF - 40;
+   if (x < westStart || x > eastEnd) return 0;
+   if (x < westEnd) { const t = (x - westStart) / (westEnd - westStart); return lerp(0.2, CITY.EXPR_H, t); }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -161,8 +161,24 @@
+   // 지면 높이 (고가도로/다리)
+   const gy = carGroundHeight(car.x, car.z, car.y);
+   car.y = damp(car.y, gy, 12, dt);
+ 
++  // 고가 구조물(다리/고가도로) 난간 — 밖으로 떨어지지 않게 가둔다
++  if (car.y > 2.5) {
++    let clamped = false;
++    if (Math.abs(car.z - CITY.EXPR_Z) < 14) {
++      const lim = CITY.EXPRESS_W / 2 - 1.6;
++      if (Math.abs(car.z - CITY.EXPR_Z) > lim) { car.z = CITY.EXPR_Z + Math.sign(car.z - CITY.EXPR_Z) * lim; clamped = true; }
++    }
++    for (const bx of CITY.BRIDGE_X) {
++      if (Math.abs(car.x - bx) < 16) {
++        const lim = 11.4;
++        if (Math.abs(car.x - bx) > lim) { car.x = bx + Math.sign(car.x - bx) * lim; clamped = true; }
++      }
++    }
++    if (clamped) { car.vx *= 0.4; car.vz *= 0.4; }
++  }
++
+   // 시각적 요동
+   car.wheelSpin += car.long * dt * 2.2;
+   car.pitch = damp(car.pitch, clamp(-car.long * 0.004 + (car.brake > 0 ? 0.03 : 0), -0.12, 0.12), 6, dt);
+   car.roll = damp(car.roll, clamp(-car.lat * 0.02, -0.14, 0.14), 6, dt);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -3 && timeout 240 node test/smoke.mjs 2>&1 | tail -45
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.9 KB
+captured 09-river
+captured 10-housing-alley
+errors: 0 []
+ready: true
+{
+  "init": "{\"fps\":0,\"elapsed\":0.02,\"wanted\":0,\"mission\":null,\"completed\":[],\"player\":[-138.5,227.2,0],\"cars\":89,\"peds\":80,\"buildings\":461,\"blocks\":196,\"signs\":195,\"stores\":76,\"calls\":38,\"tris\":93030}",
+  "step1": "{\"delta\":1}",
+  "step2": "{\"delta\":0.5}",
+  "step3": "{\"delta\":0.25}",
+  "walk": "{\"dx\":0,\"dz\":-5.1,\"speed\":3.5}",
+  "run": "{\"dist\":10.97}",
+  "jump": "{\"y0\":0,\"afterJump\":1.05,\"landed\":0}",
+  "teleport": "{\"x\":100,\"z\":100,\"y\":0}",
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":0.4}",
+  "drift": "{\"lat\":0.01}",
+  "exit": "{\"inCar\":false}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-499.9,\"z\":-523.1},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"escape\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0,\"night\":0,\"c1\":\"낮 00:00\",\"c2\":\"낮 00:00\",\"c3\":\"낮 00:00\"}",
+  "perf": {}
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+@@ -64,9 +64,9 @@
+   GAME.missionData = { t: 0, stage: 0, pickup: null, drop: null, cp: 0, hideout: null };
+   const D = GAME.missionData;
+ 
+   if (id === 'delivery') {
+-    const st = nearestStore(PLAYER.x, PLAYER.z, 600, 0) || CITYDATA.stores[0];
++    const st = nearestStore(PLAYER.x, PLAYER.z, 4000, 0) || CITYDATA.stores[0];
+     D.pickup = { x: st.x, z: st.z };
+     // 먼 배달지
+     let best = null, bd = -1;
+     for (const s of CITYDATA.stores) {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -568,8 +568,9 @@
+ function simulateStep(dt, t) {
+   GAME.time = (GAME.time + dt) % 180;
+   GAME.elapsed += dt;
+   GAME.night = nightFactor(GAME.time);
++  WORLD.night = GAME.night;
+   const wt = GAME.time;
+ 
+   // 근처 차량 목록 (차량 간 충돌/보행자 회피용)
+   refreshNearbyCars(PLAYER.x, PLAYER.z);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+@@ -114,21 +114,22 @@
+ R.teleport = await ev('(function(){var g=window.__game,d=g.dbg;g.test.teleport(100,100);g.test.step(0.2);return JSON.stringify({x:+d.PLAYER.x.toFixed(1),z:+d.PLAYER.z.toFixed(1),y:+d.PLAYER.y.toFixed(2)})})()');
+ 
+ R.enter = await ev(`(function(){var g=window.__game,d=g.dbg;
+   var c=d.CARS.filter(function(c){return c.kind==='sedan';})[0];
+-  g.test.teleport(c.x+2.0,c.z+2.0); g.test.step(0.2);
++  c.x=-152; c.z=152; c.y=0; c.yaw=Math.PI; c.vx=0; c.vz=0; c.long=0; c.lat=0; c.throttle=0; c.brake=0;
++  g.test.teleport(-149,152); g.test.step(0.2);
+   g.test.press('f'); g.test.step(0.2);
+   return JSON.stringify({inCar:!!d.PLAYER.car, kind:d.PLAYER.car?d.PLAYER.car.kind:null})})()`);
+ R.drive = await ev(`(function(){var g=window.__game,d=g.dbg;
+   g.test.key('w',true); g.test.step(3.0);
+   var kmh=Math.abs(d.PLAYER.inCarSpeed)*3.6;
+   g.test.key('shift',true); g.test.step(1.0); var kmh2=Math.abs(d.PLAYER.inCarSpeed)*3.6;
+   g.test.key('w',false); g.test.key('shift',false);
+-  return JSON.stringify({kmh:+kmh.toFixed(1), kmhBoost:+kmh2.toFixed(1)})})()`);
++  return JSON.stringify({kmh:+kmh.toFixed(1), kmhBoost:+kmh2.toFixed(1), z:+d.PLAYER.z.toFixed(1)})})()`);
+ R.drift = await ev(`(function(){var g=window.__game,d=g.dbg;
+-  g.test.key('w',true); g.test.step(2.0);
+-  g.test.key(' ',true); g.test.key('a',true); g.test.step(1.0);
+-  var lat=Math.abs(d.PLAYER.car.lat);
++  g.test.key('w',true); g.test.step(2.5);
++  g.test.key(' ',true); g.test.key('a',true); g.test.step(1.2);
++  var lat=Math.abs(d.PLAYER.car.lat), yaw=Math.abs(d.PLAYER.car.yaw);
+   g.test.key(' ',false); g.test.key('a',false); g.test.key('w',false);
+   return JSON.stringify({lat:+lat.toFixed(2)})})()`);
+ R.exit = await ev(`(function(){var g=window.__game,d=g.dbg;g.test.press('f'); g.test.step(0.2);return JSON.stringify({inCar:!!d.PLAYER.car})})()`);
+ 
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+@@ -169,16 +169,12 @@
+   g.test.setTime(130); g.test.step(0.1); var night=d.WORLD.night, c3=document.getElementById('clock').textContent;
+   g.test.setTime(10);
+   return JSON.stringify({day:+day.toFixed(2),dusk:+dusk.toFixed(2),night:+night.toFixed(2),c1:c1,c2:c2,c3:c3})})()`);
+ 
+-R.perf = await ev(`(function(){var g=window.__game,d=g.dbg;
+-  var info=d.WORLD.renderer.info.render;
+-  return new Promise(function(res){var t0=performance.now(),n=0;function f(){n++;
+-    if(performance.now()-t0<2000)requestAnimationFrame(f);
+-    else res(JSON.stringify({fps:+(n/((performance.now()-t0)/1000)).toFixed(1),
+-      calls:info.calls, tris:info.triangles, geometries:d.WORLD.renderer.info.memory.geometries,
+-      textures:d.WORLD.renderer.info.memory.textures, programs:d.WORLD.renderer.info.programs.length}))}
+-    requestAnimationFrame(f)})})()`, true);
++await sleep(2200);
++R.perf = await ev(`(function(){var g=window.__game,d=g.dbg;var info=d.WORLD.renderer.info;
++  return JSON.stringify({fps:+g.state.fps.toFixed(1), calls:info.render.calls, tris:info.render.triangles,
++    geometries:info.memory.geometries, textures:info.memory.textures, programs:info.programs.length})})()`);
+ 
+ console.log(JSON.stringify(R, null, 2));
+ console.log('--- console logs (' + logs.length + ') ---');
+ logs.slice(0, 20).forEach(l => console.log(l));
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/smoke.mjs 2>&1 | tail -40
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.9 KB
+ready: true
+{
+  "init": "{\"fps\":6,\"elapsed\":0.22,\"wanted\":0,\"mission\":null,\"completed\":[],\"player\":[-138.5,227.2,0],\"cars\":89,\"peds\":80,\"buildings\":461,\"blocks\":196,\"signs\":195,\"stores\":76,\"calls\":38,\"tris\":93030}",
+  "step1": "{\"delta\":1}",
+  "step2": "{\"delta\":0.5}",
+  "step3": "{\"delta\":0.25}",
+  "walk": "{\"dx\":0,\"dz\":-5.1,\"speed\":3.5}",
+  "run": "{\"dist\":10.97}",
+  "jump": "{\"y0\":0,\"afterJump\":1.05,\"landed\":0}",
+  "teleport": "{\"x\":100,\"z\":100,\"y\":0}",
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":64.5,\"z\":101.1}",
+  "drift": "{\"lat\":0}",
+  "exit": "{\"inCar\":false}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-271.6,\"z\":84.8},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"escape\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0.76,\"night\":1,\"c1\":\"낮 00:53\",\"c2\":\"낮 00:53\",\"c3\":\"낮 00:53\"}",
+  "perf": "{\"fps\":11.1,\"calls\":54,\"tris\":97244,\"geometries\":42,\"textures\":13,\"programs\":16}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+The car never drifts because velocity is always rebuilt from the heading. Let me fix the physics model:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -95,29 +95,28 @@
+     else if (vLong > -12) vLong -= car.brake * 11 * dt;
+   }
+   // 저항
+   vLong -= vLong * (0.22 + Math.abs(vLong) * 0.012) * dt;
+-  // 회전
+-  const speedAbs = Math.abs(vLong);
+-  const steerAuth = clamp(speedAbs / 5, 0, 1) * (1 - clamp(speedAbs / (maxSpeed * 1.25), 0, 0.55));
+-  const dirSign = vLong >= -0.2 ? 1 : -1;
+-  car.yaw += car.steer * steerAuth * 2.0 * dirSign * dt;
+ 
+-  // 횡방향 마찰(그립) — 핸드브레이크 시 감소 → 드리프트
++  // 횡방향 마찰(그립) — 핸드브레이크 시 약해져 드리프트가 생긴다
+   let grip = 9.5;
+-  if (car.hand > 0) grip = 1.9;
++  if (car.hand > 0) grip = 1.5;
+   else if (car.kind === 'truck') grip = 7.0;
+-  const slip = Math.abs(vLat);
+-  if (slip > 0.6) grip *= 0.55;
++  if (Math.abs(vLat) > 0.8) grip *= 0.6;
+   vLat *= Math.exp(-grip * dt);
+ 
+-  // 속도 벡터 재구성 (요소 각도로)
+-  const nfx = Math.sin(car.yaw), nfz = Math.cos(car.yaw);
+-  const nrx = -nfz, nrz = nfx;
+-  car.vx = nfx * vLong + nrx * vLat;
+-  car.vz = nfz * vLong + nrz * vLat;
++  // 속도 벡터는 "현재 진행 방향" 기준으로 재구성한다.
++  // 조향으로 차체가 회전한 뒤 속도 방향이 그립으로 따라오는 구조 → 스_pin 후 슬립 발생
++  car.vx = fx * vLong + rx * vLat;
++  car.vz = fz * vLong + rz * vLat;
+   car.long = vLong; car.lat = vLat;
+ 
++  // 회전 (속도 방향과 독립 → 그립이 없으면 미끄러진다)
++  const speedAbs = Math.abs(vLong);
++  const steerAuth = clamp(speedAbs / 5, 0, 1) * (1 - clamp(speedAbs / (maxSpeed * 1.25), 0, 0.55));
++  const dirSign = vLong >= -0.2 ? 1 : -1;
++  car.yaw += car.steer * steerAuth * 2.2 * dirSign * dt;
++
+   // 위치
+   car.x += car.vx * dt;
+   car.z += car.vz * dt;
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/smoke.mjs 2>&1 | grep -E "drive|drift|enter|exit|errors|EXCEPT|LOG" | head -20
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.9 KB
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":64.5,\"z\":101.2}",
+  "drift": "{\"lat\":13.53}",
+  "exit": "{\"inCar\":false}",
+--- errors (0) ---
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+@@ -169,8 +169,34 @@
+   g.test.setTime(130); g.test.step(0.1); var night=d.WORLD.night, c3=document.getElementById('clock').textContent;
+   g.test.setTime(10);
+   return JSON.stringify({day:+day.toFixed(2),dusk:+dusk.toFixed(2),night:+night.toFixed(2),c1:c1,c2:c2,c3:c3})})()`);
+ 
++/* 9) AI 교통 흐름 (30초 시뮬레이션 후 차량 분포/속도) */
++R.ai = await ev(`(function(){var g=window.__game,d=g.dbg;
++  g.test.teleport(-152,304); g.test.step(0.2);
++  g.test.step(30);
++  var ai=d.CARS.filter(function(c){return c.ai;});
++  var sp=ai.map(function(c){return Math.abs(c.long);});
++  var avg=sp.reduce(function(a,b){return a+b;},0)/Math.max(1,sp.length);
++  var stopped=sp.filter(function(v){return v<0.6;}).length;
++  var moving=sp.filter(function(v){return v>3;}).length;
++  var spread=ai.map(function(c){return Math.round(Math.hypot(c.x+152,c.z-304));});
++  return JSON.stringify({aiCars:ai.length, avgSpeed:+avg.toFixed(2), stopped:stopped, moving:moving,
++    maxDist:Math.max.apply(null,spread)})})()`);
++
++/* 10) 경찰 추격 (수배 1 → 20초 후 거리) */
++R.police = await ev(`(function(){var g=window.__game,d=g.dbg;
++  g.test.teleport(-152,304); g.test.step(0.2);
++  g.test.press('e'); g.test.step(0.1);
++  var before=null;
++  g.test.step(0.5);
++  var p=d.CARS.filter(function(c){return c.police;})[0];
++  if(p) before=Math.hypot(p.x+152,p.z-304);
++  g.test.step(20);
++  var p2=d.CARS.filter(function(c){return c.police;})[0];
++  var after=p2?Math.hypot(p2.x+152,p2.z-304):null;
++  return JSON.stringify({wanted:g.state.wanted, before:before&&+before.toFixed(1), after:after&&+after.toFixed(1)})})()`);
++
+ await sleep(2200);
+ R.perf = await ev(`(function(){var g=window.__game,d=g.dbg;var info=d.WORLD.renderer.info;
+   return JSON.stringify({fps:+g.state.fps.toFixed(1), calls:info.render.calls, tris:info.render.triangles,
+     geometries:info.memory.geometries, textures:info.memory.textures, programs:info.programs.length})})()`);
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -98,9 +98,9 @@
+   vLong -= vLong * (0.22 + Math.abs(vLong) * 0.012) * dt;
+ 
+   // 횡방향 마찰(그립) — 핸드브레이크 시 약해져 드리프트가 생긴다
+   let grip = 9.5;
+-  if (car.hand > 0) grip = 1.5;
++  if (car.hand > 0) grip = 2.4;
+   else if (car.kind === 'truck') grip = 7.0;
+   if (Math.abs(vLat) > 0.8) grip *= 0.6;
+   vLat *= Math.exp(-grip * dt);
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 300 node test/smoke.mjs 2>&1 | tail -20
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.9 KB
+  "jump": "{\"y0\":0,\"afterJump\":1.05,\"landed\":0}",
+  "teleport": "{\"x\":100,\"z\":100,\"y\":0}",
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":64.5,\"z\":101.1}",
+  "drift": "{\"lat\":10.85}",
+  "exit": "{\"inCar\":false}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-135.3,\"z\":-84.8},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":\"escape\",\"completed\":[\"delivery\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0.76,\"night\":1,\"c1\":\"낮 00:00\",\"c2\":\"낮 00:00\",\"c3\":\"낮 00:00\"}",
+  "ai": "{\"aiCars\":26,\"avgSpeed\":4.47,\"stopped\":7,\"moving\":10,\"maxDist\":928}",
+  "police": "{\"wanted\":0,\"before\":91,\"after\":null}",
+  "perf": "{\"fps\":12,\"calls\":38,\"tris\":92436,\"geometries\":39,\"textures\":13,\"programs\":15}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+@@ -77,11 +77,12 @@
+     setMarker(D.pickup.x, D.pickup.z, findGroundSpot(D.pickup.x, D.pickup.z), 0x3fd8ff);
+     setToast('심야 배달 — 상점 문 앞까지 이동하세요 (제한 ' + def.limit + '초)');
+   } else if (id === 'escape') {
+     raiseWanted(1);
+-    // 은신처 지점
+-    const blk = CITYDATA.blocks[Math.floor(GAME.simRng() * CITYDATA.blocks.length)];
+-    D.hideout = { x: (blk.x0 + blk.x1) / 2, z: (blk.z0 + blk.z1) / 2 };
++    // 은신처 지점 (교차로 한가운데 — 건물에 끼이지 않는 안전한 지점)
++    const nodes = CITYDATA.nodes;
++    const node = nodes[Math.floor(GAME.simRng() * nodes.length) % nodes.length];
++    D.hideout = { x: node.x, z: node.z };
+     setMarker(D.hideout.x, D.hideout.z, findGroundSpot(D.hideout.x, D.hideout.z), 0xffc857);
+     setToast('추격 따돌리기 — 순찰대를 100초 버티거나 은신처로 이동 (R: 숨기)');
+   } else if (id === 'roof') {
+     const c = CITYDATA.skyCourse;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -296,19 +296,19 @@
+   } else if (block.type === 'shop') {
+     // 상가/편의점 — 블록 가장자리(도로-facing)에 상가 줄
+     const faceNorth = rng() < 0.5;
+     const cnt = 2 + Math.floor(rng() * 4);
+-    let cursor = r.x0;
++    let cursor = r.x0 + 1.5;
+     for (let t = 0; t < cnt && cursor < r.x1 - 6; t++) {
+       const w = randRange(rng, 9, 17);
+       const d = randRange(rng, 9, 14);
+       const h = randRange(rng, 6, 17);
+       const x = cursor + w / 2;
+-      const z = faceNorth ? r.z0 + d / 2 : r.z1 - d / 2;
++      const z = faceNorth ? r.z0 + d / 2 + 1.5 : r.z1 - d / 2 - 1.5;
+       pushBuilding(x, z, w, d, h, 'shop', 0.9 + rng() * 0.3);
+-      if (rng() < 0.75) D.stores.push({ x, y: 2.4, z: faceNorth ? r.z0 - 0.15 : r.z1 + 0.15, rot: faceNorth ? Math.PI : 0, tile: Math.floor(rng() * 8), scale: Math.min(w * 0.9, 12) });
++      if (rng() < 0.75) D.stores.push({ x, y: 2.4, z: faceNorth ? r.z0 + 0.1 : r.z1 - 0.1, rot: faceNorth ? Math.PI : 0, tile: Math.floor(rng() * 8), scale: Math.min(w * 0.9, 12) });
+       for (let s = 0; s < 1 + Math.floor(rng() * 2); s++) {
+-        D.signs.push({ x: x + randRange(rng, -w / 3, w / 3), y: randRange(rng, 4, h - 0.8), z: faceNorth ? r.z0 - 0.3 : r.z1 + 0.3, rot: faceNorth ? Math.PI : 0, tile: Math.floor(rng() * 64), scale: randRange(rng, 1.8, 3.2) });
++        D.signs.push({ x: x + randRange(rng, -w / 3, w / 3), y: randRange(rng, 4, h - 0.8), z: faceNorth ? r.z0 + 0.3 : r.z1 - 0.3, rot: faceNorth ? Math.PI : 0, tile: Math.floor(rng() * 64), scale: randRange(rng, 1.8, 3.2) });
+       }
+       cursor += w + randRange(rng, 0.6, 2.4);
+     }
+     // 남은 공간: 주차장 + 작은 매점
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+@@ -129,9 +129,9 @@
+     }
+     if (remain <= 0) { endMission(false, '배달 실패 — 시간 초과'); return; }
+   } else if (GAME.mission === 'escape') {
+     if (GAME.wanted === 0) { endMission(true, '추격 따돌림 성공!'); return; }
+-    if (Math.hypot(PLAYER.x - D.hideout.x, PLAYER.z - D.hideout.z) < 5.5) {
++    if (Math.hypot(PLAYER.x - D.hideout.x, PLAYER.z - D.hideout.z) < 7.0) {
+       endMission(true, '은신처 도착 — 추격 종료!');
+       GAME.wanted = 0;
+       return;
+     }
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -408,17 +408,17 @@
+     // 수직 도로
+     const x = roadX(k);
+     for (let z = -CITY.HALF + 20; z < CITY.HALF - 20; z += 38) {
+       if (z > CITY.RIVER_Z0 - 6 && z < CITY.RIVER_Z1 + 6) continue;
+-      D.streetlights.push({ x: x - 11.5, z, rot: Math.PI / 2 });
+-      D.streetlights.push({ x: x + 11.5, z: z + 19, rot: -Math.PI / 2 });
++      D.streetlights.push({ x: x - 9.3, z, rot: Math.PI / 2 });
++      D.streetlights.push({ x: x + 9.3, z: z + 19, rot: -Math.PI / 2 });
+     }
+     // 수평 도로
+     const z = roadZ(k);
+     for (let x = -CITY.HALF + 24; x < CITY.HALF - 24; x += 40) {
+       if (z > CITY.RIVER_Z0 - 4 && z < CITY.RIVER_Z1 + 4) continue;
+-      D.streetlights.push({ x, z: z - 11.5, rot: 0 });
+-      D.streetlights.push({ x: x + 20, z: z + 11.5, rot: Math.PI });
++      D.streetlights.push({ x, z: z - 9.3, rot: 0 });
++      D.streetlights.push({ x: x + 20, z: z + 9.3, rot: Math.PI });
+     }
+   }
+ }
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -331,10 +331,10 @@
+     x, z, y: 0, yaw: rng() * TAU, axis, dir: rng() < 0.5 ? 1 : -1,
+     speed: randRange(rng, 1.1, 1.8), phase: rng() * TAU, flee: 0, color: Math.floor(rng() * 6)
+   };
+   // 보도 라인에 스냅
+-  if (axis === 'x') { ped.line = roadZ(Math.floor((z + CITY.HALF) / CITY.TILE)) + (ped.dir > 0 ? 11.4 : -11.4); }
+-  else { ped.line = roadX(Math.floor((x + CITY.HALF) / CITY.TILE)) + (ped.dir > 0 ? -11.4 : 11.4); }
++  if (axis === 'x') { ped.line = roadZ(Math.floor((z + CITY.HALF) / CITY.TILE)) + (ped.dir > 0 ? 9.6 : -9.6); }
++  else { ped.line = roadX(Math.floor((x + CITY.HALF) / CITY.TILE)) + (ped.dir > 0 ? -9.6 : 9.6); }
+   return ped;
+ }
+ function stepPed(p, dt) {
+   // 차량 회피
+
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 300 node test/smoke.mjs 2>&1 | tail -18
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 773.9 KB
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":64.5,\"z\":101.1}",
+  "drift": "{\"lat\":10.84}",
+  "exit": "{\"inCar\":false}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-133.8,\"z\":-85.1},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"escape\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0.76,\"night\":1,\"c1\":\"낮 01:29\",\"c2\":\"낮 01:29\",\"c3\":\"낮 01:29\"}",
+  "ai": "{\"aiCars\":26,\"avgSpeed\":5.09,\"stopped\":7,\"moving\":13,\"maxDist\":928}",
+  "police": "{\"wanted\":0,\"before\":62.6,\"after\":null}",
+  "perf": "{\"fps\":11.5,\"calls\":38,\"tris\":92398,\"geometries\":39,\"textures\":13,\"programs\":15}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && timeout 240 node test/shots.mjs 2>&1 | tail -2
+captured 10-housing-alley
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/05-night-neon.png 
+> build · minimax/MiniMax-M3.1-Flash
+Let me add neon glow at night and fix sign placement:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -306,8 +306,9 @@
+ function buildSigns() {
+   const atlas = makeSignAtlas();
+   const tex = canvasTex(atlas.canvas, { aniso: 8 });
+   const tb = new TexturedBuilder();
++  const gb = new TexturedBuilder();
+   for (const s of CITYDATA.signs) {
+     const col = s.tile % atlas.cols, row = Math.floor(s.tile / atlas.cols);
+     const u0 = col / atlas.cols, u1 = (col + 1) / atlas.cols;
+     const v0 = 1 - (row + 1) / atlas.rows, v1 = 1 - row / atlas.rows;
+@@ -315,14 +316,20 @@
+     const c = Math.cos(s.rot), sn = Math.sin(s.rot);
+     const corners = [[-hw, -hh], [hw, -hh], [hw, hh], [-hw, hh]];
+     const pts = corners.map(([lx, ly]) => [s.x + lx * c, s.y + ly, s.z - lx * sn]);
+     tb.quad(pts[0], pts[1], pts[2], pts[3], [u0, v0, u1, v0, u1, v1, u0, v1]);
++    const gw = hw * 1.45, gh = hh * 1.45;
++    const gpts = corners.map(([lx, ly]) => [s.x + lx * c * 1.45, s.y + ly * 1.45, s.z - lx * sn * 1.45]);
++    gb.quad(gpts[0], gpts[1], gpts[2], gpts[3], [u0, v0, u1, v0, u1, v1, u0, v1]);
+   }
+-  const geo = tb.build();
+   const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide, depthWrite: false, toneMapped: false });
+-  const mesh = new THREE.Mesh(geo, mat);
++  const mesh = new THREE.Mesh(tb.build(), mat);
+   mesh.renderOrder = 2;
+-  return mesh;
++  const glowMat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false });
++  const glow = new THREE.Mesh(gb.build(), glowMat);
++  glow.renderOrder = 1;
++  WORLD.signMat = mat; WORLD.signGlowMat = glowMat;
++  return { mesh, glow };
+ }
+ function buildStoreFronts() {
+   const atlas = makeStoreAtlas();
+   const tex = canvasTex(atlas.canvas, { aniso: 8 });
+@@ -337,10 +344,10 @@
+     const pts = corners.map(([lx, ly]) => [s.x + lx * c, s.y + ly, s.z - lx * sn]);
+     tb.quad(pts[0], pts[1], pts[2], pts[3], [u0, v0, u1, v0, u1, v1, u0, v1]);
+   }
+   const mat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide, toneMapped: false });
+-  const mesh = new THREE.Mesh(tb.build(), mat);
+-  return mesh;
++  WORLD.storeMat = mat;
++  return new THREE.Mesh(tb.build(), mat);
+ }
+ 
+ /* ---------- 인스턴스 풀(거리 컬링) ---------- */
+ function InstancedPool(geo, mat, max, shadow) {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -268,8 +268,11 @@
+ 
+   // 가로등 / 네온
+   WORLD.headMat.emissiveIntensity = night * 2.6;
+   WORLD.poolMat.opacity = night * 0.45;
++  if (WORLD.signMat) WORLD.signMat.color.setScalar(lerp(0.42, 1.0, night));
++  if (WORLD.signGlowMat) WORLD.signGlowMat.opacity = night * 0.5;
++  if (WORLD.storeMat) WORLD.storeMat.color.setScalar(lerp(0.5, 1.25, night));
+   if (WORLD.sunSprite) {
+     WORLD.sunSprite.position.set(px + dx * 700, py + dy * 700, pz + dz * 700);
+     WORLD.sunSprite.material.color.setHex(isNight ? 0xbcd0ff : (duskT > 0.4 ? 0xffb060 : 0xfff0c0));
+     WORLD.sunSprite.material.opacity = isNight ? 0.55 : 0.95;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -484,9 +484,10 @@
+     WORLD.bldFarMat = mat;
+   }
+ 
+   // 간판/상가
+-  scene.add(buildSigns());
++  const signPair = buildSigns();
++  scene.add(signPair.mesh); scene.add(signPair.glow);
+   scene.add(buildStoreFronts());
+ 
+   // 가로등/나무/소품 인스턴스
+   const poleGeo = new THREE.CylinderGeometry(0.16, 0.2, 7.4, 6);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -285,12 +285,14 @@
+         const h = randRange(rng, 6, 13);
+         const lx = r.x0 + cw * (a + 0.5) + randRange(rng, -1, 1);
+         const lz = r.z0 + cd * (b + 0.5) + randRange(rng, -1, 1);
+         pushBuilding(lx, lz, lotW, lotD, h, rng() < 0.5 ? 'brick' : 'apt', 0.82 + rng() * 0.4);
+-        if (rng() < 0.3) D.props.push({ kind: 'tank', x: lx, y: h, z: lz, rot: rng() * TAU, s: 0.8 });
++        if (rng() < 0.5) D.props.push({ kind: 'tank', x: lx, y: h, z: lz, rot: rng() * TAU, s: 0.8 });
+         if (rng() < 0.22) {
+           const tile = Math.floor(rng() * 64);
+-          D.signs.push({ x: lx, y: randRange(rng, 3.4, Math.min(h - 1, 7)), z: lz, rot: rng() * TAU, tile, scale: randRange(rng, 1.6, 2.6) });
++          const sc = randRange(rng, 1.6, 2.4);
++          const f = streetFacing(lx, lz, lotW, lotD);
++          D.signs.push({ x: f.x, y: Math.min(randRange(rng, 3.2, Math.max(3.6, h - 1.2)), h - sc * 0.55), z: f.z, rot: f.rot, tile, scale: sc });
+         }
+       }
+     }
+   } else if (block.type === 'shop') {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -308,9 +308,14 @@
+       const z = faceNorth ? r.z0 + d / 2 + 1.5 : r.z1 - d / 2 - 1.5;
+       pushBuilding(x, z, w, d, h, 'shop', 0.9 + rng() * 0.3);
+       if (rng() < 0.75) D.stores.push({ x, y: 2.4, z: faceNorth ? r.z0 + 0.1 : r.z1 - 0.1, rot: faceNorth ? Math.PI : 0, tile: Math.floor(rng() * 8), scale: Math.min(w * 0.9, 12) });
+       for (let s = 0; s < 1 + Math.floor(rng() * 2); s++) {
+-        D.signs.push({ x: x + randRange(rng, -w / 3, w / 3), y: randRange(rng, 4, h - 0.8), z: faceNorth ? r.z0 + 0.3 : r.z1 - 0.3, rot: faceNorth ? Math.PI : 0, tile: Math.floor(rng() * 64), scale: randRange(rng, 1.8, 3.2) });
++        const sc = randRange(rng, 1.8, 3.0);
++        D.signs.push({
++          x: x + randRange(rng, -w / 3, w / 3),
++          y: Math.min(randRange(rng, 3.4, Math.max(3.8, h - 0.8)), h - sc * 0.55),
++          z: faceNorth ? r.z0 + 0.3 : r.z1 - 0.3, rot: faceNorth ? Math.PI : 0, tile: Math.floor(rng() * 64), scale: sc
++        });
+       }
+       cursor += w + randRange(rng, 0.6, 2.4);
+     }
+     // 남은 공간: 주차장 + 작은 매점
+
+[0m✗ [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js failed
+[91m[1mError: [0mCould not find oldString in /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js. It must match exactly, including whitespace and indentation.
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/10-world.js
+@@ -40,8 +40,20 @@
+   const x0 = -CITY.HALF + i * CITY.TILE + CITY.ROAD / 2;
+   const z0 = -CITY.HALF + j * CITY.TILE + CITY.ROAD / 2;
+   return { x0, z0, x1: x0 + CITY.TILE - CITY.ROAD, z1: z0 + CITY.TILE - CITY.ROAD };
+ };
++/* 가장 가까운 도로를 향하는 방향 — 간판/상가 배치용 */
++function streetFacing(x, z, w, d) {
++  const kx = Math.round((x + CITY.HALF) / CITY.TILE);
++  const kz = Math.round((z + CITY.HALF) / CITY.TILE);
++  const rx = roadX(kx), rz = roadZ(kz);
++  if (Math.abs(x - rx) < Math.abs(z - rz)) {
++    const s = Math.sign(rx - x) || 1;
++    return { x: x + s * (w / 2 + 0.35), z: z, rot: s > 0 ? Math.PI / 2 : -Math.PI / 2 };
++  }
++  const s = Math.sign(rz - z) || 1;
++  return { x: x, z: z + s * (d / 2 + 0.35), rot: s > 0 ? 0 : Math.PI };
++}
+ const roadX = (k) => -CITY.HALF + k * CITY.TILE;
+ const roadZ = (l) => -CITY.HALF + l * CITY.TILE;
+ const isRiverRow = (j) => j === 6 || j === 7;
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -2
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 775.5 KB
+captured 10-housing-alley
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/10-housing-alley.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/08-skycourse.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -290,14 +290,14 @@
+         b.box(cx, y0 - 0.5, cz, w, 1.0, d, [0.30, 0.31, 0.33]);
+         b.box(cx, y1 - 0.5, cz, w, 1.0, d, [0.30, 0.31, 0.33]);
+       }
+     } else {
+-      b.box(p.x, (p.y + p.base) / 2, p.z, p.w, p.h, p.d, [0.32, 0.33, 0.35]);
++      b.box(p.x, (p.y + p.base) / 2, p.z, p.w, p.h, p.d, [0.42, 0.43, 0.45]);
+       // 난간
+-      b.box(p.x, p.y + 0.5, p.z0 + 0.2, p.w, 1.0, 0.4, [0.45, 0.45, 0.42]);
+-      b.box(p.x, p.y + 0.5, p.z1 - 0.2, p.w, 1.0, 0.4, [0.45, 0.45, 0.42]);
+-      b.box(p.x0 + 0.2, p.y + 0.5, p.z, 0.4, 1.0, p.d, [0.45, 0.45, 0.42]);
+-      b.box(p.x1 - 0.2, p.y + 0.5, p.z, 0.4, 1.0, p.d, [0.45, 0.45, 0.42]);
++      b.box(p.x, p.y + 0.5, p.z0 + 0.2, p.w, 1.0, 0.4, [0.58, 0.58, 0.54]);
++      b.box(p.x, p.y + 0.5, p.z1 - 0.2, p.w, 1.0, 0.4, [0.58, 0.58, 0.54]);
++      b.box(p.x0 + 0.2, p.y + 0.5, p.z, 0.4, 1.0, p.d, [0.58, 0.58, 0.54]);
++      b.box(p.x1 - 0.2, p.y + 0.5, p.z, 0.4, 1.0, p.d, [0.58, 0.58, 0.54]);
+     }
+   }
+   return b.build();
+ }
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/50-main.js
+@@ -229,9 +229,9 @@
+   const t = GAME.time;
+   const night = GAME.night;
+   WORLD.night = night;
+   GLOBAL_U.uNight.value = night;
+-  const duskT = clamp(1 - Math.abs(t - 78) / 34, 0, 1);
++  const duskT = smoothstep(50, 74, t) * (1 - smoothstep(94, 112, t));
+   const dayMix = clamp(1 - night, 0, 1);
+ 
+   // 하늘 색
+   lerpHex(SKY_KEYS.day.zenith, SKY_KEYS.night.zenith, night, WORLD.sky.material.uniforms.uZenith.value);
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/15-mesh.js
+@@ -286,10 +286,10 @@
+         if (p.axis === 'x') { x0 = lerp(p.x0, p.x1, t0); x1 = lerp(p.x0, p.x1, t1); z0 = p.z0; z1 = p.z1; }
+         else { z0 = lerp(p.z0, p.z1, t0); z1 = lerp(p.z0, p.z1, t1); x0 = p.x0; x1 = p.x1; }
+         const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
+         const w = Math.abs(x1 - x0) + 0.3, d = Math.abs(z1 - z0) + 0.3;
+-        b.box(cx, y0 - 0.5, cz, w, 1.0, d, [0.30, 0.31, 0.33]);
+-        b.box(cx, y1 - 0.5, cz, w, 1.0, d, [0.30, 0.31, 0.33]);
++        b.box(cx, y0 - 0.5, cz, w, 1.0, d, [0.42, 0.43, 0.45]);
++        b.box(cx, y1 - 0.5, cz, w, 1.0, d, [0.42, 0.43, 0.45]);
+       }
+     } else {
+       b.box(p.x, (p.y + p.base) / 2, p.z, p.w, p.h, p.d, [0.42, 0.43, 0.45]);
+       // 난간
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+@@ -64,13 +64,15 @@
+   { n: '06-bridge', t: 45, x: -228, z: 0, yaw: 0 },
+   { n: '07-expressway', t: 45, x: -100, z: -152, yaw: 0 },
+   { n: '08-skycourse', t: 60, x: 46, z: 191, y: 1.5, yaw: 0 },
+   { n: '09-river', t: 95, x: -60, z: 40, yaw: 0 },
+-  { n: '10-housing-alley', t: 30, x: -380, z: -300, yaw: 0 }
++  { n: '10-housing-alley', t: 30, x: -380, z: -300, yaw: 0 },
++  { n: '11-mission-beacon', t: 95, x: -152, z: 304, yaw: 0, pre: `g.test.begin('delivery');g.test.step(0.2);` },
++  { n: '12-police', t: 120, x: -152, z: 304, yaw: 0, pre: `g.test.press('e');g.test.press('e');g.test.step(6);` }
+ ];
+ for (const v of views) {
+   const y = v.y === undefined ? '' : (',' + v.y);
+-  await ev(`(function(){var g=window.__game,d=g.dbg;g.test.setTime(${v.t});g.test.teleport(${v.x},${v.z}${y});g.test.step(0.3);d.CAMERA.yaw=${v.yaw};d.CAMERA.pitch=0.18;})()`);
++  await ev(`(function(){var g=window.__game,d=g.dbg;g.test.setTime(${v.t});g.test.teleport(${v.x},${v.z}${y});g.test.step(0.3);${v.pre || ''}d.CAMERA.yaw=${v.yaw};d.CAMERA.pitch=0.18;})()`);
+   await sleep(1000);
+   const shot = await send('Page.captureScreenshot', { format: 'png' });
+   if (shot.result && shot.result.data) {
+     writeFileSync(join(out, v.n + '.png'), Buffer.from(shot.result.data, 'base64'));
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -3
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 775.5 KB
+captured 11-mission-beacon
+captured 12-police
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/12-police.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/11-mission-beacon.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+@@ -12,18 +12,20 @@
+ let markerRing = null;
+ 
+ function buildMissionMarker(scene) {
+   const g = new THREE.Group();
+-  const beamGeo = new THREE.CylinderGeometry(1.7, 1.7, 16, 14, 1, true);
+-  const beamMat = new THREE.MeshBasicMaterial({ color: 0x3fd8ff, transparent: true, opacity: 0.30, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending, fog: false, toneMapped: false });
++  const beamGeo = new THREE.CylinderGeometry(2.0, 2.0, 30, 14, 1, true);
++  const beamMat = new THREE.MeshBasicMaterial({ color: 0x3fd8ff, transparent: true, opacity: 0.30, side: THREE.DoubleSide, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending, fog: false, toneMapped: false });
+   const beam = new THREE.Mesh(beamGeo, beamMat);
+-  beam.position.y = 8;
++  beam.position.y = 15;
++  beam.renderOrder = 20;
+   g.add(beam);
+-  const ringGeo = new THREE.TorusGeometry(2.2, 0.2, 8, 26);
+-  const ringMat = new THREE.MeshBasicMaterial({ color: 0x3fd8ff, transparent: true, opacity: 0.9, fog: false, toneMapped: false });
++  const ringGeo = new THREE.TorusGeometry(2.4, 0.22, 8, 26);
++  const ringMat = new THREE.MeshBasicMaterial({ color: 0x3fd8ff, transparent: true, opacity: 0.9, fog: false, toneMapped: false, depthTest: false });
+   const ring = new THREE.Mesh(ringGeo, ringMat);
+   ring.rotation.x = Math.PI / 2;
+-  ring.position.y = 0.4;
++  ring.position.y = 0.5;
++  ring.renderOrder = 21;
+   g.add(ring);
+   g.visible = false;
+   scene.add(g);
+   missionMarker = g;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -628,8 +628,9 @@
+     const r = 55 + GAME.simRng() * 45;
+     const x = PLAYER.x + Math.cos(ang) * r, z = PLAYER.z + Math.sin(ang) * r;
+     const c = makeCar(x, z, Math.atan2(PLAYER.x - x, PLAYER.z - z), 5, 'police');
+     c.police = true; c.static = false; c.ai = null;
++    c.color = '#eef2f8';
+     c.y = surfaceHeight(c.x, c.z);
+     CARS.push(c);
+     count++;
+   }
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+@@ -38,9 +38,9 @@
+   #arrow{position:absolute;left:50%;top:74%;width:0;height:0;margin:0;pointer-events:none}
+   #arrow .tri{position:absolute;left:-11px;top:-11px;width:22px;height:22px;
+     border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:19px solid var(--cyan);
+     filter:drop-shadow(0 0 6px rgba(63,216,255,.8))}
+-  #arrowLabel{position:absolute;left:50%;top:16px;transform:translateX(-50%);font-size:11px;
++  #arrowLabel{position:absolute;left:50%;top:69%;transform:translateX(-50%);font-size:11px;
+     color:var(--cyan);font-weight:700;text-shadow:0 0 8px rgba(0,0,0,.9);white-space:nowrap}
+   #notice{position:absolute;left:50%;top:14%;transform:translateX(-50%);font-size:16px;font-weight:700;
+     letter-spacing:.5px;text-shadow:0 2px 12px rgba(0,0,0,.9);transition:opacity .2s;opacity:0;white-space:nowrap}
+   #toast{position:absolute;left:50%;top:8%;transform:translateX(-50%);padding:9px 18px;font-size:14px;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/template.html
+@@ -99,9 +99,10 @@
+ 
+   <div id="center">
+     <div id="prompt"></div>
+   </div>
+-  <div id="arrow"><div class="tri"></div><div id="arrowLabel">0m</div></div>
++  <div id="arrow"><div class="tri"></div></div>
++  <div id="arrowLabel">0m</div>
+   <div id="notice"></div>
+   <div id="toast"></div>
+   <div id="prompt"></div>
+   <div id="lockHint">화면을 클릭하면 마우스로 시점을 돌릴 수 있습니다</div>
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+@@ -266,8 +266,9 @@
+     const dist = Math.round(Math.hypot(dx, dz));
+     E.arrowLabel.textContent = dist + 'm';
+   } else {
+     E.arrow.style.display = 'none';
++    E.arrowLabel.style.display = 'none';
+   }
+ 
+   E.fps.textContent = 'FPS ' + Math.round(GAME.fps);
+   E.speedLabel.textContent = PLAYER.car ? (PLAYER.car.kind === 'taxi' ? '노을택시' : '승용차') : '도보';
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/40-hud.js
+@@ -260,8 +260,9 @@
+     const dx = GAME.target.x - PLAYER.x, dz = GAME.target.z - PLAYER.z;
+     const ang = Math.atan2(dx, dz);
+     const rel = wrapAngle(ang - CAMERA.yaw);
+     E.arrow.style.display = '';
++    E.arrowLabel.style.display = '';
+     E.arrow.style.transform = 'translate(-50%,-50%) rotate(' + (rel * 180 / Math.PI) + 'deg)';
+     E.arrow.style.opacity = String(clamp(1 - Math.abs(wrapAngle(rel + Math.PI)) / Math.PI, 0.15, 1));
+     const dist = Math.round(Math.hypot(dx, dz));
+     E.arrowLabel.textContent = dist + 'm';
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -2 && timeout 300 node test/smoke.mjs 2>&1 | tail -8
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 775.7 KB
+captured 12-police
+errors: 0 []
+  "time": "{\"day\":0,\"dusk\":0.76,\"night\":1,\"c1\":\"낮 01:29\",\"c2\":\"낮 01:29\",\"c3\":\"낮 01:29\"}",
+  "ai": "{\"aiCars\":26,\"avgSpeed\":5.7,\"stopped\":6,\"moving\":13,\"maxDist\":928}",
+  "police": "{\"wanted\":0,\"before\":62.6,\"after\":null}",
+  "perf": "{\"fps\":10.7,\"calls\":40,\"tris\":93470,\"geometries\":40,\"textures\":13,\"programs\":15}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/11-mission-beacon.png 
+> build · minimax/MiniMax-M3.1-Flash
+Let me improve the police chase so they follow roads and actually reach the player:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -211,42 +211,53 @@
+   const D = CITYDATA;
+   const ai = car.ai;
+   const from = D.nodes[ai.from], to = D.nodes[ai.to];
+   const off = laneOffsetFor(from.x, from.z, to.x, to.z);
+-  // 목표: 다음 노드 진입점
+-  const targetX = to.x + off.x, targetZ = to.z + off.z;
+-  let dx = targetX - car.x, dz = targetZ - car.z;
++  let dx = to.x + off.x - car.x, dz = to.z + off.z - car.z;
+   const dist = Math.hypot(dx, dz) || 1;
+   dx /= dist; dz /= dist;
+ 
+-  // 회전 조향
+-  const desired = Math.atan2(dx, dz);
+-  let diff = wrapAngle(desired - car.yaw);
+-  car.steer = clamp(diff * 1.7, -1, 1);
++  // 추격 모드: 가까운 거리는 플레이어를 직선으로 추적
++  const dPlayer = Math.hypot(PLAYER.x - car.x, PLAYER.z - car.z);
++  let desired = Math.atan2(dx, dz);
++  if (ai.pursue && dPlayer < 38) desired = Math.atan2(PLAYER.x - car.x, PLAYER.z - car.z);
++  const diff = wrapAngle(desired - car.yaw);
++  car.steer = clamp(diff * 1.9, -1, 1);
+ 
+-  // 신호 판정 (다음 노드 진입 방향)
++  // 신호 판정 (추격 중에는 무시)
+   let mustStop = false;
+   const axis = ai.edge.axis;
+   const distToNode = Math.hypot(to.x - car.x, to.z - car.z);
+-  if (distToNode < 22 && !lightGreenFor(axis, t)) mustStop = true;
++  if (!ai.pursue && distToNode < 22 && !lightGreenFor(axis, t)) mustStop = true;
+   // 앞 차량 감지
+   const ahead = carForwardClear(car, 16);
+   if (ahead < 12) mustStop = true;
+ 
+   if (mustStop) {
+     car.throttle = 0; car.brake = 0.8; car.hand = 0;
+   } else {
+-    const targetSpeed = 11 + (car.kind === 'truck' ? -2 : 0);
+-    if (car.long < targetSpeed) { car.throttle = 0.85; car.brake = 0; }
++    const targetSpeed = (ai.pursue ? 17 : 11) + (car.kind === 'truck' ? -2 : 0);
++    if (car.long < targetSpeed) { car.throttle = 0.9; car.brake = 0; }
+     else { car.throttle = 0; car.brake = 0.35; }
+     car.hand = 0;
+   }
+ 
+   if (dist < 7) {
+-    // 다음 노드 선택 (되돌아가지 않는 간선 우선)
++    // 다음 노드 선택
+     const outs = to.edges.filter(e => e.to !== ai.from);
+     const list = outs.length ? outs : to.edges;
+-    const pickEdge = list[Math.floor(GAME.simRng() * list.length) % list.length];
++    let pickEdge = null;
++    if (ai.pursue) {
++      // 플레이어 쪽으로 가장 가까워지는 간선을 선택
++      let bd = Infinity;
++      for (const e of list) {
++        const n = D.nodes[e.to];
++        const d = Math.hypot(n.x - PLAYER.x, n.z - PLAYER.z);
++        if (d < bd) { bd = d; pickEdge = e; }
++      }
++    } else {
++      pickEdge = list[Math.floor(GAME.simRng() * list.length) % list.length];
++    }
+     if (pickEdge) {
+       ai.from = ai.to;
+       ai.to = pickEdge.to;
+       ai.edge = pickEdge.edge;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -298,31 +298,46 @@
+   return tmin;
+ }
+ 
+ /* ---------------- 경찰 차량 ---------------- */
++function nearestNodeTo(x, z) {
++  let best = 0, bd = Infinity;
++  const nodes = CITYDATA.nodes;
++  for (let i = 0; i < nodes.length; i++) {
++    const n = nodes[i];
++    const d = Math.hypot(n.x - x, n.z - z);
++    if (d < bd) { bd = d; best = i; }
++  }
++  return { idx: best, dist: bd };
++}
++function spawnPoliceCar() {
++  // 플레이어 주변 도로 교차로에서 출발
++  const nodeIdx = nearestNodeTo(PLAYER.x, PLAYER.z).idx;
++  const node = CITYDATA.nodes[nodeIdx];
++  const edges = node.edges;
++  if (!edges.length) return null;
++  const e = edges[Math.floor(GAME.simRng() * edges.length)];
++  const car = makeCar(node.x, node.z, 0, 5, 'police');
++  car.police = true; car.static = false;
++  car.color = '#eef2f8';
++  car.ai = { edge: e.edge, from: e.to, to: nodeIdx, wait: 0, state: 'drive', pursue: true };
++  car.y = surfaceHeight(car.x, car.z);
++  return car;
++}
+ function stepPoliceAI(car, dt) {
+-  const tx = PLAYER.x, tz = PLAYER.z;
+-  let dx = tx - car.x, dz = tz - car.z;
+-  const d = Math.hypot(dx, dz) || 1;
+-  dx /= d; dz /= d;
+-  let desired = Math.atan2(dx, dz);
+-  // 장애물 회피: 정방향/좌우 후보 중 가장 뚫린 방향
+-  const clearF = carForwardClear(car, 16);
+-  if (clearF < 13) {
+-    let bestAng = desired, bestClear = -1;
+-    for (const off of [0, 0.55, -0.55, 1.1, -1.1]) {
+-      const a = desired + off;
+-      const c = rayClearAhead(car, a, 14);
++  stepTrafficAI(car, dt, GAME.time);
++  // 시야 확보: 목표 근처에서 장애물 회피
++  const d = Math.hypot(PLAYER.x - car.x, PLAYER.z - car.z);
++  if (d < 30 && carForwardClear(car, 14) < 10) {
++    let bestAng = Math.atan2(PLAYER.x - car.x, PLAYER.z - car.z), bestClear = -1;
++    for (const off of [0, 0.5, -0.5, 1.0, -1.0]) {
++      const a = Math.atan2(PLAYER.x - car.x, PLAYER.z - car.z) + off;
++      const c = rayClearAhead(car, a, 13);
+       if (c > bestClear) { bestClear = c; bestAng = a; }
+     }
+-    desired = bestAng;
++    car.steer = clamp(wrapAngle(bestAng - car.yaw) * 2.2, -1, 1);
++    car.throttle = 0.6; car.brake = 0;
+   }
+-  const diff = wrapAngle(desired - car.yaw);
+-  car.steer = clamp(diff * 2.1, -1, 1);
+-  const clear = carForwardClear(car, 18);
+-  if (clear < 7) { car.throttle = 0.1; car.brake = 0.8; }
+-  else { car.throttle = 1; car.brake = 0; }
+-  car.hand = 0;
+ }
+ function rayClearAhead(car, ang, dist) {
+   const fx = Math.sin(ang), fz = Math.cos(ang);
+   const boxes = queryColliders(car.x + fx * dist * 0.5, car.z + fz * dist * 0.5, dist * 0.5 + 3);
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -649,15 +649,10 @@
+   let count = 0;
+   for (const c of CARS) if (c.police) count++;
+   const want = GAME.wanted;
+   while (count < want) {
+-    const ang = GAME.simRng() * TAU;
+-    const r = 55 + GAME.simRng() * 45;
+-    const x = PLAYER.x + Math.cos(ang) * r, z = PLAYER.z + Math.sin(ang) * r;
+-    const c = makeCar(x, z, Math.atan2(PLAYER.x - x, PLAYER.z - z), 5, 'police');
+-    c.police = true; c.static = false; c.ai = null;
+-    c.color = '#eef2f8';
+-    c.y = surfaceHeight(c.x, c.z);
++    const c = spawnPoliceCar();
++    if (!c) break;
+     CARS.push(c);
+     count++;
+   }
+   // 너무 멀리 있는 순찰차는 회수
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 300 node test/smoke.mjs 2>&1 | grep -E "police|ai|errors|EXCEPT" 
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.4 KB
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "ai": "{\"aiCars\":26,\"avgSpeed\":5.24,\"stopped\":7,\"moving\":16,\"maxDist\":920}",
+  "police": "{\"wanted\":1,\"before\":2,\"after\":12.1}",
+--- errors (0) ---
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -309,14 +309,20 @@
+   }
+   return { idx: best, dist: bd };
+ }
+ function spawnPoliceCar() {
+-  // 플레이어 주변 도로 교차로에서 출발
+-  const nodeIdx = nearestNodeTo(PLAYER.x, PLAYER.z).idx;
+-  const node = CITYDATA.nodes[nodeIdx];
+-  const edges = node.edges;
+-  if (!edges.length) return null;
+-  const e = edges[Math.floor(GAME.simRng() * edges.length)];
++  // 플레이어에서 45~140m 떨어진 도로 교차로에서 출발
++  const nodes = CITYDATA.nodes;
++  const cand = [];
++  for (let i = 0; i < nodes.length; i++) {
++    const n = nodes[i];
++    const d = Math.hypot(n.x - PLAYER.x, n.z - PLAYER.z);
++    if (d > 45 && d < 140 && n.edges.length) cand.push(i);
++  }
++  if (!cand.length) return null;
++  const nodeIdx = cand[Math.floor(GAME.simRng() * cand.length) % cand.length];
++  const node = nodes[nodeIdx];
++  const e = node.edges[Math.floor(GAME.simRng() * node.edges.length)];
+   const car = makeCar(node.x, node.z, 0, 5, 'police');
+   car.police = true; car.static = false;
+   car.color = '#eef2f8';
+   car.ai = { edge: e.edge, from: e.to, to: nodeIdx, wait: 0, state: 'drive', pursue: true };
+
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 300 node test/smoke.mjs 2>&1 | grep -E "police|errors|EXCEPT"
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.6 KB
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "police": "{\"wanted\":1,\"before\":75.5,\"after\":5.2}",
+--- errors (0) ---
+> build · minimax/MiniMax-M3.1-Flash
+Now let me write the README and clean up test artifacts:
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/README.md
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/README.md
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && rm -rf test/.chrome-profile test/.chrome-profile2 && printf 'node_modules/\ntest/.chrome-profile*/\ntest/shots/\ntest/shot.png\n' > .gitignore && ls -la && du -sh . && ls -la test/
+total 1600
+drwxr-xr-x@ 10 hjshin  staff     320 Nov 19 08:39 .
+drwxr-xr-x@  8 hjshin  staff     256 Nov 19 08:26 ..
+drwxr-xr-x@  9 hjshin  staff     288 Nov 19 08:16 .git
+-rw-r--r--@  1 hjshin  staff      63 Nov 19 08:39 .gitignore
+-rw-r--r--@  1 hjshin  staff     994 Nov 19 08:24 build.mjs
+-rw-r--r--@  1 hjshin  staff  800454 Nov 19 08:38 hangang-city.html
+-rw-r--r--@  1 hjshin  staff    7489 Nov 19 08:39 README.md
+drwxr-xr-x@ 10 hjshin  staff     320 Nov 19 08:24 src
+drwxr-xr-x@  6 hjshin  staff     192 Nov 19 08:39 test
+drwxr-xr-x@  3 hjshin  staff      96 Nov 19 08:18 vendor
+4.9M	.
+total 696
+drwxr-xr-x@  6 hjshin  staff     192 Nov 19 08:39 .
+drwxr-xr-x@ 10 hjshin  staff     320 Nov 19 08:39 ..
+-rw-r--r--@  1 hjshin  staff  339776 Nov 19 08:38 shot.png
+drwxr-xr-x@ 14 hjshin  staff     448 Nov 19 08:36 shots
+-rw-r--r--@  1 hjshin  staff    4001 Nov 19 08:36 shots.mjs
+-rw-r--r--@  1 hjshin  staff   11640 Nov 19 08:33 smoke.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && timeout 300 node test/smoke.mjs 2>&1 | tail -30
+ready: true
+{
+  "init": "{\"fps\":5.8,\"elapsed\":0.22,\"wanted\":0,\"mission\":null,\"completed\":[],\"player\":[-137,226.9,0],\"cars\":89,\"peds\":80,\"buildings\":458,\"blocks\":196,\"signs\":192,\"stores\":76,\"calls\":40,\"tris\":94026}",
+  "step1": "{\"delta\":1}",
+  "step2": "{\"delta\":0.5}",
+  "step3": "{\"delta\":0.25}",
+  "walk": "{\"dx\":0,\"dz\":-5.1,\"speed\":3.5}",
+  "run": "{\"dist\":10.91}",
+  "jump": "{\"y0\":0,\"afterJump\":1.05,\"landed\":0}",
+  "teleport": "{\"x\":100,\"z\":100,\"y\":0}",
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":64.5,\"z\":101.1}",
+  "drift": "{\"lat\":10.85}",
+  "exit": "{\"inCar\":false}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-133.8,\"z\":-85.1},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"escape\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0.76,\"night\":1,\"c1\":\"낮 01:59\",\"c2\":\"낮 01:59\",\"c3\":\"낮 01:59\"}",
+  "ai": "{\"aiCars\":26,\"avgSpeed\":5.12,\"stopped\":8,\"moving\":16,\"maxDist\":928}",
+  "police": "{\"wanted\":1,\"before\":75.5,\"after\":5.2}",
+  "perf": "{\"fps\":9.2,\"calls\":40,\"tris\":93782,\"geometries\":41,\"textures\":13,\"programs\":15}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && timeout 240 node test/shots.mjs 2>&1 | tail -2
+captured 12-police
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/05-night-neon.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && cat > /tmp/neon_shot.mjs <<'EOF'
+import { spawn } from 'node:child_process';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { writeFileSync } from 'node:fs';
+const here = process.cwd();
+const CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const PORT=9339;
+const chrome = spawn(CHROME,['--headless=new','--remote-debugging-port='+PORT,'--no-sandbox','--enable-unsafe-swiftshader','--use-gl=angle','--use-angle=swiftshader','--window-size=1280,760','--hide-scrollbars','--user-data-dir='+here+'/test/.chrome-profile3','file://'+here+'/hangang-city.html'],{stdio:'ignore'});
+async function tgt(){for(let i=0;i<60;i++){try{const r=await fetch('http://127.0.0.1:'+PORT+'/json/list');const l=await r.json();const p=l.find(t=>t.type==='page'&&t.url.startsWith('file://'));if(p)return p;}catch(e){}await sleep(250);}throw new Error('x');}
+const t=await tgt();const ws=new WebSocket(t.webSocketDebuggerUrl);let id=0;const pend=new Map();
+ws.addEventListener('message',ev=>{const m=JSON.parse(ev.data);if(m.id&&pend.has(m.id)){pend.get(m.id)(m);pend.delete(m.id);}});
+await new Promise(r=>ws.addEventListener('open',r));
+const send=(method,params)=>{const mid=++id;return new Promise(res=>{pend.set(mid,res);ws.send(JSON.stringify({id:mid,method,params}));});};
+const ev=async e=>{const r=await send('Runtime.evaluate',{expression:e,returnByValue:true});return r.result&&r.result.result?r.result.result.value:undefined;};
+await send('Runtime.enable');await send('Page.enable');
+for(let i=0;i<90;i++){if(await ev('!!(window.__game&&window.__game.dbg)'))break;await sleep(250);}
+await sleep(1200);
+const info = await ev(`(function(){var d=window.__game.dbg;var s=d.CITYDATA.signs[0];return JSON.stringify({x:s.x,z:s.z,y:s.y,n:d.CITYDATA.signs.length})})()`);
+console.log('first sign', info);
+const o=JSON.parse(info);
+await ev(`(function(){var g=window.__game,d=g.dbg;g.test.setTime(132);g.test.teleport(${o.x},${o.z+16});g.test.step(0.3);d.CAMERA.yaw=Math.PI;d.CAMERA.pitch=0.12;})()`);
+await sleep(1200);
+const shot=await send('Page.captureScreenshot',{format:'png'});
+writeFileSync(here+'/test/shots/13-neon.png',Buffer.from(shot.result.data,'base64'));
+console.log('ok');
+ws.close();chrome.kill('SIGKILL');process.exit(0);
+EOF
+timeout 120 node /tmp/neon_shot.mjs
+first sign {"x":-513.2295037387997,"z":-522.7,"y":3.4355521271464253,"n":192}
+ok
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/13-neon.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && cat > /tmp/neon_shot.mjs <<'EOF'
+import { spawn } from 'node:child_process';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { writeFileSync } from 'node:fs';
+const here = process.cwd();
+const CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const PORT=9339;
+const chrome = spawn(CHROME,['--headless=new','--remote-debugging-port='+PORT,'--no-sandbox','--enable-unsafe-swiftshader','--use-gl=angle','--use-angle=swiftshader','--window-size=1280,760','--hide-scrollbars','--user-data-dir='+here+'/test/.chrome-profile3','file://'+here+'/hangang-city.html'],{stdio:'ignore'});
+async function tgt(){for(let i=0;i<60;i++){try{const r=await fetch('http://127.0.0.1:'+PORT+'/json/list');const l=await r.json();const p=l.find(t=>t.type==='page'&&t.url.startsWith('file://'));if(p)return p;}catch(e){}await sleep(250);}throw new Error('x');}
+const t=await tgt();const ws=new WebSocket(t.webSocketDebuggerUrl);let id=0;const pend=new Map();
+ws.addEventListener('message',ev=>{const m=JSON.parse(ev.data);if(m.id&&pend.has(m.id)){pend.get(m.id)(m);pend.delete(m.id);}});
+await new Promise(r=>ws.addEventListener('open',r));
+const send=(method,params)=>{const mid=++id;return new Promise(res=>{pend.set(mid,res);ws.send(JSON.stringify({id:mid,method,params}));});};
+const ev=async e=>{const r=await send('Runtime.evaluate',{expression:e,returnByValue:true});return r.result&&r.result.result?r.result.result.value:undefined;};
+await send('Runtime.enable');await send('Page.enable');
+for(let i=0;i<90;i++){if(await ev('!!(window.__game&&window.__game.dbg)'))break;await sleep(250);}
+await sleep(1200);
+// 회전값이 0 또는 PI 인 간판(도로를 향한 것) 을 골라 그 맞은편 도로에 카메라를 둔다
+const info = await ev(`(function(){var d=window.__game.dbg;
+  for(var i=0;i<d.CITYDATA.signs.length;i++){var s=d.CITYDATA.signs[i];
+    if(Math.abs(s.rot)<0.01||Math.abs(Math.abs(s.rot)-Math.PI)<0.01){return JSON.stringify({x:s.x,z:s.z,y:s.y,rot:s.rot,i:i})}}
+  return 'none'})()`);
+console.log('sign', info);
+const o=JSON.parse(info);
+const nx=Math.sin(o.rot), nz=Math.cos(o.rot);
+const cx=o.x+nx*11, cz=o.z+nz*11;
+const yaw=Math.atan2(-nx,-nz);
+await ev(`(function(){var g=window.__game,d=g.dbg;g.test.setTime(132);g.test.teleport(${cx},${cz});g.test.step(0.3);d.CAMERA.yaw=${yaw};d.CAMERA.pitch=0.05;})()`);
+await sleep(1400);
+const shot=await send('Page.captureScreenshot',{format:'png'});
+writeFileSync(here+'/test/shots/13-neon.png',Buffer.from(shot.result.data,'base64'));
+console.log('ok');
+ws.close();chrome.kill('SIGKILL');process.exit(0);
+EOF
+timeout 120 node /tmp/neon_shot.mjs
+sign {"x":-513.2295037387997,"z":-522.7,"y":3.4355521271464253,"rot":3.141592653589793,"i":0}
+ok
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/13-neon.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && rm -rf test/.chrome-profile3 /tmp/neon_shot.mjs && for id in nearestNodeTo ROAD_NAMES pick CAR_H wantedCool dayPhase "WORLD.time" gameTime invLerp approachAngle; do printf "%-18s %s\n" "$id" "$(grep -o "$id" src/*.js | wc -l | tr -d ' ')"; done
+nearestNodeTo      1
+ROAD_NAMES         1
+pick               15
+CAR_H              1
+wantedCool         1
+dayPhase           1
+WORLD.time         0
+gameTime           0
+invLerp            1
+approachAngle      2
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && grep -n "pick(" src/*.js | head -5; echo "---"; grep -n "CAR_H\|wantedCool\|dayPhase\|nearestNodeTo\|ROAD_NAMES\|invLerp" src/*.js
+---
+src/00-util.js:9:const invLerp = (a, b, v) => (b === a ? 0 : (v - a) / (b - a));
+src/10-world.js:22:const ROAD_NAMES = ['해운로', '한강로', '새롬길', '범인길', '다솜길', '은정로', '강빛로', '노을로', '유성로', '깃발로', '물빛로', '새봄로', '중앙로', '갈마로', '은하로'];
+src/15-mesh.js:12:  time: 0, night: 0, dayPhase: 0
+src/20-entities.js:6:const CAR_H = 1.45, CAR_W = 2.05, CAR_L = 4.6;
+src/20-entities.js:31:  wantedCool: 0, policeLostT: 0, target: null, missionData: null,
+src/20-entities.js:302:function nearestNodeTo(x, z) {
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && python3 - <<'PY'
+import re
+edits = [
+ ('src/00-util.js', "const invLerp = (a, b, v) => (b === a ? 0 : (v - a) / (b - a));\n", ""),
+ ('src/00-util.js', "const pick = (rng, arr) => arr[Math.floor(rng() * arr.length)];\n", ""),
+ ('src/10-world.js', "const ROAD_NAMES = ['해운로', '한강로', '새롬길', '범인길', '다솜길', '은정로', '강빛로', '노을로', '유성로', '깃발로', '물빛로', '새봄로', '중앙로', '갈마로', '은하로'];\n", ""),
+ ('src/15-mesh.js', "  time: 0, night: 0, dayPhase: 0\n", "  night: 0\n"),
+ ('src/20-entities.js', "const CAR_H = 1.45, CAR_W = 2.05, CAR_L = 4.6;\n", "const CAR_W = 2.05, CAR_L = 4.6;\n"),
+ ('src/20-entities.js', "  wantedCool: 0, policeLostT: 0,", "  policeLostT: 0,"),
+]
+for path, old, new in edits:
+    s = open(path, encoding='utf-8').read()
+    assert old in s, (path, old[:40])
+    s = s.replace(old, new, 1)
+    open(path, 'w', encoding='utf-8').write(s)
+
+# 사용하지 않는 nearestNodeTo 제거
+p = 'src/20-entities.js'
+s = open(p, encoding='utf-8').read()
+start = s.index('function nearestNodeTo(')
+end = s.index('function spawnPoliceCar(')
+s = s[:start] + s[end:]
+open(p, 'w', encoding='utf-8').write(s)
+print('cleaned')
+PY
+for f in src/*.js; do node --check "$f" || echo "FAIL $f"; done && node build.mjs
+Traceback (most recent call last):
+  File "<stdin>", line 12, in <module>
+AssertionError: ('src/00-util.js', 'const pick = (rng, arr) => arr[Math.floo')
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.6 KB
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && grep -n "^const pick\|^const invLerp" src/00-util.js
+31:const pick = (rng, arr) => arr[Math.min(arr.length - 1, Math.floor(rng() * arr.length))];
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && python3 - <<'PY'
+edits = [
+ ('src/00-util.js', "const pick = (rng, arr) => arr[Math.min(arr.length - 1, Math.floor(rng() * arr.length))];\n", ""),
+ ('src/10-world.js', "const ROAD_NAMES = ['해운로', '한강로', '새롬길', '범인길', '다솜길', '은정로', '강빛로', '노을로', '유성로', '깃발로', '물빛로', '새봄로', '중앙로', '갈마로', '은하로'];\n", ""),
+ ('src/15-mesh.js', "  time: 0, night: 0, dayPhase: 0\n", "  night: 0\n"),
+ ('src/20-entities.js', "const CAR_H = 1.45, CAR_W = 2.05, CAR_L = 4.6;\n", "const CAR_W = 2.05, CAR_L = 4.6;\n"),
+ ('src/20-entities.js', "  wantedCool: 0, policeLostT: 0,", "  policeLostT: 0,"),
+]
+for path, old, new in edits:
+    s = open(path, encoding='utf-8').read()
+    assert old in s, (path, old[:40])
+    s = s.replace(old, new, 1)
+    open(path, 'w', encoding='utf-8').write(s)
+
+p = 'src/20-entities.js'
+s = open(p, encoding='utf-8').read()
+start = s.index('function nearestNodeTo(')
+end = s.index('function spawnPoliceCar(')
+s = s[:start] + s[end:]
+open(p, 'w', encoding='utf-8').write(s)
+print('cleaned')
+PY
+for f in src/*.js; do node --check "$f" || echo "FAIL $f"; done && node build.mjs && timeout 300 node test/smoke.mjs 2>&1 | tail -12
+cleaned
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.0 KB
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-133.8,\"z\":-85.1},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"escape\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0.76,\"night\":1,\"c1\":\"낮 02:05\",\"c2\":\"낮 02:05\",\"c3\":\"낮 02:05\"}",
+  "ai": "{\"aiCars\":26,\"avgSpeed\":4.36,\"stopped\":6,\"moving\":14,\"maxDist\":1018}",
+  "police": "{\"wanted\":0,\"before\":105.7,\"after\":null}",
+  "perf": "{\"fps\":10.3,\"calls\":40,\"tris\":93470,\"geometries\":40,\"textures\":13,\"programs\":15}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -617,16 +617,19 @@
+   for (const p of PEDS) stepPed(p, dt);
+ 
+   // 수배/경찰 관리
+   if (GAME.wanted > 0) {
++    GAME.wantedT += dt;
+     const seen = policeSeePlayer();
+     let nearest = 1e9;
+     for (const c of CARS) if (c.police) nearest = Math.min(nearest, Math.hypot(c.x - PLAYER.x, c.z - PLAYER.z));
+-    if (!seen && nearest > 45) GAME.policeLostT += dt;
++    // 순찰대가 도착할 시간(10초)을 준 뒤에야 "시야 상실"로 수배를 내린다
++    if (GAME.wantedT > 10 && !seen && nearest > 45) GAME.policeLostT += dt;
+     else GAME.policeLostT = 0;
+     if (GAME.policeLostT > 5.0) { lowerWanted(); GAME.policeLostT = 0; }
+     managePoliceCars(dt);
+   } else {
++    GAME.wantedT = 0;
+     // 경찰 차량 회수
+     for (let i = CARS.length - 1; i >= 0; i--) if (CARS[i].police) CARS.splice(i, 1);
+   }
+   if (PLAYER.hidden) {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -512,8 +512,9 @@
+   const before = GAME.wanted;
+   GAME.wanted = clamp(GAME.wanted + (amount === undefined ? 1 : amount), 0, 3);
+   if (GAME.wanted !== before) {
+     GAME.policeLostT = 0;
++    GAME.wantedT = 0;
+     setNotice('수배 레벨 ' + GAME.wanted + ' — 순찰대가 접근합니다');
+   }
+ }
+ function lowerWanted() {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -27,9 +27,9 @@
+ const PEDS = [];
+ const GAME = {
+   time: 0, wanted: 0, mission: null, completed: [], elapsed: 0,
+   fps: 0, notice: '', noticeT: 0, toast: '', toastT: 0,
+-  policeLostT: 0, target: null, missionData: null,
++  policeLostT: 0, wantedT: 0, target: null, missionData: null,
+   simRng: mulberry32(20241115), shake: 0, nitro: 1, night: 0
+ };
+ 
+ function makeCar(x, z, yaw, colorIdx, kind) {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 300 node test/smoke.mjs 2>&1 | grep -E "police|wanted|hide|errors|EXCEPT"
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.2 KB
+  "init": "{\"fps\":5.8,\"elapsed\":0.22,\"wanted\":0,\"mission\":null,\"completed\":[],\"player\":[-137,226.9,0],\"cars\":89,\"peds\":80,\"buildings\":458,\"blocks\":196,\"signs\":192,\"stores\":76,\"calls\":40,\"tris\":94026}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "police": "{\"wanted\":1,\"before\":75.5,\"after\":5.2}",
+--- errors (0) ---
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && echo "=== 외부 URL/에셋 참조 확인 ===" && grep -oE "https?://[^\"' )]+" hangang-city.html | grep -v "threejs.org\|github.com\|www.w3.org" | sort -u | head -20; echo "(위 목록 외 없으면 빈 출력)"; echo; echo "=== src/href 참조 ===" && grep -oE '(src|href)="[^"]*"' hangang-city.html | sort -u | head; echo; echo "=== 파일 크기 ===" && ls -la hangang-city.html && du -sh .
+=== 외부 URL/에셋 참조 확인 ===
+(위 목록 외 없으면 빈 출력)
+
+=== src/href 참조 ===
+
+=== 파일 크기 ===
+-rw-r--r--@ 1 hjshin  staff  799951 Nov 19 08:41 hangang-city.html
+ 82M	.
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && rm -rf test/.chrome-profile* && du -sh . && du -sh * && echo "--- 최종 파일 목록 ---" && find . -path ./.git -prune -o -type f -print | sort
+5.1M	.
+4.0K	build.mjs
+784K	hangang-city.html
+8.0K	README.md
+144K	src
+3.4M	test
+656K	vendor
+--- 최종 파일 목록 ---
+./.gitignore
+./build.mjs
+./hangang-city.html
+./README.md
+./src/00-util.js
+./src/10-world.js
+./src/15-mesh.js
+./src/20-entities.js
+./src/30-missions.js
+./src/40-hud.js
+./src/50-main.js
+./src/template.html
+./test/shot.png
+./test/shots.mjs
+./test/shots/01-day-street.png
+./test/shots/02-day-biz.png
+./test/shots/03-sunset.png
+./test/shots/04-night.png
+./test/shots/05-night-neon.png
+./test/shots/06-bridge.png
+./test/shots/07-expressway.png
+./test/shots/08-skycourse.png
+./test/shots/09-river.png
+./test/shots/10-housing-alley.png
+./test/shots/11-mission-beacon.png
+./test/shots/12-police.png
+./test/shots/13-neon.png
+./test/smoke.mjs
+./vendor/three.min.js
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && timeout 240 node test/shots.mjs 2>&1 | tail -2 && rm -rf test/.chrome-profile*
+captured 12-police
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/09-river.png 
+> build · minimax/MiniMax-M3.1-Flash
+Let me fix the player/car being able to walk on the river surface:
+[0m✗ [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js failed
+[91m[1mError: [0mCould not find oldString in /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js. It must match exactly, including whitespace and indentation.
+
+The closest lines in the file:
+390: function playerCollide() {
+391:   const boxes = queryColliders(PLAYER.x, PLAYER.z, PLAYER.radius + 1);
+392:   const res = resolveCircleBox(PLAYER.x, PLAYER.z, PLAYER.radius, boxes);
+393:   if (res.hit) { PLAYER.x += res.x; PLAYER.z += res.z; }
+394: }
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -119,8 +119,14 @@
+   // 위치
+   car.x += car.vx * dt;
+   car.z += car.vz * dt;
+ 
++  // 강은 차로도 건널 수 없다(다리 위일 때만)
++  if (car.z > CITY.RIVER_Z0 && car.z < CITY.RIVER_Z1 && car.y < CITY.BRIDGE_H - 1.5) {
++    car.z = (car.z - CITY.RIVER_Z0) < (CITY.RIVER_Z1 - car.z) ? CITY.RIVER_Z0 - 1.2 : CITY.RIVER_Z1 + 1.2;
++    car.vz *= -0.2;
++  }
++
+   // 건물 충돌 (반동)
+   const boxes = queryColliders(car.x, car.z, car.radius + 2);
+   const res = resolveCircleBox(car.x, car.z, car.radius, boxes);
+   if (res.hit) {
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -393,8 +393,13 @@
+ /* =========================================================
+    플레이어
+    ========================================================= */
+ function playerCollide() {
++  // 강은 걸어서 건널 수 없다(다리 위일 때만 통과)
++  if (PLAYER.z > CITY.RIVER_Z0 && PLAYER.z < CITY.RIVER_Z1 && PLAYER.y < CITY.BRIDGE_H - 1.5) {
++    PLAYER.z = (PLAYER.z - CITY.RIVER_Z0) < (CITY.RIVER_Z1 - PLAYER.z) ? CITY.RIVER_Z0 - 0.6 : CITY.RIVER_Z1 + 0.6;
++    PLAYER.vz = 0;
++  }
+   const boxes = queryColliders(PLAYER.x, PLAYER.z, PLAYER.radius + 1);
+   const res = resolveCircleBox(PLAYER.x, PLAYER.z, PLAYER.radius, boxes);
+   if (res.hit) { PLAYER.x += res.x; PLAYER.z += res.z; }
+ }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots.mjs
+@@ -63,9 +63,9 @@
+   { n: '05-night-neon', t: 135, x: -76, z: 152, yaw: 0 },
+   { n: '06-bridge', t: 45, x: -228, z: 0, yaw: 0 },
+   { n: '07-expressway', t: 45, x: -100, z: -152, yaw: 0 },
+   { n: '08-skycourse', t: 60, x: 46, z: 191, y: 1.5, yaw: 0 },
+-  { n: '09-river', t: 95, x: -60, z: 40, yaw: 0 },
++  { n: '09-river', t: 95, x: -60, z: -78, yaw: 0 },
+   { n: '10-housing-alley', t: 30, x: -380, z: -300, yaw: 0 },
+   { n: '11-mission-beacon', t: 95, x: -152, z: 304, yaw: 0, pre: `g.test.begin('delivery');g.test.step(0.2);` },
+   { n: '12-police', t: 120, x: -152, z: 304, yaw: 0, pre: `g.test.press('e');g.test.press('e');g.test.step(6);` }
+ ];
+
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 240 node test/shots.mjs 2>&1 | tail -2 && rm -rf test/.chrome-profile*
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.7 KB
+captured 12-police
+errors: 0 []
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/09-river.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && timeout 300 node test/smoke.mjs 2>&1 | tail -30 ; rm -rf test/.chrome-profile*
+ready: true
+{
+  "init": "{\"fps\":5.8,\"elapsed\":0.22,\"wanted\":0,\"mission\":null,\"completed\":[],\"player\":[-137,226.9,0],\"cars\":89,\"peds\":80,\"buildings\":458,\"blocks\":196,\"signs\":192,\"stores\":76,\"calls\":40,\"tris\":94026}",
+  "step1": "{\"delta\":1}",
+  "step2": "{\"delta\":0.5}",
+  "step3": "{\"delta\":0.25}",
+  "walk": "{\"dx\":0,\"dz\":-5.1,\"speed\":3.5}",
+  "run": "{\"dist\":10.97}",
+  "jump": "{\"y0\":0,\"afterJump\":1.05,\"landed\":0}",
+  "teleport": "{\"x\":100,\"z\":100,\"y\":0}",
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":64.5,\"z\":101.2}",
+  "drift": "{\"lat\":2.16}",
+  "exit": "{\"inCar\":false}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-270.1,\"z\":85.1},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":\"escape\",\"completed\":[\"delivery\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0.76,\"night\":1,\"c1\":\"낮 02:06\",\"c2\":\"낮 02:06\",\"c3\":\"낮 02:06\"}",
+  "ai": "{\"aiCars\":27,\"avgSpeed\":5.21,\"stopped\":9,\"moving\":13,\"maxDist\":928}",
+  "police": "{\"wanted\":2,\"before\":63.8,\"after\":15.8}",
+  "perf": "{\"fps\":9.6,\"calls\":40,\"tris\":94094,\"geometries\":40,\"textures\":13,\"programs\":15}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && cat > /tmp/dbg.mjs <<'EOF'
+import { spawn } from 'node:child_process';
+import { setTimeout as sleep } from 'node:timers/promises';
+const here=process.cwd();const CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';const PORT=9341;
+const chrome=spawn(CHROME,['--headless=new','--remote-debugging-port='+PORT,'--no-sandbox','--enable-unsafe-swiftshader','--use-gl=angle','--use-angle=swiftshader','--window-size=800,600','--user-data-dir='+here+'/test/.cp4','file://'+here+'/hangang-city.html'],{stdio:'ignore'});
+async function tgt(){for(let i=0;i<60;i++){try{const r=await fetch('http://127.0.0.1:'+PORT+'/json/list');const l=await r.json();const p=l.find(t=>t.type==='page'&&t.url.startsWith('file://'));if(p)return p;}catch(e){}await sleep(250);}throw new Error('x');}
+const t=await tgt();const ws=new WebSocket(t.webSocketDebuggerUrl);let id=0;const pend=new Map();
+ws.addEventListener('message',ev=>{const m=JSON.parse(ev.data);if(m.id&&pend.has(m.id)){pend.get(m.id)(m);pend.delete(m.id);}});
+await new Promise(r=>ws.addEventListener('open',r));
+const send=(m,p)=>{const mid=++id;return new Promise(res=>{pend.set(mid,res);ws.send(JSON.stringify({id:mid,method:m,params:p}));});};
+const ev=async e=>{const r=await send('Runtime.evaluate',{expression:e,returnByValue:true});const x=r.result;if(x&&x.exceptionDetails)return 'EXC '+(x.exceptionDetails.exception?.description||x.exceptionDetails.text);return x&&x.result?x.result.value:undefined;};
+await send('Runtime.enable');
+for(let i=0;i<90;i++){if(await ev('!!(window.__game&&window.__game.dbg)'))break;await sleep(250);}
+console.log(await ev(`(function(){var g=window.__game,d=g.dbg;
+ g.test.begin('escape'); g.test.step(0.2);
+ var h=d.GAME.missionData.hideout;
+ g.test.teleport(h.x,h.z); g.test.step(0.5);
+ return JSON.stringify({hideout:h, px:+d.PLAYER.x.toFixed(2), pz:+d.PLAYER.z.toFixed(2), py:+d.PLAYER.y.toFixed(2),
+   mission:g.state.mission, wanted:g.state.wanted, dist:+Math.hypot(d.PLAYER.x-h.x,d.PLAYER.z-h.z).toFixed(2)});})()`));
+ws.close();chrome.kill('SIGKILL');process.exit(0);
+EOF
+timeout 120 node /tmp/dbg.mjs; rm -rf test/.cp4 /tmp/dbg.mjs
+{"hideout":{"x":-76,"z":76},"px":-76,"pz":76,"py":0,"mission":null,"wanted":0,"dist":0}
+> build · minimax/MiniMax-M3.1-Flash
+Found the bug — the escape hideout could be a node in the middle of the river. Let me fix:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/30-missions.js
+@@ -79,11 +79,16 @@
+     setMarker(D.pickup.x, D.pickup.z, findGroundSpot(D.pickup.x, D.pickup.z), 0x3fd8ff);
+     setToast('심야 배달 — 상점 문 앞까지 이동하세요 (제한 ' + def.limit + '초)');
+   } else if (id === 'escape') {
+     raiseWanted(1);
+-    // 은신처 지점 (교차로 한가운데 — 건물에 끼이지 않는 안전한 지점)
+-    const nodes = CITYDATA.nodes;
+-    const node = nodes[Math.floor(GAME.simRng() * nodes.length) % nodes.length];
++    // 은신처 지점 — 강 위 교차로는 제외하고, 도로 위 안전한 지점을 고른다
++    const cand = [];
++    for (const n of CITYDATA.nodes) {
++      if (n.z > CITY.RIVER_Z0 && n.z < CITY.RIVER_Z1) continue;
++      if (!n.edges.length) continue;
++      cand.push(n);
++    }
++    const node = cand.length ? cand[Math.floor(GAME.simRng() * cand.length) % cand.length] : CITYDATA.nodes[0];
+     D.hideout = { x: node.x, z: node.z };
+     setMarker(D.hideout.x, D.hideout.z, findGroundSpot(D.hideout.x, D.hideout.z), 0xffc857);
+     setToast('추격 따돌리기 — 순찰대를 100초 버티거나 은신처로 이동 (R: 숨기)');
+   } else if (id === 'roof') {
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -98,9 +98,9 @@
+   vLong -= vLong * (0.22 + Math.abs(vLong) * 0.012) * dt;
+ 
+   // 횡방향 마찰(그립) — 핸드브레이크 시 약해져 드리프트가 생긴다
+   let grip = 9.5;
+-  if (car.hand > 0) grip = 2.4;
++  if (car.hand > 0) grip = 2.0;
+   else if (car.kind === 'truck') grip = 7.0;
+   if (Math.abs(vLat) > 0.8) grip *= 0.6;
+   vLat *= Math.exp(-grip * dt);
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && for i in 1 2 3; do timeout 300 node test/smoke.mjs 2>&1 | grep -E "escapeDone|drift|police\"|errors"; echo "--- run $i done"; done; rm -rf test/.chrome-profile*
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.9 KB
+  "drift": "{\"lat\":2.15}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "police": "{\"wanted\":1,\"before\":106,\"after\":7.8}",
+--- errors (0) ---
+--- run 1 done
+  "drift": "{\"lat\":2.15}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "police": "{\"wanted\":1,\"before\":106,\"after\":2.6}",
+--- errors (0) ---
+--- run 2 done
+  "drift": "{\"lat\":2.15}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "police": "{\"wanted\":1,\"before\":106,\"after\":2.6}",
+--- errors (0) ---
+--- run 3 done
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -98,9 +98,9 @@
+   vLong -= vLong * (0.22 + Math.abs(vLong) * 0.012) * dt;
+ 
+   // 횡방향 마찰(그립) — 핸드브레이크 시 약해져 드리프트가 생긴다
+   let grip = 9.5;
+-  if (car.hand > 0) grip = 2.0;
++  if (car.hand > 0) grip = 1.7;
+   else if (car.kind === 'truck') grip = 7.0;
+   if (Math.abs(vLat) > 0.8) grip *= 0.6;
+   vLat *= Math.exp(-grip * dt);
+ 
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/smoke.mjs
+@@ -126,12 +126,13 @@
+   g.test.key('w',false); g.test.key('shift',false);
+   return JSON.stringify({kmh:+kmh.toFixed(1), kmhBoost:+kmh2.toFixed(1), z:+d.PLAYER.z.toFixed(1)})})()`);
+ R.drift = await ev(`(function(){var g=window.__game,d=g.dbg;
+   g.test.key('w',true); g.test.step(2.5);
+-  g.test.key(' ',true); g.test.key('a',true); g.test.step(1.2);
+-  var lat=Math.abs(d.PLAYER.car.lat), yaw=Math.abs(d.PLAYER.car.yaw);
++  g.test.key(' ',true); g.test.key('a',true);
++  var maxLat=0;
++  for(var i=0;i<12;i++){ g.test.step(0.1); maxLat=Math.max(maxLat,Math.abs(d.PLAYER.car.lat)); }
+   g.test.key(' ',false); g.test.key('a',false); g.test.key('w',false);
+-  return JSON.stringify({lat:+lat.toFixed(2)})})()`);
++  return JSON.stringify({maxLat:+maxLat.toFixed(2), kmh:+(Math.abs(d.PLAYER.inCarSpeed)*3.6).toFixed(1)})})()`);
+ R.exit = await ev(`(function(){var g=window.__game,d=g.dbg;g.test.press('f'); g.test.step(0.2);return JSON.stringify({inCar:!!d.PLAYER.car})})()`);
+ 
+ R.wanted = await ev(`(function(){var g=window.__game,d=g.dbg;
+   g.test.press('e'); g.test.step(0.2); var w1=g.state.wanted;
+
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/src/20-entities.js
+@@ -111,9 +111,9 @@
+   car.long = vLong; car.lat = vLat;
+ 
+   // 회전 (속도 방향과 독립 → 그립이 없으면 미끄러진다)
+   const speedAbs = Math.abs(vLong);
+-  const steerAuth = clamp(speedAbs / 5, 0, 1) * (1 - clamp(speedAbs / (maxSpeed * 1.25), 0, 0.55));
++  const steerAuth = clamp(speedAbs / 5, 0, 1) * (1 - clamp(speedAbs / (maxSpeed * 1.25), 0, 0.55)) * (car.hand > 0 ? 1.35 : 1);
+   const dirSign = vLong >= -0.2 ? 1 : -1;
+   car.yaw += car.steer * steerAuth * 2.2 * dirSign * dt;
+ 
+   // 위치
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 300 node test/smoke.mjs 2>&1 | tail -28; rm -rf test/.chrome-profile*
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.9 KB
+ready: true
+{
+  "init": "{\"fps\":5.8,\"elapsed\":0.22,\"wanted\":0,\"mission\":null,\"completed\":[],\"player\":[-137,226.9,0],\"cars\":89,\"peds\":80,\"buildings\":458,\"blocks\":196,\"signs\":192,\"stores\":76,\"calls\":40,\"tris\":94026}",
+  "step1": "{\"delta\":1}",
+  "step2": "{\"delta\":0.5}",
+  "step3": "{\"delta\":0.25}",
+  "walk": "{\"dx\":0,\"dz\":-5.1,\"speed\":3.5}",
+  "run": "{\"dist\":10.97}",
+  "jump": "{\"y0\":0,\"afterJump\":1.05,\"landed\":0}",
+  "teleport": "{\"x\":100,\"z\":100,\"y\":0}",
+  "enter": "{\"inCar\":true,\"kind\":\"sedan\"}",
+  "drive": "{\"kmh\":61.8,\"kmhBoost\":64.5,\"z\":101.2}",
+  "drift": "{\"maxLat\":3.85,\"kmh\":25.2}",
+  "exit": "{\"inCar\":false}",
+  "wanted": "{\"w1\":1,\"w2\":2,\"w3\":3,\"police\":3}",
+  "hide": "{\"hidden\":true}",
+  "delivery": "{\"mission\":null,\"marker\":{\"x\":-270.1,\"z\":85.1},\"stageAfterPickup\":1,\"missionEnd\":null,\"completed\":[\"delivery\"]}",
+  "escape": "{\"mission\":\"escape\",\"wanted\":1}",
+  "escapeDone": "{\"mission\":null,\"completed\":[\"delivery\",\"escape\"]}",
+  "roof": "{\"mission\":null,\"reached\":7,\"completed\":[\"delivery\",\"escape\",\"roof\"]}",
+  "time": "{\"day\":0,\"dusk\":0.76,\"night\":1,\"c1\":\"낮 00:57\",\"c2\":\"낮 00:57\",\"c3\":\"낮 00:57\"}",
+  "ai": "{\"aiCars\":26,\"avgSpeed\":6.62,\"stopped\":4,\"moving\":18,\"maxDist\":1017}",
+  "police": "{\"wanted\":1,\"before\":75.5,\"after\":5.2}",
+  "perf": "{\"fps\":11.1,\"calls\":40,\"tris\":93782,\"geometries\":40,\"textures\":13,\"programs\":15}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/README.md
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/README.md
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/README.md
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/README.md
+@@ -112,24 +112,26 @@
+ ### 실행한 검증 (`node test/smoke.mjs`)
+ 
+ | 항목 | 결과 |
+ |---|---|
+-| 부팅/콘솔 오류 | 없음 (0 errors) |
++| 부팅/콘솔 오류 | 없음 (0 errors, 3회 반복 실행 동일) |
+ | `step(1.0/0.5/0.25)` | `elapsed` 가 정확히 +1.0 / +0.5 / +0.25 (결정론적) |
+ | 도보 / 달리기 / 점프 | 1.5초에 5.1m(3.5m/s) / 11.0m(7.3m/s) / y 0→1.05→0 |
+ | 차량 승하차 | `F`로 탑승 → 하차 정상 |
+-| 주행 / 부스트 / 드리프트 | 61.8 km/h → NOS 64.5 km/h, 핸드브레이크 횡슬립 10.8 m/s |
++| 주행 / 부스트 / 드리프트 | 61.8 km/h → NOS 64.5 km/h, 핸드브레이크 최대 횡슬립 3.9 m/s(61.8→25.2km/h) |
+ | 수배 레벨 | `E` 3회 → 1→2→3, 순찰차 3대 생성 |
+ | 숨기 | `R` → `hidden = true` |
+ | 미션 3종 | 배달·추격·옥상 모두 `completed` 에 기록됨 |
+ | 시간대 | 낮 0.0 / 노을 0.76 / 밤 1.0 |
+-| AI 교통 30초 | 평균 5.2 m/s, 정지 7대(红灯 대기) · 주행 16대 |
+-| 경찰 추격 12초 | 75.5m → 5.2m 접근 |
+-| 렌더 부하 | 드로우콜 ~40, 삼각형 ~93k, 지오메트리 40, 텍스처 13, 셰이더 15 |
++| AI 교통 30초 | 평균 6.6 m/s, 정지 4대(신호 대기) · 주행 18대 |
++| 경찰 추격 12초 | 75.5m → 5.2m 접근 (수배 1 유지) |
++| 렌더 부하 | 드로우콜 ~40, 삼각형 ~94k, 지오메트리 40, 텍스처 13, 셰이더 15 |
+ 
+-> FPS 수치는 헤드리스 크롬의 **SwiftShader 소프트웨어 래스터라이저** 기준(10~12fps)이며,
++> FPS 수치는 헤드리스 크롬의 **SwiftShader 소프트웨어 래스터라이저** 기준(9~13fps)이며,
+ > 실제 GPU 성능을 대표하지 않는다. 실기 브라우저에서의 60fps 는 별도 실측이 필요하다.
+ 
++구현·검증에 사용한 모델: **MiniMax-M3.1-Flash** (effort: max).
++
+ ---
+ 
+ ## 남은 실물 검증 항목
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && cat > /tmp/spawn_shot.mjs <<'EOF'
+import { spawn } from 'node:child_process';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { writeFileSync } from 'node:fs';
+const here=process.cwd();const CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';const PORT=9342;
+const chrome=spawn(CHROME,['--headless=new','--remote-debugging-port='+PORT,'--no-sandbox','--enable-unsafe-swiftshader','--use-gl=angle','--use-angle=swiftshader','--window-size=1280,760','--hide-scrollbars','--user-data-dir='+here+'/test/.cp5','file://'+here+'/hangang-city.html'],{stdio:'ignore'});
+async function tgt(){for(let i=0;i<60;i++){try{const r=await fetch('http://127.0.0.1:'+PORT+'/json/list');const l=await r.json();const p=l.find(t=>t.type==='page'&&t.url.startsWith('file://'));if(p)return p;}catch(e){}await sleep(250);}throw new Error('x');}
+const t=await tgt();const ws=new WebSocket(t.webSocketDebuggerUrl);let id=0;const pend=new Map();
+ws.addEventListener('message',ev=>{const m=JSON.parse(ev.data);if(m.id&&pend.has(m.id)){pend.get(m.id)(m);pend.delete(m.id);}});
+await new Promise(r=>ws.addEventListener('open',r));
+const send=(m,p)=>{const mid=++id;return new Promise(res=>{pend.set(mid,res);ws.send(JSON.stringify({id:mid,method:m,params:p}));});};
+const ev=async e=>{const r=await send('Runtime.evaluate',{expression:e,returnByValue:true});return r.result&&r.result.result?r.result.result.value:undefined;};
+await send('Runtime.enable');await send('Page.enable');
+for(let i=0;i<90;i++){if(await ev('!!(window.__game&&window.__game.dbg)'))break;await sleep(250);}
+await sleep(2000);
+console.log(await ev('JSON.stringify({pos:[+window.__game.dbg.PLAYER.x.toFixed(1),+window.__game.dbg.PLAYER.z.toFixed(1)], fps:+window.__game.state.fps.toFixed(1)})'));
+const shot=await send('Page.captureScreenshot',{format:'png'});
+writeFileSync(here+'/test/shots/00-spawn.png',Buffer.from(shot.result.data,'base64'));
+ws.close();chrome.kill('SIGKILL');process.exit(0);
+EOF
+timeout 120 node /tmp/spawn_shot.mjs; rm -rf test/.cp5 /tmp/spawn_shot.mjs
+{"pos":[-137,226.9],"fps":11.5}
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/test/shots/00-spawn.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && node build.mjs && timeout 300 node test/smoke.mjs 2>&1 | tail -6 && rm -rf test/.chrome-profile* && echo && echo "=== 최종 산출물 ===" && ls -la hangang-city.html README.md && echo && echo "=== 폴더 크기 ===" && du -sh . && echo && echo "=== 외부 참조 재확인 ===" && grep -c "http://\|https://" hangang-city.html
+built /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2/hangang-city.html 776.9 KB
+  "police": "{\"wanted\":1,\"before\":78,\"after\":68.7}",
+  "perf": "{\"fps\":11.1,\"calls\":40,\"tris\":93782,\"geometries\":40,\"textures\":13,\"programs\":15}"
+}
+--- console logs (0) ---
+--- errors (0) ---
+screenshot -> test/shot.png
+
+=== 최종 산출물 ===
+-rw-r--r--@ 1 hjshin  staff  800754 Nov 19 08:45 hangang-city.html
+-rw-r--r--@ 1 hjshin  staff    7631 Nov 19 08:45 README.md
+
+=== 폴더 크기 ===
+5.3M	.
+
+=== 외부 참조 재확인 ===
+1
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && grep -o "http[s]*://[^\"' )]*" hangang-city.html && echo "--- fetch/XHR/import 사용 여부 ---" && grep -cE "fetch\(|XMLHttpRequest|import\(|new Image|url\(" hangang-city.html
+http://www.w3.org/1999/xhtml
+https://discourse.threejs.org/t/updates-to-lighting-in-three-js-r155/53733.
+https://discourse.threejs.org/t/updates-to-lighting-in-three-js-r155/53733.
+--- fetch/XHR/import 사용 여부 ---
+1
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city-a2 && grep -oE ".{60}(fetch\(|XMLHttpRequest|import\(|new Image|url\().{40}" hangang-city.html | head -3
+nclude":"same-origin"}),a=this.mimeType,o=this.responseType;fetch(s).then((e=>{if(200===e.status||0===e.st
+ined"==typeof fetch&&console.warn("THREE.ImageBitmapLoader: fetch() not supported."),this.options={premult
+Origin?"same-origin":"include",a.headers=this.requestHeader,fetch(t,a).then((function(t){return t.blob()})
+> build · minimax/MiniMax-M3.1-Flash
+완료했습니다. 최종 산출물과 검증 결과입니다.
+
+## 산출물 (작업 폴더 안)
+
+`work/02-hangang-city-a2/hangang-city.html` — 781KB, **three.js r159 UMD + 게임 소스를 인라인한 단일 HTML**. 외부 이미지·폰트·네트워크 요청 0개(`file://` 로 바로 실행). 소스는 `src/*.js` → `node build.mjs` 로 재현, 검증은 `test/smoke.mjs`(헤드리스 크롬 CDP), `test/shots.mjs`.
+
+## 5줄 요약 (조작키 · 구현 구조)
+
+1. **조작** — `WASD` 이동/주행, `Shift` 달리기·NOS, `Space` 점프/핸드브레이크(드리프트), `F` 승하차, `E` 수배+1, `R` 숨기, `C` 카메라 거리, `M` 임무, 마우스 시점.
+2. **도시** — 14×14 블록 격자에 강 1·다리 2·고가도로 1, 구역별(업무지구/골목주택가/상가) 프로파일 + 블록 시드 난수로 층수·밀도·간판·주차장까지 절차 생성.
+3. **렌더** — 건물6종 파사드 + 원거리 통합 LOD, 차량/보행자/가로등 전부 `InstancedMesh`, 0.35초마다 플레이어 거리로 재적재해 거리 컬링(드로우콜 40, 삼각형 94k).
+4. **게임** — 차량은 속도 벡터를 전방/횡방향으로 분해해 그립만 횡방향에作用(핸드브레이크 시 미끄러짐), AI 차량은 교차로 그래프+신호 대기, 경찰은 도로를 따라 추격, 미션 3종(배달/추격/옥상)·수배 1~3·미니맵·속도계·낮→노을→밤 주기.
+5. **계약** — `window.__game.state`{wanted,mission,completed,elapsed,fps} 및 `test.key/press/step/teleport/begin/setTime` 구현, `step()`은 1/60 고정 스텝으로 렌더링과 분리된 결정론적 전진.
+
+## 실행한 검증 (3회 반복, 콘솔 오류 0건)
+
+`step(1.0/0.5/0.25)` → elapsed 정확히 +1.0/+0.5/+0.25 · 도보 3.5m/s, 달리기 7.3m/s, 점프 0→1.05→0 · 주행 61.8→NOS 64.5km/h, 핸드브레이크 최대 횡슬립 3.9m/s(61.8→25.2km/h) · `E` 3회→수배 1→2→3(순찰차 3대) · 미션 3종 모두 `completed` 기록 · 시간대 낮 0.0/노을 0.76/밤 1.0 · AI 교통 30초 평균 6.6m/s(신호 대기 정지 4대) · 경찰 12초에 75.5m→5.2m 접근.
+
+## 남은 실물 검증 항목 (미실측)
+
+- **60fps는 실측하지 못했습니다** — 헤드리스 크롬의 SwiftShader 소프트웨어 래스터라이저(9~13fps) 기준이라 실제 GPU 성능을 대표하지 않습니다. 실기 브라우저 1920×1080에서의 프레임 시간 확인이 필요합니다.
+- 마우스 포인터 잠금과 실제 키보드 조작감(가속 곡선·드리프트 임계값·카메라 스프링)은 자동화할 수 없어 체감 검증이 남습니다(현재 드리프트 그립 1.7은 코드로 튜닝한 값).
+- 오디오는 원문 요구사항에 없어 미구현입니다.
+- 한글 네온/상가 텍스처는 시스템 폰트(`Apple SD Gothic Neo` 등)에 의존하므로 브라우저/OS별 자형 차이가 있을 수 있습니다.
+- AI 차량의 신호 대기·보행자 회피는 통계로만 확인했고, 교차로에서의 비정상 정체(블록에 끼는 차량)는 30초 관측 범위 밖 상황을 못 봤습니다.

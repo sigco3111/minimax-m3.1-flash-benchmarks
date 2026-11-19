@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>근정전 브릭 모델 · 32s</title>
+<style>
+  :root{
+    --cream:#F2EEE6;
+    --accent:#E8612C;
+    --ink:#3A352D;
+    --muted:#8C857A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#E4E0D7;overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Apple SD Gothic Neo",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #frame{position:relative;width:1920px;height:1080px;background:var(--cream);
+    transform-origin:center center;box-shadow:0 24px 70px rgba(40,34,26,.22);overflow:hidden}
+  canvas{display:block;width:1920px;height:1080px}
+  #hud{position:absolute;inset:0;pointer-events:none;color:var(--ink)}
+  .ic{width:1em;height:1em;display:inline-block;vertical-align:-.12em;color:currentColor}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+  /* ---------- dimension labels ---------- */
+  #dims{position:absolute;inset:0}
+  .dim{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:8px;
+    padding:6px 12px;border-radius:999px;background:rgba(242,238,230,.92);border:1.5px solid var(--accent);
+    color:var(--accent);font-size:26px;font-weight:700;white-space:nowrap;opacity:0;
+    box-shadow:0 4px 14px rgba(232,97,44,.18)}
+  .dim .ic{font-size:24px}
+  .dim small{font-size:16px;font-weight:600;opacity:.8}
+
+  /* ---------- phase track ---------- */
+  #track{position:absolute;top:34px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+  #track span{width:74px;height:5px;border-radius:3px;background:rgba(58,53,45,.14);overflow:hidden}
+  #track span i{display:block;height:100%;width:0;background:var(--accent)}
+
+  /* ---------- pillar badge ---------- */
+  #badge{position:absolute;left:50%;top:96px;transform:translateX(-50%) scale(.9);
+    display:flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;
+    font-size:34px;font-weight:800;opacity:0;transition:opacity .18s;
+    background:rgba(242,238,230,.95);border:2px solid var(--accent);color:var(--accent)}
+  #badge.ok{border-color:#2F7D62;color:#2F7D62}
+  #badge .ic{font-size:32px}
+
+  /* ---------- 지붕 브릭 수(지시선) ---------- */
+  #roofcnt{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:10px;
+    padding:9px 18px;border-radius:999px;background:rgba(242,238,230,.94);border:2px solid var(--accent);
+    color:var(--accent);font-size:30px;font-weight:800;opacity:0;white-space:nowrap}
+  #roofcnt .ic{font-size:28px}
+
+  /* ---------- inventory ---------- */
+  #inv{position:absolute;right:42px;top:50%;transform:translateY(-50%);
+    display:grid;grid-template-columns:repeat(2,176px);gap:12px;justify-items:center}
+  .cell{width:176px;height:124px;border-radius:16px;background:rgba(255,255,255,.80);
+    border:1.5px solid rgba(58,53,45,.12);display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:6px;opacity:0;transform:translateY(18px);
+    box-shadow:0 8px 24px rgba(40,34,26,.07)}
+  .cell .glyph{height:46px;display:flex;align-items:center}
+  .cell .glyph svg{height:44px;width:auto;display:block}
+  .cell .cnt{display:flex;align-items:center;gap:6px;font-size:28px;font-weight:800;color:var(--ink)}
+  .cell .cnt .ic{font-size:19px;color:var(--accent)}
+
+  /* ---------- stats bar ---------- */
+  #stats{position:absolute;left:50%;bottom:132px;transform:translateX(-50%);
+    display:flex;gap:12px;opacity:0}
+  .stat{width:224px;height:132px;border-radius:18px;background:rgba(255,255,255,.80);
+    border:1.5px solid rgba(58,53,45,.12);display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:10px;box-shadow:0 10px 30px rgba(40,34,26,.08)}
+  .stat .ic{font-size:34px;color:var(--accent)}
+  .stat .v{font-size:42px;font-weight:800;line-height:1;color:var(--ink)}
+  .stat .v em{font-style:normal;font-size:19px;font-weight:700;color:var(--muted);margin-left:4px}
+  .stat.warn .ic{color:#D8A21B}
+  .stat.err .ic{color:#B6402F}
+
+  /* ---------- transport ---------- */
+  #ctrl{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
+    display:flex;align-items:center;gap:18px;padding:12px 22px;border-radius:999px;
+    background:rgba(255,255,255,.72);border:1.5px solid rgba(58,53,45,.10);
+    pointer-events:auto;box-shadow:0 10px 26px rgba(40,34,26,.08)}
+  #play{width:46px;height:46px;border-radius:50%;border:none;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:24px}
+  #play .ic{font-size:24px}
+  #scrub{width:900px;accent-color:var(--accent);height:6px;cursor:pointer}
+  #t{font-size:24px;font-weight:800;min-width:92px;text-align:right;color:var(--ink)}
+  #t em{font-style:normal;font-size:15px;color:var(--muted);margin-left:2px}
+
+  /* ---------- corner marks ---------- */
+  #mark{position:absolute;left:34px;top:30px;display:flex;align-items:center;gap:12px;
+    padding:8px 16px 8px 8px;border-radius:999px;background:rgba(255,255,255,.72);
+    border:1.5px solid rgba(58,53,45,.10);box-shadow:0 8px 22px rgba(40,34,26,.07)}
+  #mark .sq{width:34px;height:34px;border-radius:9px;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px}
+  #mark .nums{display:flex;gap:8px;align-items:center}
+  #mark .nums b{font-size:26px;font-weight:800}
+  #mark .nums .ic{font-size:19px;color:var(--muted)}
+  #hint{position:absolute;right:34px;top:30px;display:flex;gap:10px;align-items:center;color:var(--muted);font-size:15px}
+  #hint .k{border:1px solid rgba(58,53,45,.22);border-radius:6px;padding:2px 7px;font-weight:700;color:var(--ink)}
+  #vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 42%,rgba(0,0,0,0) 55%,rgba(90,80,66,.13) 100%)}
+</style>
+</head>
+<body>
+<div id="stage"><div id="frame">
+  <canvas id="c"></canvas>
+  <div id="hud">
+    <div id="vignette"></div>
+    <div id="mark">
+      <div class="sq"><svg class="ic"><use href="#i-brick"/></svg></div>
+      <div class="nums">
+        <b class="num" id="mBricks">0</b><svg class="ic"><use href="#i-brick"/></svg>
+        <b class="num" id="mParts">0</b><svg class="ic"><use href="#i-parts"/></svg>
+      </div>
+    </div>
+    <div id="hint">
+      <span class="k">&#9664;</span><span class="k">&#9654;</span><span class="k">&#9251;</span>
+    </div>
+    <div id="track"></div>
+    <div id="dims">
+      <div class="dim" id="dimX"><svg class="ic"><use href="#i-ruler"/></svg><span class="num">0</span><small>cm</small></div>
+      <div class="dim" id="dimY"><svg class="ic"><use href="#i-ruler"/></svg><span class="num">0</span><small>cm</small></div>
+      <div class="dim" id="dimZ"><svg class="ic"><use href="#i-ruler"/></svg><span class="num">0</span><small>cm</small></div>
+    </div>
+    <div id="badge"><svg class="ic"><use href="#i-warn"/></svg><span class="num" id="badgeN">1</span></div>
+    <div id="roofcnt"><svg class="ic"><use href="#i-brick"/></svg><span class="num" id="roofcntN">0</span></div>
+    <div id="inv"></div>
+    <div id="stats"></div>
+    <div id="ctrl">
+      <button id="play" aria-label="play"><svg class="ic"><use href="#i-pause"/></svg></button>
+      <input id="scrub" type="range" min="0" max="32" step="0.01" value="0">
+      <div id="t" class="num">0.00<em>s</em></div>
+    </div>
+  </div>
+</div></div>
+
+<svg id="sprite" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <symbol id="i-brick" viewBox="0 0 24 24"><g fill="currentColor"><rect x="2" y="10" width="20" height="11" rx="1.6"/><rect x="3.6" y="5.4" width="5" height="4.2" rx="1.2"/><rect x="9.5" y="5.4" width="5" height="4.2" rx="1.2"/><rect x="15.4" y="5.4" width="5" height="4.2" rx="1.2"/></g></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M2.5 7.5 L12 3 L21.5 7.5 L12 12 Z"/><path d="M2.5 12.5 L12 17 L21.5 12.5"/><path d="M2.5 16.8 L12 21.3 L21.5 16.8"/></g></symbol>
+  <symbol id="i-parts" viewBox="0 0 24 24"><g fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="1.4"/><rect x="13" y="3" width="8" height="8" rx="1.4"/><rect x="3" y="13" width="8" height="8" rx="1.4"/><rect x="13" y="13" width="8" height="8" rx="1.4"/></g></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 6.6 V12 L15.6 14.2"/></g></symbol>
+  <symbol id="i-err" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M9 9 L15 15 M15 9 L9 15"/></g></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 L21.6 20.4 H2.4 Z"/><path d="M12 9.6 V14.2"/><path d="M12 17.1 v.1"/></g></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="2" y="8" width="20" height="8" rx="1.4"/><path d="M7 8 v3.2 M12 8 v4.4 M17 8 v3.2"/></g></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M7 4 L20 12 L7 20 Z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><g fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></g></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M4 12.6 L9.4 18 L20 6.4"/></symbol>
+  <symbol id="i-mtn" viewBox="0 0 24 24"><path fill="currentColor" d="M2 20 L9 6.5 L13.4 14 L16.6 10.4 L22 20 Z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="7.4"/><path d="M12 1.6 V6 M12 18 V22.4 M1.6 12 H6 M18 12 H22.4"/></g></symbol>
+</svg>
+
+<script src="vendor/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+/* ==========================================================================
+   근정전(경복궁) 브릭 모델 — 32초 해부 모션
+   - 모든 브릭은 코드로 생성(외부 3D/이미지/폰트 없음)
+   - 모든 수치는 코드에서 실제 계측한 값만 사용
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- 유틸 */
+var clamp=function(v,a,b){return v<a?a:(v>b?b:v);};
+var clamp01=function(v){return v<0?0:(v>1?1:v);};
+var lerp=function(a,b,t){return a+(b-a)*t;};
+var seg=function(t,a,b){return clamp01((t-a)/(b-a));};
+var easeOut=function(t){t=clamp01(t);return 1-Math.pow(1-t,3);};
+var easeIO=function(t){t=clamp01(t);return t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;};
+var smooth=function(t){t=clamp01(t);return t*t*(3-2*t);};
+
+/* ------------------------------------------------------------ 상수/팔레트 */
+var S=0.8;            // 1 스터드 = 8mm = 0.8cm (LEGO 1:1 스케일)
+var BH=0.96;          // 브릭 1층 높이 cm
+var PH=0.32;          // 플레이트 1층 높이 cm
+var DURATION=32;
+
+var PAL={
+  cream:0xF2EEE6, accent:0xE8612C,
+  danGreen:0x2E6E5E, danRed:0xB23A2E, danYellow:0xE0A62B,
+  stone:0xDCD5C4, stoneDark:0xC6BDA8, pave:0xD8D2C2,
+  tile:0x4C6B63, tileAlt:0x5E7C72, ridge:0x35514C,
+  wood:0x8E3A2B, door:0x2A3A40,
+  mtnFar:0xD3D5CB, mtnNear:0xBFC3B6
+};
+
+/* ==========================================================================
+   1. 파트(브릭 형상) 정의 — 상자 + 스터드, 실제 LEGO 치수(8mm 피치)
+   ========================================================================== */
+var PART_DEFS=[
+  {key:'b4x2', w:4,d:2,h:BH,kind:'brick'},
+  {key:'b3x2', w:3,d:2,h:BH,kind:'brick'},
+  {key:'b2x2', w:2,d:2,h:BH,kind:'brick'},
+  {key:'b1x2', w:1,d:2,h:BH,kind:'brick'},
+  {key:'b4x1', w:4,d:1,h:BH,kind:'brick'},
+  {key:'b2x1', w:2,d:1,h:BH,kind:'brick'},
+  {key:'b1x1', w:1,d:1,h:BH,kind:'brick'},
+  {key:'r1x1', w:1,d:1,h:BH,kind:'round', r:0.40},
+  {key:'r2x2', w:2,d:2,h:BH,kind:'round', r:0.80},
+  {key:'p2x2', w:2,d:2,h:PH,kind:'plate'},
+  {key:'p2x1', w:2,d:1,h:PH,kind:'plate'},
+  {key:'p1x2', w:1,d:2,h:PH,kind:'plate'},
+  {key:'p1x1', w:1,d:1,h:PH,kind:'plate'},
+  {key:'w2x1', w:2,d:1,h:BH,kind:'wedge'},   /* 경사 +Z */
+  {key:'w1x2', w:1,d:2,h:BH,kind:'wedge'}    /* 경사 +X */
+];
+var PART={};
+PART_DEFS.forEach(function(p){PART[p.key]=p;});
+
+/* ---------------------------------------------------------- 지오메트리 합치기 */
+function mergeGeos(geos){
+  var list=geos.map(function(g){var gg=g.index?g.toNonIndexed():g; gg.clearGroups(); return gg;});
+  var total=0, i, j;
+  for(i=0;i<list.length;i++) total+=list[i].attributes.position.count;
+  var pos=new Float32Array(total*3), nor=new Float32Array(total*3), uv=new Float32Array(total*2);
+  var o=0;
+  for(i=0;i<list.length;i++){
+    var g=list[i], a=g.attributes.position, n=g.attributes.normal, u=g.attributes.uv;
+    pos.set(a.array, o*3);
+    if(n) nor.set(n.array, o*3);
+    if(u) uv.set(u.array, o*2);
+    o+=a.count;
+  }
+  var out=new THREE.BufferGeometry();
+  out.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  out.setAttribute('normal',   new THREE.BufferAttribute(nor,3));
+  out.setAttribute('uv',       new THREE.BufferAttribute(uv,2));
+  out.computeBoundingBox(); out.computeBoundingSphere();
+  return out;
+}
+
+function studGeo(x,y,z,r,h){
+  var g=new THREE.CylinderGeometry(r,r,h,8,1,false);
+  g.translate(x,y,z);
+  return g;
+}
+function wedgeGeo(wcm,dcm,h,slopeAlongX){
+  var L=slopeAlongX?wcm:dcm, W=slopeAlongX?dcm:wcm;
+  var sh=new THREE.Shape();
+  sh.moveTo(-L/2,0); sh.lineTo(L/2,0); sh.lineTo(L/2,h); sh.closePath();
+  var g=new THREE.ExtrudeGeometry(sh,{depth:W,bevelEnabled:false,curveSegments:1});
+  g.rotateY(Math.PI/2);
+  g.translate(-W/2,0,0);
+  g.clearGroups();
+  return g;
+}
+function buildPartGeometry(p){
+  var wcm=p.w*S, dcm=p.d*S, h=p.h, parts=[];
+  if(p.kind==='round'){
+    var cyl=new THREE.CylinderGeometry(p.r,p.r,h,16,1,false);
+    cyl.translate(0,h/2,0); parts.push(cyl);
+  }else if(p.kind==='wedge'){
+    parts.push(wedgeGeo(wcm,dcm,h,p.key==='w1x2'));
+  }else{
+    var box=new THREE.BoxGeometry(wcm,h,dcm); box.translate(0,h/2,0); parts.push(box);
+  }
+  if(p.kind==='brick'||p.kind==='round'){
+    var sr=0.24, sh=0.18;
+    for(var i=0;i<p.w;i++) for(var j=0;j<p.d;j++){
+      parts.push(studGeo((-(p.w-1)/2+i)*S, h+sh/2, (-(p.d-1)/2+j)*S, sr, sh));
+    }
+  }
+  var g=mergeGeos(parts);
+  g.userData={w:wcm,d:dcm,h:h,r:(p.kind==='round'?p.r:Math.max(wcm,dcm)/2)};
+  return g;
+}
+
+/* ==========================================================================
+   2. 모델 생성 — 모든 브릭을 코드로 배치
+   ========================================================================== */
+var M={ bricks:[], groups:{terrace:0,pillars:0,brackets:0,roof:0,courtyard:0}, steps:0 };
+function step(){M.steps++;}
+function addBrick(part,x,y,z,rot,color,group,tag){
+  if(!PART[part]) throw new Error('unknown part '+part);
+  M.bricks.push({part:part,x:x,y:y,z:z,rot:rot||0,color:color,group:group,tag:tag||''});
+  M.groups[group]++;
+  return M.bricks[M.bricks.length-1];
+}
+/* 스터드 그리드 분할: n → [4,4,...,나머지] */
+function segX(n){ var out=[], rem=n; while(rem>=4){out.push(4);rem-=4;} if(rem===3){out.push(2);out.push(1);} else if(rem===2){out.push(2);} else if(rem===1){out.push(1);} return out; }
+/* 깊이 분할: n → [2,2,...,나머지] */
+function segZ(n){ var out=[], rem=n; while(rem>=2){out.push(2);rem-=2;} if(rem===1)out.push(1); return out; }
+var CELL2PART={ '4_2':'b4x2','3_2':'b3x2','2_2':'b2x2','1_2':'b1x2','4_1':'b4x1','2_1':'b2x1','1_1':'b1x1',
+                 '2_2p':'p2x2','1_2p':'p1x2','2_1p':'p2x1','1_1p':'p1x1' };
+
+/* 직사각형 영역을 브릭으로 채운다 (x0,x1,z0,z1: 스터드 단위, y: cm 바닥높이) */
+function fill(x0,x1,z0,z1,y,group,colorFn,opt){
+  opt=opt||{};
+  var plate=!!opt.plate;
+  var xs = plate ? segZ(x1-x0) : segX(x1-x0);
+  var zs = segZ(z1-z0);
+  var x=x0;
+  for(var i=0;i<xs.length;i++){
+    var z=z0;
+    for(var j=0;j<zs.length;j++){
+      var sx=xs[i], sz=zs[j];
+      var part = CELL2PART[sx+'_'+sz+(plate?'p':'')];
+      if(!part) throw new Error('no part for cell '+sx+'x'+sz);
+      var cx=x+sx/2, cz=z+sz/2;
+      addBrick(part, cx*S, y, cz*S, 0, colorFn(cx,cz,y), group);
+      z+=sz;
+    }
+    x+=xs[i];
+  }
+}
+
+/* ------------------------------- 지형 상수 (스터드) ------------------------ */
+var LT={x0:-16,x1:16,z0:-12,z1:10};    // 하월대
+var UT={x0:-12,x1:12,z0:-9,z1:9};      // 상월대
+var CORE={x0:-8,x1:8,z0:-6,z1:6};      // 건물 벽체(내부 매스)
+var COLX=[-10,-6,-2,2,6,10];           // 정면 5칸 → 기둥 6개
+var COLZ=[-7.5,-4.5,-1.5,1.5,4.5,7.5]; // 측면 5칸 → 기둥 6개
+var yLT=0, yUT=2*BH, yCore=3*BH, yColTop=yCore+6*BH, yEave=yColTop+2*BH;
+
+/* --- 플래그: 기둥 기단 한 개를 의도적으로 어긋나게 놓는다(결합부 약점) --- */
+var WEAK_COL={x:-10,z:-7.5,offX:0.52,offZ:0.46};
+var weakBrick=null;
+
+/* ---------------------------------- 1) 앞마당 --------------------------- */
+step(); /* 앞마당 포장 */
+fill(-14,14,-23,-12, 0, 'courtyard', function(){return PAL.pave;}, {plate:true});
+
+step(); /* 품계석 2줄 */
+[-15,-19].forEach(function(rowZ){
+  for(var i=0;i<11;i++){
+    var cx=-12.5+i*2.5;
+    addBrick('b2x2', cx*S, PH, rowZ*S, 0, PAL.stoneDark, 'courtyard','pyeongje-base');
+    addBrick('w2x1', cx*S, PH+BH, rowZ*S, 0, PAL.stone, 'courtyard','pyeongje');
+  }
+});
+
+step(); /* 마당 계단 */
+fill(-3,3,-14,-12, PH, 'courtyard', function(){return PAL.stone;});
+fill(-3,3,-13,-12, PH+BH, 'courtyard', function(){return PAL.stone;}, {plate:true});
+fill(-3,3,-13,-12, PH+BH+PH, 'courtyard', function(){return PAL.stone;}, {plate:true});
+
+/* ---------------------------------- 2) 2단 월대 ------------------------- */
+step(); /* 하월대 */
+fill(LT.x0,LT.x1,LT.z0,LT.z1, 0, 'terrace', function(x,z,y){return y<0.9?PAL.stoneDark:PAL.stone;});
+fill(LT.x0,LT.x1,LT.z0,LT.z1, BH, 'terrace', function(){return PAL.stone;});
+
+step(); /* 상월대 */
+fill(UT.x0,UT.x1,UT.z0,UT.z1, yUT, 'terrace', function(){return PAL.stone;});
+fill(UT.x0,UT.x1,UT.z0,UT.z1, yUT+BH, 'terrace', function(){return PAL.stone;});
+
+step(); /* 돌난간 */
+(function(){
+  var y=yUT;
+  function rail(x,z){ addBrick('b1x1', x*S, y, z*S, 0, PAL.stone, 'terrace','railing'); }
+  /* 앞면 */
+  for(var x=LT.x0;x<LT.x1;x++){ if(x<-4||x>=4) rail(x+0.5, LT.z0+0.5); }
+  /* 양옆 (앞 모서리 중복 회피) */
+  for(var z=LT.z0+1;z<LT.z1;z++){ rail(LT.x0+0.5,z+0.5); rail(LT.x1-0.5,z+0.5); }
+  /* 난간 상단 갓 */
+  var capY=y+BH;
+  for(var x2=LT.x0;x2<LT.x1-1;x2+=2){ if(x2<-4||x2>=4) addBrick('p2x1',(x2+1)*S,capY,(LT.z0+0.5)*S,0,PAL.stone,'terrace','railcap'); }
+  for(var z2=LT.z0+1;z2<LT.z1-1;z2+=2){ addBrick('p2x1',(LT.x0+0.5)*S,capY,(z2+1.5)*S,Math.PI/2,PAL.stone,'terrace','railcap'); addBrick('p2x1',(LT.x1-0.5)*S,capY,(z2+1.5)*S,Math.PI/2,PAL.stone,'terrace','railcap'); }
+})();
+
+step(); /* 정전 계단 */
+fill(-3,3,-11,-9, yUT, 'terrace', function(){return PAL.stone;});
+fill(-3,3,-10,-9, yUT+BH, 'terrace', function(){return PAL.stone;});
+
+/* ---------------------------------- 3) 기둥/벽체 ------------------------ */
+step(); /* 벽체(내부 매스) 8층 */
+for(var L=0;L<8;L++){
+  (function(layer){
+    var y=yCore+layer*BH;
+    fill(CORE.x0,CORE.x1,CORE.z0,CORE.z1, y, 'pillars', function(x,z){
+      var frontWall=(z===CORE.z0+1||z===CORE.z1-1);
+      var sideWall=(x===CORE.x0+2||x===CORE.x1-2);
+      var edge=frontWall||sideWall;
+      if(!edge) return PAL.danRed;
+      if(layer>=6) return PAL.danGreen;                        /* 상부 띠 */
+      if(layer===2&&frontWall&&(x===-6||x===2)) return PAL.danYellow;   /* 창호 */
+      if(layer===2&&sideWall&&(z===-3||z===3)) return PAL.danYellow;   /* 창호 */
+      if(layer===4) return PAL.danGreen;                        /* 벽간 띠 */
+      return PAL.danRed;
+    });
+  })(L);
+}
+
+step(); /* 기둥 20개 (정면 5칸·측면 5칸 → 6+6+4+4) */
+(function(){
+  var cols=[];
+  COLX.forEach(function(x){ cols.push([x,CORE.z0-1.5]); cols.push([x,CORE.z1+1.5]); });
+  COLZ.forEach(function(z){ if(Math.abs(z)===7.5) return; cols.push([CORE.x0-2,z]); cols.push([CORE.x1+2,z]); });
+  cols.forEach(function(c){
+    var x=c[0], z=c[1];
+    var isWeak = (x===WEAK_COL.x && z===WEAK_COL.z);
+    var nx=x*S, nz=z*S;
+    var bx = isWeak ? nx+WEAK_COL.offX : nx;   /* 기단만 어긋나게 놓는다 */
+    var bz = isWeak ? nz+WEAK_COL.offZ : nz;
+    var base = addBrick('r2x2', bx, yCore, bz, 0, PAL.danYellow, 'pillars','column-base');
+    if(isWeak) weakBrick=base;
+    for(var k=0;k<5;k++) addBrick('r1x1', nx, yCore+BH+k*BH, nz, 0, PAL.danRed, 'pillars','column');
+  });
+})();
+
+step(); /* 공포(Bracket) */
+(function(){
+  var cols=[];
+  COLX.forEach(function(x){ cols.push([x,CORE.z0-1.5]); cols.push([x,CORE.z1+1.5]); });
+  COLZ.forEach(function(z){ if(Math.abs(z)===7.5) return; cols.push([CORE.x0-2,z]); cols.push([CORE.x1+2,z]); });
+  cols.forEach(function(c,i){
+    var x=c[0]*S, z=c[1]*S;
+    var c1=(i%3===0)?PAL.danGreen:(i%3===1?PAL.danYellow:PAL.danRed);
+    addBrick('b2x2', x, yColTop, z, 0, c1, 'brackets','bracket-arm');            /* 팔(arm) */
+    addBrick('b1x2', x, yColTop+BH, z+0.55*S, 0, PAL.danGreen, 'brackets','bracket-block');
+    addBrick('b2x1', x+0.85*S, yColTop+BH, z, 0, PAL.danRed, 'brackets','bracket-arm2');
+  });
+})();
+
+/* ---------------------------------- 4) 지붕 ---------------------------- */
+var ROOF_COURSE=[
+  {x:24,z:18,y:yEave},        /* L0 처마 */
+  {x:23,z:16,y:yEave+BH},
+  {x:22,z:14,y:yEave+2*BH},
+  {x:21,z:12,y:yEave+3*BH},
+  {x:20,z:10,y:yEave+4*BH},
+  {x:19,z:8, y:yEave+5*BH}    /* 하부 지붕 마루대 */
+];
+var UPPER_COURSE=[
+  {x:13,z:4,y:yEave+6*BH},
+  {x:12,z:3,y:yEave+7*BH},
+  {x:11,z:2,y:yEave+8*BH},
+  {x:10,z:1,y:yEave+9*BH}     /* 상부 지붕 마루 */
+];
+step(); /* 하부 팔작지붕 */
+ROOF_COURSE.forEach(function(c,ci){
+  fill(-c.x/2, c.x/2, -c.z/2, c.z/2, c.y, 'roof', function(){
+    return ci%2===0 ? PAL.tile : PAL.tileAlt;
+  });
+});
+step(); /* 중층(상부) 팔작지붕 */
+UPPER_COURSE.forEach(function(c,ci){
+  fill(-c.x/2, c.x/2, -c.z/2, c.z/2, c.y, 'roof', function(){
+    return ci%2===0 ? PAL.tileAlt : PAL.tile;
+  });
+});
+var yRidge = yEave+10*BH;
+step(); /* 마루 + 추눈 솟음 */
+(function(){
+  var w=10, z=0;
+  fill(-w/2, w/2, z, z+1, yRidge, 'roof', function(){return PAL.ridge;});
+  /* 마루 양끝을 솟아 추눈(치솟은 지붕끝)을 만든다 */
+  [-1,1].forEach(function(s){
+    var x=s*(w/2-0.6);
+    addBrick('b1x1', x*S, yRidge+BH, z*S, 0, PAL.danYellow, 'roof','chuneun');
+    addBrick('b1x1', (x+s*0.5)*S, yRidge+2*BH, z*S, 0, PAL.danRed, 'roof','chuneun');
+    addBrick('b2x1', (x+s*1.1)*S, yRidge+BH, z*S, 0, PAL.ridge, 'roof','chuneun');
+  });
+})();
+step(); /* 처마 곡선(물이 끊) */
+(function(){
+  var half=12;
+  [-1,1].forEach(function(s){
+    for(var i=0;i<12;i++){
+      var cx=-half+1+i*2;
+      var curve=0.42*(1-Math.pow(cx/half,2));   /* 가운데가 물러나고 모서리가 나온 형태 */
+      var zz=s*(ROOF_COURSE[0].z/2-0.4-curve);
+      addBrick('b2x1', cx*S, yEave+BH, zz*S, 0, (i%3===0?PAL.danYellow:PAL.danGreen), 'roof','eave-curve');
+    }
+  });
+})();
+
+/* ==========================================================================
+   4. 씬 / 렌더러
+   ========================================================================== */
+var canvas=document.getElementById('c');
+var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true});
+renderer.setPixelRatio(1);
+renderer.setSize(1920,1080,false);
+renderer.outputEncoding=THREE.LinearEncoding;      /* 팔레트 원색 유지 */
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.setClearColor(PAL.cream,1);
+
+var scene=new THREE.Scene();
+scene.background=new THREE.Color(PAL.cream);
+
+var camera=new THREE.OrthographicCamera(-1,1,1,-1,-400,600);
+
+/* ---------------------------------- 조명 ------------------------------- */
+/* 위쪽 면의 총 조도 ≈ 1.0 이 되도록 맞춰 크림 지면(#F2EEE6)이 날것으로 saturate 하지 않게 한다 */
+var hemi=new THREE.HemisphereLight(0xFFFFFF,0xE6DFCF,0.42); scene.add(hemi);
+var sun=new THREE.DirectionalLight(0xFFFFFF,0.68);
+sun.position.set(-34,52,30); sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);
+sun.shadow.camera.near=1; sun.shadow.camera.far=160;
+sun.shadow.bias=-0.0006; sun.shadow.normalBias=0.02;
+scene.add(sun); scene.add(sun.target);
+var fill=new THREE.DirectionalLight(0xFFF2DF,0.15); fill.position.set(40,24,-30); scene.add(fill);
+
+/* ---------------------------------- 지면 ------------------------------- */
+var ground=new THREE.Mesh(new THREE.PlaneGeometry(400,400),
+  new THREE.MeshLambertMaterial({color:0xF2EEE6}));
+ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+
+/* ------------------------------ 인왕산 실루엣 --------------------------- */
+function ridgeMesh(pts,color,depth){
+  /* 능선 스트립: 정점 색으로 아래→위 수직 그라데이션(지면색으로 페이드) */
+  var n=pts.length, pos=new Float32Array(n*2*3), colArr=new Float32Array(n*2*3), idx=[];
+  var cTop=new THREE.Color(color), cBot=new THREE.Color(PAL.cream), tmp=new THREE.Color();
+  for(var i=0;i<n;i++){
+    var x=pts[i][0], y=pts[i][1];
+    pos[i*6]=x; pos[i*6+1]=y;  pos[i*6+2]=0;
+    pos[i*6+3]=x; pos[i*6+4]=-18; pos[i*6+5]=0;
+    tmp.copy(cBot).lerp(cTop,smooth(clamp01(y/4.5)));
+    colArr[i*6]=tmp.r; colArr[i*6+1]=tmp.g; colArr[i*6+2]=tmp.b;
+    colArr[i*6+3]=cBot.r; colArr[i*6+4]=cBot.g; colArr[i*6+5]=cBot.b;
+    if(i<n-1){ var a=i*2; idx.push(a,a+1,a+2, a+1,a+3,a+2); }
+  }
+  var g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  g.setAttribute('color',new THREE.BufferAttribute(colArr,3));
+  g.setIndex(idx);
+  return new THREE.Mesh(g,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide}));
+}
+
+/* ==========================================================================
+   5. 브릭 → InstancedMesh (파트별)
+   ========================================================================== */
+var t0=performance.now();
+var partOrder=[];
+PART_DEFS.forEach(function(p){ p.instances=[]; partOrder.push(p); });
+M.bricks.forEach(function(b){ PART[b.part].instances.push(b); });
+
+var partStats=[];   /* 인벤토리용 */
+partOrder.forEach(function(p){
+  if(!p.instances.length) return;
+  var geo=buildPartGeometry(p);
+  var mat=new THREE.MeshStandardMaterial({color:0xffffff, roughness:0.78, metalness:0.0,
+    transparent:true, opacity:1});
+  var mesh=new THREE.InstancedMesh(geo,mat,p.instances.length);
+  mesh.castShadow=true; mesh.receiveShadow=true; mesh.frustumCulled=false;
+  scene.add(mesh);
+  p.mesh=mesh;
+  p.geo=geo;
+  var col=new THREE.Color(p.instances[0].color);
+  for(var i=0;i<p.instances.length;i++){
+    p.instances[i]._c=new THREE.Color(p.instances[i].color);
+    mesh.setColorAt(i,p.instances[i]._c);
+  }
+  mesh.instanceColor.needsUpdate=true;
+  partStats.push({key:p.key,def:p,count:p.instances.length,color:col,colorHex:p.instances[0].color});
+});
+
+/* ------------------------------ 실측 치수 ------------------------------- */
+function partBounds(p){
+  var g=p.geo.userData;
+  return {x:g.w/2,z:g.d/2,y0:0,y1:g.h};
+}
+var bounds={minX:1e9,maxX:-1e9,minY:1e9,maxY:-1e9,minZ:1e9,maxZ:-1e9};
+M.bricks.forEach(function(b){
+  var p=PART[b.part], bb=partBounds(p);
+  var c=Math.cos(b.rot), s=Math.sin(b.rot);
+  var corners=[[-bb.x,0,-bb.z],[bb.x,0,-bb.z],[bb.x,0,bb.z],[-bb.x,0,bb.z],
+               [-bb.x,bb.y1,-bb.z],[bb.x,bb.y1,-bb.z],[bb.x,bb.y1,bb.z],[-bb.x,bb.y1,bb.z]];
+  for(var i=0;i<8;i++){
+    var lx=corners[i][0], ly=corners[i][1], lz=corners[i][2];
+    var wx=b.x+lx*c+lz*s, wz=b.z-lx*s+lz*c;
+    if(wx<bounds.minX)bounds.minX=wx; if(wx>bounds.maxX)bounds.maxX=wx;
+    if(wz<bounds.minZ)bounds.minZ=wz; if(wz>bounds.maxZ)bounds.maxZ=wz;
+    if(ly+b.y<bounds.minY)bounds.minY=ly+b.y; if(ly+b.y>bounds.maxY)bounds.maxY=ly+b.y;
+  }
+});
+var dims=[bounds.maxX-bounds.minX, bounds.maxY-bounds.minY, bounds.maxZ-bounds.minZ];
+
+/* ==========================================================================
+   6. 검증 — 기둥 기단 접촉 검사 + 부유(floting) 검사
+   ========================================================================== */
+function footprint(b){
+  var p=PART[b.part], g=p.geo.userData;
+  var hx=g.r!=null?g.r:g.w/2, hz=g.r!=null?g.r:g.d/2;
+  var c=Math.abs(Math.cos(b.rot)), s=Math.abs(Math.sin(b.rot));
+  var ex=hx*c+hz*s, ez=hx*s+hz*c;
+  return {x0:b.x-ex,x1:b.x+ex,z0:b.z-ez,z1:b.z+ez,y0:b.y,y1:b.y+g.h};
+}
+M.bricks.forEach(function(b){ b.fp=footprint(b); });
+
+/* 통 (estal) 별 contact 면적 */
+var supports={};   /* yKey -> [brick] */
+M.bricks.forEach(function(b){
+  var key=Math.round(b.fp.y1*1000);
+  (supports[key]=supports[key]||[]).push(b);
+});
+function contactArea(b){
+  var key=Math.round(b.fp.y0*1000);          /* 받침: 윗면이 이 높이와 정확히 일치하는 벽돌 */
+  var list=supports[key]||[];
+  var area=0;
+  for(var i=0;i<list.length;i++){
+    var o=list[i]; if(o===b) continue;
+    var ow=Math.min(b.fp.x1,o.fp.x1)-Math.max(b.fp.x0,o.fp.x0);
+    var od=Math.min(b.fp.z1,o.fp.z1)-Math.max(b.fp.z0,o.fp.z0);
+    if(ow>0&&od>0) area+=ow*od;
+  }
+  return area;
+}
+function sideContact(b){
+  var area=0;
+  for(var i=0;i<M.bricks.length;i++){
+    var o=M.bricks[i]; if(o===b) continue;
+    if(o.fp.y1<=b.fp.y0+0.001||o.fp.y0>=b.fp.y1-0.001) continue;
+    var ow=Math.min(b.fp.x1,o.fp.x1)-Math.max(b.fp.x0,o.fp.x0);
+    var od=Math.min(b.fp.z1,o.fp.z1)-Math.max(b.fp.z0,o.fp.z0);
+    if(ow>0&&od>0) area+=ow*od;
+  }
+  return area;
+}
+var diagnostics={errors:0,warnings:0,weakColumns:[],floating:[]};
+M.bricks.forEach(function(b){
+  var area=(b.fp.x1-b.fp.x0)*(b.fp.z1-b.fp.z0);   /* 바닥 면적(-rot AABB) */
+  b.area=area;
+  b.contact=contactArea(b);
+  b.contactRatio=b.contact/area;
+  b.onGround=(b.fp.y0<=0.001);
+});
+/* (a) 부유 검사: 지지도 없고 측면 접촉도 없음 */
+M.bricks.forEach(function(b){
+  if(b.onGround) return;
+  if(b.contact>1e-4) return;
+  if(sideContact(b)>1e-4) return;
+  diagnostics.floating.push(b);
+});
+diagnostics.errors=diagnostics.floating.length;
+/* (b) 기둥 결합부 검사 — 기단(기둥기둥돌)의 동심도 + 받침 접촉률 */
+var COL_TOL=0.15;   /* 허용 이심(공차) cm */
+M.bricks.forEach(function(b){
+  if(b.tag!=='column-base') return;
+  var shaft=null,best=1e9;
+  M.bricks.forEach(function(o){
+    if(o.tag!=='column') return;
+    var d=Math.hypot(o.x-b.x,o.z-b.z);
+    if(d<best){best=d;shaft=o;}
+  });
+  var ecc=shaft?Math.hypot(shaft.x-b.x,shaft.z-b.z):0;
+  b.ecc=ecc;
+  if(ecc>COL_TOL || b.contactRatio<0.90){
+    diagnostics.warnings++;
+    diagnostics.weakColumns.push({x:b.x,y:b.y,z:b.z,ecc:+ecc.toFixed(3),contact:+b.contactRatio.toFixed(3)});
+  }
+});
+var warningsInitial=diagnostics.warnings;
+
+/* ==========================================================================
+   7. 와이어프레임(빗각선) — 정점 색 baked
+   ========================================================================== */
+var wfPos=[], wfCol=[], wfBrickStart=[];
+function boxEdges(b,p){
+  var g=p.geo.userData;
+  var hx=(g.r!=null?g.r:g.w/2), hz=(g.r!=null?g.r:g.d/2), y0=0, y1=g.h;
+  var v=[[-hx,y0,-hz],[hx,y0,-hz],[hx,y0,hz],[-hx,y0,hz],[-hx,y1,-hz],[hx,y1,-hz],[hx,y1,hz],[-hx,y1,hz]];
+  var c=Math.cos(b.rot), s=Math.sin(b.rot);
+  var w=v.map(function(pp){ return [b.x+pp[0]*c+pp[2]*s, b.y+pp[1], b.z-pp[0]*s+pp[2]*c]; });
+  var e=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  var out=[];
+  e.forEach(function(ee){
+    out.push({a:w[ee[0]],b:w[ee[1]],joint:(Math.abs(w[ee[0]][1]-y0)<1e-6 && Math.abs(w[ee[1]][1]-y0)<1e-6)});
+  });
+  return out;
+}
+M.bricks.forEach(function(b){
+  var p=PART[b.part];
+  var edges=boxEdges(b,p);
+  wfBrickStart.push({start:wfPos.length/3, count:edges.length*2, y:b.fp.y0, group:b.group});
+  edges.forEach(function(e){
+    wfPos.push(e.a[0],e.a[1],e.a[2], e.b[0],e.b[1],e.b[2]);
+    wfCol.push(0.5,0.5,0.5, 0.5,0.5,0.5);
+  });
+});
+var wfGeo=new THREE.BufferGeometry();
+wfGeo.setAttribute('position',new THREE.Float32BufferAttribute(wfPos,3));
+wfGeo.setAttribute('color',new THREE.Float32BufferAttribute(wfCol,3));
+var wfMat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0});
+var wireframe=new THREE.LineSegments(wfGeo,wfMat);
+wireframe.frustumCulled=false; scene.add(wireframe);
+
+/* ==========================================================================
+   8. 카메라 배치 (아이소메트릭 고정)
+   ========================================================================== */
+var center=new THREE.Vector3((bounds.minX+bounds.maxX)/2, (bounds.minY+bounds.maxY)/2, (bounds.minZ+bounds.maxZ)/2);
+var camDir=new THREE.Vector3(1,0.80,-1).normalize();   /* 앞마당(-Z)을 정면으로 */
+var camRight=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),camDir).normalize();
+var camUp=new THREE.Vector3().crossVectors(camDir,camRight).normalize();
+var camDist=160;
+(function fitCamera(){
+  /* 실제 브릭 실루엣에 맞춰 프러스텀을 맞춘다 */
+  var rx=[],ry=[];
+  M.bricks.forEach(function(b){
+    var p=PART[b.part], g=p.geo.userData;
+    var hx=(g.r!=null?g.r:g.w/2), hz=(g.r!=null?g.r:g.d/2);
+    var c=Math.cos(b.rot), s=Math.sin(b.rot);
+    for(var i=0;i<8;i++){
+      var lx=(i&1)?hx:-hx, ly=(i&2)?g.h:0, lz=(i&4)?hz:-hz;
+      var wx=b.x+lx*c+lz*s, wy=b.y+ly, wz=b.z-lx*s+lz*c;
+      var dx=wx-center.x, dy=wy-center.y, dz=wz-center.z;
+      rx.push(dx*camRight.x+dy*camRight.y+dz*camRight.z);
+      ry.push(dx*camUp.x+dy*camUp.y+dz*camUp.z);
+    }
+  });
+  var maxX=Math.max.apply(null,rx.map(Math.abs));
+  var maxY=Math.max.apply(null,ry.map(Math.abs));
+  var halfW=maxX*1.10, halfH=maxY*1.10;
+  if(halfH<halfW*9/16) halfH=halfW*9/16; else halfW=halfH*16/9;
+  camera.left=-halfW; camera.right=halfW; camera.top=halfH; camera.bottom=-halfH;
+  camera.near=-400; camera.far=600;
+  camera.updateProjectionMatrix();
+})();
+var camBaseTarget=center.clone();
+var focusTarget=new THREE.Vector3(
+  (weakBrick?weakBrick.x:center.x), weakBrick?weakBrick.y+2.2:center.y, weakBrick?weakBrick.z:center.z);
+function applyCamera(focus){
+  var tgt=camBaseTarget.clone().lerp(focusTarget,focus);
+  camera.position.copy(tgt).add(camDir.clone().multiplyScalar(camDist));
+  camera.lookAt(tgt);
+  camera.zoom=1+1.9*focus;
+  camera.updateProjectionMatrix();
+}
+
+/* ------------------------------ 인왕산 실루엣 ---------------------------- */
+/* 카메라를 향한 판(빌보드)으로 세워 궁전 뒤에 배치한다 */
+(function(){
+  var back=new THREE.Vector3(-camDir.x,0,-camDir.z).normalize();
+  var yaw=Math.atan2(camDir.x,camDir.z);
+  var far=ridgeMesh([[-31,0],[-26,5],[-21,10],[-16,7],[-10,12],[-4,8],[2,11],[8,6],[13,9],[19,4],[24,7],[31,0]],PAL.mtnFar,3);
+  var near=ridgeMesh([[-23,0],[-19,3.5],[-15,7],[-11,5],[-7,8.5],[-3,5.5],[1,7.5],[5,4],[9,6],[13,3],[17,5],[23,0]],PAL.mtnNear,3);
+  [far,near].forEach(function(m){ m.rotation.y=yaw; scene.add(m); });
+  far.position.set(center.x+back.x*34,0,center.z+back.z*34);
+  near.position.set(center.x+back.x*20,0,center.z+back.z*20);
+})();
+
+/* ==========================================================================
+   9. 오버레이 (치수선·지시선·보강 콜라)
+   ========================================================================== */
+var bboxGroup=new THREE.Group(); scene.add(bboxGroup);
+var bboxLines=(function(){
+  var g=new THREE.BufferGeometry();
+  var x0=bounds.minX,x1=bounds.maxX,y0=bounds.minY,y1=bounds.maxY,z0=bounds.minZ,z1=bounds.maxZ;
+  var v=[
+    [x0,y0,z0],[x1,y0,z0],[x1,y0,z1],[x0,y0,z1],
+    [x0,y1,z0],[x1,y1,z0],[x1,y1,z1],[x0,y1,z1]
+  ];
+  var e=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  var pos=[];
+  e.forEach(function(pp){ pos.push(v[pp[0]][0],v[pp[0]][1],v[pp[0]][2], v[pp[1]][0],v[pp[1]][1],v[pp[1]][2]); });
+  g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+  var m=new THREE.LineBasicMaterial({color:PAL.accent,transparent:true,opacity:0});
+  return new THREE.LineSegments(g,m);
+})();
+bboxGroup.add(bboxLines);
+
+/* 지시선(roof) */
+var leaderMat=new THREE.LineBasicMaterial({color:PAL.accent,transparent:true,opacity:0});
+var leaderGeo=new THREE.BufferGeometry();
+var roofTop=new THREE.Vector3(0,yRidge+BH,0);
+var leaderPts=[];
+[[-1,-1],[1,-1],[1,1],[-1,1]].forEach(function(sg){
+  leaderPts.push(roofTop.x+sg[0]*5,roofTop.y+6.5,roofTop.z+sg[1]*2.5,
+                 roofTop.x+sg[0]*5,roofTop.y+1.0,roofTop.z+sg[1]*2.5);
+});
+leaderGeo.setAttribute('position',new THREE.Float32BufferAttribute(leaderPts,3));
+var leaders=new THREE.LineSegments(leaderGeo,leaderMat); scene.add(leaders);
+
+/* 보강 콜라(기둥 결합부) */
+var collarMat=new THREE.MeshBasicMaterial({color:PAL.accent,transparent:true,opacity:0});
+var collar=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.42,12,32),collarMat);
+collar.rotation.x=Math.PI/2;
+if(weakBrick){ collar.position.set(weakBrick.x,weakBrick.y+0.5,weakBrick.z); }
+scene.add(collar);
+var collarBox=new THREE.Mesh(new THREE.BoxGeometry(2.6,1.3,2.6),
+  new THREE.MeshBasicMaterial({color:PAL.accent,wireframe:true,transparent:true,opacity:0}));
+if(weakBrick) collarBox.position.set(weakBrick.x,weakBrick.y+0.5,weakBrick.z);
+scene.add(collarBox);
+
+/* ==========================================================================
+   10. HUD
+   ========================================================================== */
+var el=function(id){return document.getElementById(id);};
+var hudBricks=el('mBricks'), hudParts=el('mParts');
+var dimX=el('dimX'),dimY=el('dimY'),dimZ=el('dimZ');
+var badge=el('badge'),badgeN=el('badgeN');
+var roofCnt=el('roofcnt'),roofCntN=el('roofcntN');
+var invEl=el('inv'), statsEl=el('stats'), trackEl=el('track');
+var scrub=el('scrub'), timeEl=el('t'), playBtn=el('play');
+
+/* 파��� 트랙(6구간) */
+for(var ti=0;ti<6;ti++){ var sp=document.createElement('span'); sp.innerHTML='<i></i>'; trackEl.appendChild(sp); }
+var trackBars=trackEl.querySelectorAll('span i');
+var PHASE_EDGES=[0,7,13,17,23,29,32];
+
+/* 인벤토리 셀 */
+function partIconSvg(def,color){
+  var u=8, W=def.w*u, H=7;
+  var hex='#'+color.getHexString();
+  var studs='';
+  for(var i=0;i<def.w;i++){
+    for(var j=0;j<def.d;j++){
+      studs+='<rect x="'+(4+i*u+j*(u-4)/Math.max(1,def.d)) +'" y="0" width="'+(u-3)+'" height="3.2" rx="1.1" fill="'+hex+'" opacity=".55"/>';
+    }
+  }
+  return '<svg viewBox="0 0 '+(W+10)+' '+(H+12)+'" width="'+(W+10)+'" height="'+(H+12)+'">'
+    +'<g>'+studs+'</g>'
+    +'<rect x="3" y="5" width="'+(W+2)+'" height="'+H+'" rx="1.6" fill="'+hex+'"/>'
+    +'<rect x="3" y="5" width="'+(W+2)+'" height="2.2" rx="1" fill="#fff" opacity=".38"/>'
+    +'</svg>';
+}
+partStats.forEach(function(ps,i){
+  var d=document.createElement('div'); d.className='cell';
+  d.innerHTML='<div class="glyph">'+partIconSvg(ps.def,ps.color)+'</div>'
+    +'<div class="cnt num"><svg class="ic"><use href="#i-brick"/></svg><span>0</span></div>';
+  invEl.appendChild(d); ps.el=d; ps.numEl=d.querySelector('.cnt span');
+});
+invEl.style.gridTemplateColumns='repeat(2,176px)';
+
+/* 통계 6칸 */
+var STATS=[
+  {icon:'#i-brick', cls:'', unit:''},
+  {icon:'#i-layers', cls:'', unit:''},
+  {icon:'#i-parts', cls:'', unit:''},
+  {icon:'#i-clock', cls:'', unit:'ms'},
+  {icon:'#i-err', cls:'err', unit:''},
+  {icon:'#i-warn', cls:'warn', unit:''}
+];
+STATS.forEach(function(st){
+  var d=document.createElement('div'); d.className='stat '+st.cls;
+  d.innerHTML='<svg class="ic"><use href="'+st.icon+'"/></svg><div class="v num">0<em>'+st.unit+'</em></div>';
+  statsEl.appendChild(d); st.el=d; st.vEl=d.querySelector('.v');
+});
+
+/* ==========================================================================
+   11. 타임라인
+   ========================================================================== */
+var clock=0, playing=true, last=performance.now();
+var params=new URLSearchParams(location.search);
+if(params.has('t')){ clock=clamp(parseFloat(params.get('t'))||0,0,DURATION); }
+if(params.get('play')==='0') playing=false;
+
+/* 단계(층) — 수직 분해용 */
+function levelOf(b){
+  var y=b.fp.y0;
+  if(y<2*BH) return 0;                 /* 하월대 */
+  if(y<4*BH) return 1;                 /* 상월대·난간 */
+  if(y<yColTop) return 2;              /* 벽체·기둥 */
+  if(y<yEave) return 3;                /* 공포 */
+  if(y<yEave+6*BH) return 4;           /* 하부 지붕 */
+  return 5;                            /* 상부 지붕·마루 */
+}
+M.bricks.forEach(function(b){ b.level=levelOf(b); });
+
+var GRAY=new THREE.Color(0xB4AEA2);
+var ORANGE=new THREE.Color(PAL.accent);
+var BLUE=new THREE.Color(0x2F6BD8);
+var WF_BASE=new THREE.Color(0x8F9AA0);
+var tmpColor=new THREE.Color();
+var mtx=new THREE.Matrix4(), q=new THREE.Quaternion(), v3=new THREE.Vector3(), sc=new THREE.Vector3();
+
+function applyState(t){
+  /* --- 위상별 계수 --- */
+  var explode = t<2.6?0 : (t<4.8? easeOut((t-2.6)/2.2) : (t<6.4? 1-easeIO((t-4.8)/1.6) : 0));
+  var wire   = seg(t,7.0,7.6)*(1-seg(t,13.0,13.6));
+  var mono   = seg(t,13.2,14.2)*(1-seg(t,16.4,17.2));
+  var shrink = seg(t,13.6,14.8)*(1-seg(t,16.2,17.0));
+  var leaderA= seg(t,14.6,15.4)*(1-seg(t,16.4,17.1));
+  var focus  = seg(t,17.0,18.6)*(1-seg(t,21.6,23.0));
+  var warnA  = seg(t,17.3,17.9)*(1-seg(t,22.6,23.0));
+  var fix    = easeIO(seg(t,19.4,20.8));
+  /* 약한 결합부는 주황으로 점멸 */
+  var weakPulse = (warnA>0 && fix<0.6) ? (0.40+0.45*Math.sin(clock*10))*warnA : 0;
+  var invOut=1-seg(t,28.4,29.3);
+  var statsA = seg(t,29.0,29.7);
+
+  /* --- 인스턴스 행렬/색 갱신 --- */
+  var yShift=explode*1.65;
+  for(var pi=0;pi<partOrder.length;pi++){
+    var p=partOrder[pi]; if(!p.mesh) continue;
+    var inst=p.instances;
+    for(var i=0;i<inst.length;i++){
+      var b=inst[i];
+      var off=(b.level-2.5)*yShift;
+      var s=1;
+      if(shrink>0 && b.group!=='roof') s=1-0.8*shrink;
+      var px=b.x, py=b.y+off, pz=b.z;
+      if(b===weakBrick){ px-=WEAK_COL.offX*(1-fix); pz-=WEAK_COL.offZ*(1-fix); }
+      var g=p.geo.userData;
+      if(s!==1) py+=(g.h*(1-s))/2;
+      v3.set(px,py,pz);
+      q.setFromAxisAngle(new THREE.Vector3(0,1,0),b.rot);
+      sc.set(s,s,s);
+      mtx.compose(v3,q,sc);
+      p.mesh.setMatrixAt(i,mtx);
+      if(b===weakBrick && weakPulse>0){ tmpColor.copy(b._c).lerp(ORANGE,weakPulse); p.mesh.setColorAt(i,tmpColor); }
+      else if(mono>0){ tmpColor.copy(b._c).lerp(GRAY,mono); p.mesh.setColorAt(i,tmpColor); }
+      else if(p.mesh.instanceColor){ p.mesh.setColorAt(i,b._c); }
+    }
+    p.mesh.instanceMatrix.needsUpdate=true;
+    if(p.mesh.instanceColor) p.mesh.instanceColor.needsUpdate=true;
+    p.mesh.material.opacity=1-wire;
+    p.mesh.material.visible=wire<0.999;
+  }
+
+  /* --- 와이어프레임 하이라이트(아래→위, 주황→파랑) --- */
+  if(wire>0.001){
+    var sweep=seg(t,7.2,12.2);
+    var yMin=bounds.minY, yMax=bounds.maxY;
+    var colAttr=wfGeo.attributes.color;
+    for(var wi=0;wi<wfBrickStart.length;wi++){
+      var rec=wfBrickStart[wi];
+      var ny=clamp01((rec.y-yMin)/(yMax-yMin));
+      var passed=sweep>=ny;
+      var blend=clamp01((sweep-ny)/0.18);
+      var jc=new THREE.Color(); 
+      if(passed){ jc.copy(ORANGE).lerp(BLUE,blend); }
+      else { jc.copy(WF_BASE); }
+      var tc=passed? new THREE.Color(0xBFC7CC) : WF_BASE;
+      for(var v=0;v<rec.count;v+=2){
+        /* 아래 모서리 4개 = 결합부 */
+        var isJoint = (v%8)<8;   /* 12선분 → 앞 8개 정점이 하단(0,1,2,3 변) */
+        var c = isJoint?jc:tc;
+        colAttr.setXYZ(rec.start+v,   c.r,c.g,c.b);
+        colAttr.setXYZ(rec.start+v+1, c.r,c.g,c.b);
+      }
+    }
+    colAttr.needsUpdate=true;
+  }
+  wfMat.opacity=wire;
+  wireframe.visible=wire>0.001;
+
+  /* --- 오버레이 --- */
+  bboxLines.material.opacity=seg(t,0.1,0.8)*(1-seg(t,6.4,7.0));
+  bboxLines.geometry.setDrawRange(0, Math.floor(seg(t,0.3,2.4)*12)*2);
+  leaderMat.opacity=leaderA*0.95;
+  leaders.visible=leaderA>0.01;
+  var collarA=seg(t,19.4,20.6)*(1-seg(t,22.4,23.0));
+  collarMat.opacity=collarA*0.85;
+  collarBox.material.opacity=collarA*0.9;
+  collar.visible=collarBox.visible=collarA>0.01;
+  if(weakBrick&&collar.visible){
+    collar.position.set(weakBrick.x-WEAK_COL.offX*(1-fix), weakBrick.y+0.5, weakBrick.z-WEAK_COL.offZ*(1-fix));
+    collarBox.position.copy(collar.position);
+    collarBox.rotation.y=clock*1.2;
+  }
+
+  /* --- 카메라 --- */
+  applyCamera(focus);
+
+  /* --- HUD --- */
+  var dimA=seg(t,0.4,1.2)*(1-seg(t,6.2,6.9));
+  dimX.style.opacity=dimA; dimY.style.opacity=dimA; dimZ.style.opacity=dimA;
+  var dcount=easeOut(seg(t,0.4,2.6));
+  dimX.querySelector('.num').textContent=(dims[0]*dcount).toFixed(1);
+  dimY.querySelector('.num').textContent=(dims[1]*dcount).toFixed(1);
+  dimZ.querySelector('.num').textContent=(dims[2]*dcount).toFixed(1);
+  projectDim(dimX,new THREE.Vector3((bounds.minX+bounds.maxX)/2,bounds.minY-1.6,(bounds.minZ+bounds.maxZ)/2));
+  projectDim(dimY,new THREE.Vector3(bounds.minX-1.8,(bounds.minY+bounds.maxY)/2,(bounds.minZ+bounds.maxZ)/2));
+  projectDim(dimZ,new THREE.Vector3((bounds.minX+bounds.maxX)/2,bounds.minY-1.6,bounds.maxZ+1.8));
+
+  /* 경고 배지 */
+  badge.style.opacity=warnA;
+  badge.classList.toggle('ok',fix>=0.999);
+  badge.querySelector('use').setAttribute('href', fix>=0.999?'#i-check':'#i-warn');
+  badgeN.textContent = fix>=0.999 ? '0' : String(Math.max(1,warningsInitial));
+
+  /* 지붕 브릭 수(지시선과 짝) */
+  roofCnt.style.opacity=leaderA;
+  roofCntN.textContent=String(M.groups.roof);
+  projectDim(roofCnt,new THREE.Vector3(0,yRidge+BH+8.4,0));
+
+  /* 인벤토리 */
+  var invOut=1-seg(t,28.4,29.3);
+  partStats.forEach(function(ps,i){
+    var a=smooth(seg(t, 23.0+i*0.13, 23.0+i*0.13+0.55))*invOut;
+    ps.el.style.opacity=a;
+    ps.el.style.transform='translateY('+((1-a)*20)+'px)';
+    ps.numEl.textContent=String(Math.round(ps.count*a));
+  });
+
+  /* 통계 6칸 */
+  var liveWarnings = fix>=0.999 ? warningsInitial-diagnostics.weakColumns.length : warningsInitial;
+  var statVals=[M.bricks.length, M.steps, partStats.length, Math.round(generationMs), diagnostics.errors, liveWarnings];
+  STATS.forEach(function(st,i){
+    var a=smooth(seg(t, 29.05+i*0.14, 30.6+i*0.14));
+    st.el.style.opacity=1;
+    st.el.style.transform='translateY('+((1-statsA)*16)+'px)';
+    st.vEl.firstChild.nodeValue=String(Math.round(statVals[i]*a));
+  });
+  statsEl.style.opacity=statsA;
+
+  /* 진행 트랙 */
+  for(var k=0;k<6;k++){
+    var f=clamp01((t-PHASE_EDGES[k])/(PHASE_EDGES[k+1]-PHASE_EDGES[k]));
+    trackBars[k].style.width=(f*100)+'%';
+  }
+
+  hudBricks.textContent=M.bricks.length;
+  hudParts.textContent=partStats.length;
+  timeEl.firstChild.nodeValue=t.toFixed(2);
+  if(document.activeElement!==scrub) scrub.value=t;
+}
+
+var projV=new THREE.Vector3();
+function projectDim(node,p3){
+  projV.copy(p3).project(camera);
+  var x=(projV.x*0.5+0.5)*1920, y=(-projV.y*0.5+0.5)*1080;
+  node.style.left=x+'px'; node.style.top=y+'px';
+}
+
+/* ==========================================================================
+   12. 루프 / 조작 / 공개 인터페이스
+   ========================================================================== */
+function resize(){
+  var w=window.innerWidth, h=window.innerHeight;
+  var s=Math.min(w/1920,h/1080);
+  document.getElementById('frame').style.transform='scale('+s+')';
+}
+window.addEventListener('resize',resize); resize();
+
+function frame(now){
+  var dt=Math.min(0.05,(now-last)/1000); last=now;
+  if(playing){
+    clock+=dt;
+    if(clock>DURATION){ clock=0; }
+  }
+  applyState(clock);
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+playBtn.addEventListener('click',function(){
+  playing=!playing;
+  playBtn.querySelector('use').setAttribute('href',playing?'#i-pause':'#i-play');
+});
+scrub.addEventListener('input',function(){ clock=parseFloat(scrub.value)||0; playing=false;
+  playBtn.querySelector('use').setAttribute('href','#i-play'); applyState(clock); renderer.render(scene,camera); });
+window.addEventListener('keydown',function(e){
+  if(e.code==='Space'){ e.preventDefault(); playBtn.click(); }
+  else if(e.code==='ArrowRight'){ playing=false; playBtn.querySelector('use').setAttribute('href','#i-play'); clock=clamp(clock+1/30,0,DURATION); applyState(clock); }
+  else if(e.code==='ArrowLeft'){ playing=false; playBtn.querySelector('use').setAttribute('href','#i-play'); clock=clamp(clock-1/30,0,DURATION); applyState(clock); }
+});
+
+/* 생성 시간(실측) */
+var generationMs=performance.now()-t0;
+
+/* ---- 공개 인터페이스 (검증 계약) ---- */
+window.__palace={
+  stats:{
+    bricks:M.bricks.length,
+    parts:partStats.length,
+    groups:{terrace:M.groups.terrace,pillars:M.groups.pillars,brackets:M.groups.brackets,roof:M.groups.roof,courtyard:M.groups.courtyard},
+    dimensionsCm:[+dims[0].toFixed(2),+dims[1].toFixed(2),+dims[2].toFixed(2)],
+    generationMs:+generationMs.toFixed(2)
+  },
+  seek:function(t){
+    clock=clamp((typeof t==='number'&&isFinite(t))?t:0,0,DURATION);
+    applyState(clock);
+    renderer.render(scene,camera);
+    return clock;
+  },
+  /* 내부 정보(계약 밖) */
+  diagnostics:{errors:diagnostics.errors,warnings:warningsInitial,
+    weakColumns:diagnostics.weakColumns,floating:diagnostics.floating.length,
+    steps:M.steps,groups:JSON.parse(JSON.stringify(M.groups)),
+    roofBricks:M.groups.roof,partList:partStats.map(function(p){return {key:p.key,count:p.count};})},
+  time:function(){return clock;},
+  playing:function(v){playing=!!v;},
+  scene:scene, camera:camera, model:M
+};
+applyState(clock);
+renderer.render(scene,camera);
+})();
+</script>
+</body>
+</html>

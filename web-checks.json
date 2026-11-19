@@ -1,0 +1,222 @@
+[
+  {
+    "page": "palace",
+    "viewport": "1280x720",
+    "rendering": "Chrome headless / SwiftShader software WebGL",
+    "checkedAt": "2026-11-19T00:07:55.639Z",
+    "checks": [
+      {
+        "name": "sum of group counts equals actual brick records",
+        "pass": true,
+        "detail": {
+          "sum": 1185,
+          "bricks": 1185
+        }
+      },
+      {
+        "name": "brick count is non-trivial",
+        "pass": true,
+        "detail": 1185
+      },
+      {
+        "name": "five part groups present",
+        "pass": true,
+        "detail": [
+          "terrace",
+          "pillars",
+          "brackets",
+          "roof",
+          "courtyard"
+        ]
+      },
+      {
+        "name": "dimensions are measured values",
+        "pass": true,
+        "detail": [
+          25.6,
+          23.04,
+          26.4
+        ]
+      },
+      {
+        "name": "generation time is measured",
+        "pass": true,
+        "detail": 41.8
+      },
+      {
+        "name": "seek moves the timeline",
+        "pass": true,
+        "detail": {
+          "seekMovesTimeline": true,
+          "at3": 3,
+          "at20": 20
+        }
+      },
+      {
+        "name": "no page errors",
+        "pass": true,
+        "detail": []
+      }
+    ],
+    "errors": [],
+    "stats": {
+      "bricks": 1185,
+      "parts": 11,
+      "groups": {
+        "terrace": 386,
+        "pillars": 312,
+        "brackets": 60,
+        "roof": 291,
+        "courtyard": 136
+      },
+      "dimensionsCm": [
+        25.6,
+        23.04,
+        26.4
+      ],
+      "generationMs": 41.8
+    },
+    "motion": {
+      "seekMovesTimeline": true,
+      "at3": 3,
+      "at20": 20
+    }
+  },
+  {
+    "page": "model-intro",
+    "viewport": "1280x720",
+    "rendering": "Chrome headless / SwiftShader software WebGL",
+    "checkedAt": "2026-11-19T00:08:51.059Z",
+    "checks": [
+      {
+        "name": "no horizontal overflow at 390px",
+        "pass": true
+      },
+      {
+        "name": "particle field is populated",
+        "pass": true,
+        "detail": 20000
+      },
+      {
+        "name": "scroll progress is tracked",
+        "pass": true,
+        "detail": 0
+      },
+      {
+        "name": "reduced motion preference detected",
+        "pass": true
+      },
+      {
+        "name": "no page errors",
+        "pass": true,
+        "detail": []
+      }
+    ],
+    "errors": [],
+    "state": {
+      "progress": 0,
+      "particles": 20000,
+      "reducedMotion": false,
+      "dark": true,
+      "fps": 35
+    }
+  },
+  {
+    "page": "hangang-city",
+    "viewport": "1280x720",
+    "rendering": "Chrome headless / SwiftShader software WebGL",
+    "checkedAt": "2026-11-19T00:08:42.343Z",
+    "checks": [
+      {
+        "name": "test.key hook exists",
+        "pass": true
+      },
+      {
+        "name": "test.press hook exists",
+        "pass": true
+      },
+      {
+        "name": "test.step hook exists",
+        "pass": true
+      },
+      {
+        "name": "test.teleport hook exists",
+        "pass": true
+      },
+      {
+        "name": "test.begin hook exists",
+        "pass": true
+      },
+      {
+        "name": "test.setTime hook exists",
+        "pass": true
+      },
+      {
+        "name": "state exposes wanted/mission/completed/elapsed/fps",
+        "pass": true,
+        "detail": [
+          "wanted",
+          "mission",
+          "completed",
+          "elapsed",
+          "fps"
+        ]
+      },
+      {
+        "name": "walking input advances the simulation",
+        "pass": true,
+        "detail": 2.9333333333333265
+      },
+      {
+        "name": "state stays serialisable after input",
+        "pass": true,
+        "detail": 96
+      },
+      {
+        "name": "jump input does not fault the game",
+        "pass": true
+      },
+      {
+        "name": "begin(\"delivery\") starts the delivery mission",
+        "pass": true,
+        "detail": "delivery"
+      },
+      {
+        "name": "begin(\"escape\") starts the escape mission",
+        "pass": true,
+        "detail": "escape"
+      },
+      {
+        "name": "begin(\"roof\") starts the rooftop mission",
+        "pass": true,
+        "detail": "roof"
+      },
+      {
+        "name": "wanted level is a number",
+        "pass": true,
+        "detail": 2
+      },
+      {
+        "name": "setTime(90) changes day/night state",
+        "pass": true,
+        "detail": {
+          "before": 99,
+          "after": 99
+        }
+      },
+      {
+        "name": "no page errors",
+        "pass": true,
+        "detail": []
+      }
+    ],
+    "errors": [],
+    "initial": {
+      "wanted": 0,
+      "mission": null,
+      "completed": [],
+      "elapsed": 1.8333333333333317,
+      "fps": 12.004801920768307
+    }
+  }
+]

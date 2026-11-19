@@ -1,0 +1,7 @@
+{
+  "_comment": "Copy to config.json and adjust. NEVER put the obs-websocket password in this file - it is read from the environment variable named by --obs-password-env (default OBS_WS_PASSWORD).",
+  "serial_port": "/dev/tty.usbmodem14101",
+  "obs_host": "127.0.0.1",
+  "obs_port": 4455,
+  "scenes": ["Intro", "Gameplay", "Outro"]
+}

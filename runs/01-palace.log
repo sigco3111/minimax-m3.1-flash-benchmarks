@@ -1,0 +1,1889 @@
+[0m
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/ && echo "---" && ls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/ 2>/dev/null && echo "---" && ls -la /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/ 2>/dev/null
+total 24
+drwxr-xr-x@ 8 hjshin  staff   256 Nov 19 07:33 .
+drwxr-xr-x@ 5 hjshin  staff   160 Nov 19 06:55 ..
+drwxr-xr-x@ 9 hjshin  staff   288 Nov 19 07:19 .git
+-rw-r--r--@ 1 hjshin  staff  9197 Nov 19 07:19 ORIGINAL_PROMPTS.txt
+drwxr-xr-x@ 8 hjshin  staff   256 Nov 19 07:33 prompts
+drwxr-xr-x@ 4 hjshin  staff   128 Nov 19 07:33 runs
+drwxr-xr-x@ 4 hjshin  staff   128 Nov 19 07:20 tools
+drwxr-xr-x@ 4 hjshin  staff   128 Nov 19 07:33 work
+---
+total 56
+drwxr-xr-x@ 8 hjshin  staff   256 Nov 19 07:33 .
+drwxr-xr-x@ 8 hjshin  staff   256 Nov 19 07:33 ..
+-rw-r--r--@ 1 hjshin  staff  1435 Nov 19 07:20 01-palace.txt
+-rw-r--r--@ 1 hjshin  staff  1106 Nov 19 07:20 02-hangang-city.txt
+-rw-r--r--@ 1 hjshin  staff  1287 Nov 19 07:20 03-model-intro.txt
+-rw-r--r--@ 1 hjshin  staff  1113 Nov 19 07:20 04-novel.txt
+-rw-r--r--@ 1 hjshin  staff  3349 Nov 19 07:20 05-hardware.txt
+-rw-r--r--@ 1 hjshin  staff  4320 Nov 19 07:33 HARNESS.txt
+---
+total 0
+drwxr-xr-x@ 4 hjshin  staff  128 Nov 19 07:33 .
+drwxr-xr-x@ 8 hjshin  staff  256 Nov 19 07:33 ..
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:33 01-palace
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:33 02-hangang-city
+[0m$ [0mnode --version; npm --version; python3 --version
+v26.11.1
+11.20.0
+Python 3.9.6
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/01-palace.txt 
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/prompts/HARNESS.txt 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mfind /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work -maxdepth 3 | head -50; echo "---"; curl -sI --max-time 10 https://unpkg.com/three@0.148.0/build/three.min.js | head -5
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git/config
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git/objects
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git/HEAD
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git/info
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git/description
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git/hooks
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/03-model-intro/.git/refs
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel/.git
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel/.git/config
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel/.git/objects
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel/.git/HEAD
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel/.git/info
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel/.git/description
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel/.git/hooks
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/04-novel/.git/refs
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware/.git
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware/.git/config
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware/.git/objects
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware/.git/HEAD
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware/.git/info
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware/.git/description
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware/.git/hooks
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/05-hardware/.git/refs
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city/.git
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city/.git/config
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city/.git/objects
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city/.git/HEAD
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city/.git/info
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city/.git/description
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city/.git/hooks
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/02-hangang-city/.git/refs
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/.git
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/.git/config
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/.git/objects
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/.git/HEAD
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/.git/info
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/.git/description
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/.git/hooks
+/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/.git/refs
+---
+HTTP/2 200 
+date: Wed, 18 Nov 2026 22:34:25 GMT
+content-type: text/javascript; charset=utf-8
+cf-ray: a5ca71449f1e0bbb-ICN
+cf-cache-status: MISS
+[0m$ [0mls /Applications | grep -i -E "chrom|brave|edge" ; echo "---"; ls ~/Library/Caches/ms-playwright 2>/dev/null; echo "---"; npm ls -g --depth=0 2>/dev/null
+Google Chrome.app
+---
+---
+/opt/homebrew/lib
+├── @anthropic-ai/claude-code@2.1.296
+├── @bitkyc08/opencodex@2.100.4
+├── @openai/codex@0.162.1
+├── npm@11.20.0
+└── tokscale@4.18.0
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && mkdir -p vendor && curl -s --max-time 60 -o vendor/three.min.js https://unpkg.com/three@0.148.0/build/three.min.js && ls -la vendor && head -c 300 vendor/three.min.js
+total 1192
+drwxr-xr-x@ 3 hjshin  staff      96 Nov 19 07:34 .
+drwxr-xr-x@ 4 hjshin  staff     128 Nov 19 07:34 ..
+-rw-r--r--@ 1 hjshin  staff  608313 Nov 19 07:34 three.min.js
+/**
+ * @license
+ * Copyright 2010-2022 Three.js Authors
+ * SPDX-License-Identifier: MIT
+ */
+!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t="undefined"!=typeof globalThis?globalThis:t||self).THREE={})}(th
+> build · minimax/MiniMax-M3.1-Flash
+I have the brief. Let me check the environment and build the deliverable.
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && ls -la && node -e "console.log(require('fs').existsSync('vendor/three.min.js'))"
+total 0
+drwxr-xr-x@ 4 hjshin  staff  128 Nov 19 07:34 .
+drwxr-xr-x@ 7 hjshin  staff  224 Nov 19 07:33 ..
+drwxr-xr-x@ 9 hjshin  staff  288 Nov 19 07:33 .git
+drwxr-xr-x@ 3 hjshin  staff   96 Nov 19 07:34 vendor
+true
+> build · minimax/MiniMax-M3.1-Flash
+Now writing the main deliverable.
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+> build · minimax/MiniMax-M3.1-Flash
+Now let me fix several issues I spotted (plate tiling, vertical stack constants, bracket overlap, railing edges, contact metric):
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -189,8 +189,10 @@
+   {key:'r1x1', w:1,d:1,h:BH,kind:'round', r:0.40},
+   {key:'r2x2', w:2,d:2,h:BH,kind:'round', r:0.80},
+   {key:'p2x2', w:2,d:2,h:PH,kind:'plate'},
+   {key:'p2x1', w:2,d:1,h:PH,kind:'plate'},
++  {key:'p1x2', w:1,d:2,h:PH,kind:'plate'},
++  {key:'p1x1', w:1,d:1,h:PH,kind:'plate'},
+   {key:'w2x1', w:2,d:1,h:BH,kind:'wedge'},   /* 경사 +Z */
+   {key:'w1x2', w:1,d:2,h:BH,kind:'wedge'}    /* 경사 +X */
+ ];
+ var PART={};
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -271,25 +271,23 @@
+ function segX(n){ var out=[], rem=n; while(rem>=4){out.push(4);rem-=4;} if(rem===3){out.push(2);out.push(1);} else if(rem===2){out.push(2);} else if(rem===1){out.push(1);} return out; }
+ /* 깊이 분할: n → [2,2,...,나머지] */
+ function segZ(n){ var out=[], rem=n; while(rem>=2){out.push(2);rem-=2;} if(rem===1)out.push(1); return out; }
+ var CELL2PART={ '4_2':'b4x2','3_2':'b3x2','2_2':'b2x2','1_2':'b1x2','4_1':'b4x1','2_1':'b2x1','1_1':'b1x1',
+-                 '4_2p':'p2x2','2_2p':'p2x2','1_2p':'p2x1','2_1p':'p2x1','1_1p':'p2x1' };
++                 '2_2p':'p2x2','1_2p':'p1x2','2_1p':'p2x1','1_1p':'p1x1' };
+ 
+ /* 직사각형 영역을 브릭으로 채운다 (x0,x1,z0,z1: 스터드 단위, y: cm 바닥높이) */
+ function fill(x0,x1,z0,z1,y,group,colorFn,opt){
+   opt=opt||{};
+   var plate=!!opt.plate;
+-  var xs = plate ? segZ(x1-x0).map(function(v){return v*2;}) : segX(x1-x0);
+-  var zs = plate ? segZ(z1-z0) : segZ(z1-z0);
++  var xs = plate ? segZ(x1-x0) : segX(x1-x0);
++  var zs = segZ(z1-z0);
+   var x=x0;
+   for(var i=0;i<xs.length;i++){
+     var z=z0;
+     for(var j=0;j<zs.length;j++){
+       var sx=xs[i], sz=zs[j];
+-      var key = sx+'_'+sz;
+-      var part = plate ? CELL2PART[key+'p'] : CELL2PART[key];
+-      if(!part) part = plate ? 'p1x1' : 'b1x1';
+-      if(sx===1&&sz===1&&plate) part='p2x1';
++      var part = CELL2PART[sx+'_'+sz+(plate?'p':'')];
++      if(!part) throw new Error('no part for cell '+sx+'x'+sz);
+       var cx=x+sx/2, cz=z+sz/2;
+       addBrick(part, cx*S, y, cz*S, 0, colorFn(cx,cz,y), group);
+       z+=sz;
+     }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -300,9 +300,9 @@
+ var UT={x0:-12,x1:12,z0:-9,z1:9};      // 상월대
+ var CORE={x0:-8,x1:8,z0:-6,z1:6};      // 건물 벽체(내부 매스)
+ var COLX=[-10,-6,-2,2,6,10];           // 정면 5칸 → 기둥 6개
+ var COLZ=[-7.5,-4.5,-1.5,1.5,4.5,7.5]; // 측면 5칸 → 기둥 6개
+-var yLT=0, yUT=2*BH, yCore=4*BH, yColTop=4*BH+5*BH, yEave=yColTop+BH;
++var yLT=0, yUT=2*BH, yCore=3*BH, yColTop=yCore+6*BH, yEave=yColTop+2*BH;
+ 
+ /* --- 플래그: 기둥 기단 한 개를 의도적으로 어긋나게 놓는다(결합부 약점) --- */
+ var WEAK_COL={x:-10,z:-7.5,offX:0.52,offZ:0.46};
+ var weakBrick=null;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -336,17 +336,17 @@
+ 
+ step(); /* 돌난간 */
+ (function(){
+   var y=yUT;
+-  function rail(x,z){
+-    addBrick('b1x1', x*S, y, z*S, 0, PAL.stone, 'terrace','railing');
+-  }
+-  for(var x=LT.x0;x<LT.x1;x++){ if(x<-4||x>=4) rail(x,LT.z0); }
+-  for(var z=LT.z0;z<LT.z1;z++){ rail(LT.x0,z); rail(LT.x1-1,z); }
+-  /* 난간 상단 갓(2스터드 판) */
++  function rail(x,z){ addBrick('b1x1', x*S, y, z*S, 0, PAL.stone, 'terrace','railing'); }
++  /* 앞면 */
++  for(var x=LT.x0;x<LT.x1;x++){ if(x<-4||x>=4) rail(x+0.5, LT.z0+0.5); }
++  /* 양옆 (앞 모서리 중복 회피) */
++  for(var z=LT.z0+1;z<LT.z1;z++){ rail(LT.x0+0.5,z+0.5); rail(LT.x1-0.5,z+0.5); }
++  /* 난간 상단 갓 */
+   var capY=y+BH;
+-  for(var x2=LT.x0;x2<LT.x1-1;x2+=2){ if(x2<-4||x2>=4) addBrick('p2x1',(x2+1)*S,capY,LT.z0*S,0,PAL.stone,'terrace','railcap'); }
+-  for(var z2=LT.z0;z2<LT.z1-1;z2+=2){ addBrick('p2x1',(LT.x0+0.5)*S,capY,(z2+1)*S,Math.PI/2,PAL.stone,'terrace','railcap'); addBrick('p2x1',(LT.x1-0.5)*S,capY,(z2+1)*S,Math.PI/2,PAL.stone,'terrace','railcap'); }
++  for(var x2=LT.x0;x2<LT.x1-1;x2+=2){ if(x2<-4||x2>=4) addBrick('p2x1',(x2+1)*S,capY,(LT.z0+0.5)*S,0,PAL.stone,'terrace','railcap'); }
++  for(var z2=LT.z0+1;z2<LT.z1-1;z2+=2){ addBrick('p2x1',(LT.x0+0.5)*S,capY,(z2+1.5)*S,Math.PI/2,PAL.stone,'terrace','railcap'); addBrick('p2x1',(LT.x1-0.5)*S,capY,(z2+1.5)*S,Math.PI/2,PAL.stone,'terrace','railcap'); }
+ })();
+ 
+ step(); /* 정전 계단 */
+ fill(-3,3,-11,-9, yUT, 'terrace', function(){return PAL.stone;});
+
+> build · minimax/MiniMax-M3.1-Flash
+Now the core wall layers, brackets, and roof courses:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -352,18 +352,21 @@
+ fill(-3,3,-11,-9, yUT, 'terrace', function(){return PAL.stone;});
+ fill(-3,3,-10,-9, yUT+BH, 'terrace', function(){return PAL.stone;});
+ 
+ /* ---------------------------------- 3) 기둥/벽체 ------------------------ */
+-step(); /* 벽체(내부 매스) 7층 */
+-for(var L=0;L<7;L++){
++step(); /* 벽체(내부 매스) 8층 */
++for(var L=0;L<8;L++){
+   (function(layer){
+     var y=yCore+layer*BH;
+     fill(CORE.x0,CORE.x1,CORE.z0,CORE.z1, y, 'pillars', function(x,z){
+-      var edge = (z===CORE.z0+1||z===CORE.z1-1||x===CORE.x0+1||x===CORE.x1-1);
++      var frontWall=(z===CORE.z0+1||z===CORE.z1-1);
++      var sideWall=(x===CORE.x0+2||x===CORE.x1-2);
++      var edge=frontWall||sideWall;
+       if(!edge) return PAL.danRed;
+-      if(layer>=5) return PAL.danGreen;                       /* 상부 띠 */
+-      var inWin = (x>-6&&x<-2)||(x>2&&x<6)||(x>-5&&x<0);
+-      if(layer===2&&inWin) return PAL.danYellow;               /* 창문 */
++      if(layer>=6) return PAL.danGreen;                        /* 상부 띠 */
++      if(layer===2&&frontWall&&(x===-6||x===2)) return PAL.danYellow;   /* 창호 */
++      if(layer===2&&sideWall&&(z===-3||z===3)) return PAL.danYellow;   /* 창호 */
++      if(layer===4) return PAL.danGreen;                        /* 벽간 띠 */
+       return PAL.danRed;
+     });
+   })(L);
+ }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -394,22 +394,22 @@
+   COLZ.forEach(function(z){ cols.push([CORE.x0-2,z]); cols.push([CORE.x1+2,z]); });
+   cols.forEach(function(c,i){
+     var x=c[0]*S, z=c[1]*S;
+     var c1=(i%3===0)?PAL.danGreen:(i%3===1?PAL.danYellow:PAL.danRed);
+-    addBrick('b2x2', x, yColTop, z, 0, c1, 'brackets','bracket-arm');
+-    addBrick('b1x2', x, yColTop+BH, z, 0, PAL.danGreen, 'brackets','bracket-block');
+-    addBrick('b2x1', x, yColTop+BH, z, 0, PAL.danRed, 'brackets','bracket-arm2');
++    addBrick('b2x2', x, yColTop, z, 0, c1, 'brackets','bracket-arm');            /* 팔(arm) */
++    addBrick('b1x2', x, yColTop+BH, z+0.55*S, 0, PAL.danGreen, 'brackets','bracket-block');
++    addBrick('b2x1', x+0.85*S, yColTop+BH, z, 0, PAL.danRed, 'brackets','bracket-arm2');
+   });
+ })();
+ 
+ /* ---------------------------------- 4) 지붕 ---------------------------- */
+ var ROOF_COURSE=[
+-  {x:24,z:16,y:yEave},        /* L0 처마 */
+-  {x:23,z:14,y:yEave+BH},
+-  {x:22,z:12,y:yEave+2*BH},
+-  {x:21,z:10,y:yEave+3*BH},
+-  {x:20,z:8, y:yEave+4*BH},
+-  {x:19,z:6, y:yEave+5*BH}    /* 하부 지붕 마루대 */
++  {x:24,z:18,y:yEave},        /* L0 처마 */
++  {x:23,z:16,y:yEave+BH},
++  {x:22,z:14,y:yEave+2*BH},
++  {x:21,z:12,y:yEave+3*BH},
++  {x:20,z:10,y:yEave+4*BH},
++  {x:19,z:8, y:yEave+5*BH}    /* 하부 지붕 마루대 */
+ ];
+ var UPPER_COURSE=[
+   {x:13,z:4,y:yEave+6*BH},
+   {x:12,z:3,y:yEave+7*BH},
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -440,14 +440,14 @@
+   });
+ })();
+ step(); /* 처마 곡선(물이 끊) */
+ (function(){
+-  var w=24, half=12;
++  var half=12;
+   [-1,1].forEach(function(s){
+     for(var i=0;i<12;i++){
+       var cx=-half+1+i*2;
+       var curve=0.55*(1-Math.pow(cx/half,2));   /* 가운데가 물러나고 모서리가 나온 형태 */
+-      var zz=s*(ROOF_COURSE[0].z/2-0.4+curve);
++      var zz=s*(ROOF_COURSE[0].z/2-0.4-curve);
+       addBrick('b2x1', cx*S, yEave+BH, zz*S, 0, (i%2?PAL.danGreen:PAL.danYellow), 'roof','eave-curve');
+     }
+   });
+ })();
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -586,10 +586,10 @@
+   return area;
+ }
+ var diagnostics={errors:0,warnings:0,weakColumns:[],floating:[]};
+ M.bricks.forEach(function(b){
+-  var g=PART[b.part].geo.userData;
+-  var area=(g.r!=null?Math.PI*g.r*g.r:g.w*g.d);
++  var area=(b.fp.x1-b.fp.x0)*(b.fp.z1-b.fp.z0);   /* 바닥 면적(-rot AABB) */
++  b.area=area;
+   b.contact=contactArea(b);
+   b.contactRatio=b.contact/area;
+   b.onGround=(b.fp.y0<=0.001);
+ });
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -516,9 +516,12 @@
+   scene.add(mesh);
+   p.mesh=mesh;
+   p.geo=geo;
+   var col=new THREE.Color(p.instances[0].color);
+-  for(var i=0;i<p.instances.length;i++) mesh.setColorAt(i,new THREE.Color(p.instances[i].color));
++  for(var i=0;i<p.instances.length;i++){
++    p.instances[i]._c=new THREE.Color(p.instances[i].color);
++    mesh.setColorAt(i,p.instances[i]._c);
++  }
+   mesh.instanceColor.needsUpdate=true;
+   partStats.push({key:p.key,def:p,count:p.instances.length,color:col,colorHex:p.instances[0].color});
+ });
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -841,10 +841,10 @@
+       q.setFromAxisAngle(new THREE.Vector3(0,1,0),b.rot);
+       sc.set(s,s,s);
+       mtx.compose(v3,q,sc);
+       p.mesh.setMatrixAt(i,mtx);
+-      if(mono>0){ tmpColor.set(b.color).lerp(GRAY,mono); p.mesh.setColorAt(i,tmpColor); }
+-      else if(p.mesh.instanceColor) p.mesh.setColorAt(i,new THREE.Color(b.color));
++      if(mono>0){ tmpColor.copy(b._c).lerp(GRAY,mono); p.mesh.setColorAt(i,tmpColor); }
++      else if(p.mesh.instanceColor){ p.mesh.setColorAt(i,b._c); }
+     }
+     p.mesh.instanceMatrix.needsUpdate=true;
+     if(p.mesh.instanceColor) p.mesh.instanceColor.needsUpdate=true;
+     p.mesh.material.opacity=1-wire;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -921,9 +921,10 @@
+     ps.numEl.firstChild.nodeValue=String(Math.round(ps.count*a));
+   });
+ 
+   /* 통계 6칸 */
+-  var statVals=[M.bricks.length, M.steps, partStats.length, Math.round(generationMs), diagnostics.errors, 0];
++  var liveWarnings = fix>=0.999 ? warningsInitial-diagnostics.weakColumns.length : warningsInitial;
++  var statVals=[M.bricks.length, M.steps, partStats.length, Math.round(generationMs), diagnostics.errors, liveWarnings];
+   STATS.forEach(function(st,i){
+     var a=smooth(seg(t, 29.05+i*0.14, 30.6+i*0.14));
+     st.el.style.opacity=statsA;
+     st.el.style.transform='translateY('+((1-statsA)*14)+'px)';
+
+> build · minimax/MiniMax-M3.1-Flash
+Now a headless verification harness (kept inside the task folder):
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/check.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/check.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 2>&1 | tail -30
+THREE loaded : true
+stats        : {"bricks":1219,"parts":12,"groups":{"terrace":386,"pillars":336,"brackets":72,"roof":289,"courtyard":136},"dimensionsCm":[25.6,23.04,26.4],"generationMs":10.2}
+diagnostics  : {"errors":247,"warnings":0,"weakColumns":[],"floating":247,"steps":14,"groups":{"terrace":386,"pillars":336,"brackets":72,"roof":289,"courtyard":136},"roofBricks":289,"partList":[{"key":"b4x2","count":689},{"key":"b2x2","count":68},{"key":"b1x2","count":45},{"key":"b4x1","count":8},{"key":"b2x1","count":51},{"key":"b1x1","count":68},{"key":"r1x1","count":120},{"key":"r2x2","count":24},{"key":"p2x2","count":70},{"key":"p2x1","count":52},{"key":"w2x1","count":22},{"key":"w1x2","count":2}]}
+group sum    : 1219 === bricks 1219 OK
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 10.2
+shots        : 12 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+Two metric bugs found (support lookup key, and the base-offset check). Fixing:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -565,9 +565,9 @@
+   var key=Math.round(b.fp.y1*1000);
+   (supports[key]=supports[key]||[]).push(b);
+ });
+ function contactArea(b){
+-  var key=Math.round(b.fp.y1*1000);
++  var key=Math.round(b.fp.y0*1000);          /* 받침: 윗면이 이 높이와 정확히 일치하는 벽돌 */
+   var list=supports[key]||[];
+   var area=0;
+   for(var i=0;i<list.length;i++){
+     var o=list[i]; if(o===b) continue;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -603,14 +603,23 @@
+   if(sideContact(b)>1e-4) return;
+   diagnostics.floating.push(b);
+ });
+ diagnostics.errors=diagnostics.floating.length;
+-/* (b) 기둥 기단 접촉 검사: 기둥 밑돌이 받침과 90% 이상 맞닿아야 정상 */
++/* (b) 기둥 결합부 검사 — 기단(기둥기둥돌)의 동심도 + 받침 접촉률 */
++var COL_TOL=0.15;   /* 허용 이심(공차) cm */
+ M.bricks.forEach(function(b){
+   if(b.tag!=='column-base') return;
+-  if(b.contactRatio<0.90){
++  var shaft=null,best=1e9;
++  M.bricks.forEach(function(o){
++    if(o.tag!=='column') return;
++    var d=Math.hypot(o.x-b.x,o.z-b.z);
++    if(d<best){best=d;shaft=o;}
++  });
++  var ecc=shaft?Math.hypot(shaft.x-b.x,shaft.z-b.z):0;
++  b.ecc=ecc;
++  if(ecc>COL_TOL || b.contactRatio<0.90){
+     diagnostics.warnings++;
+-    diagnostics.weakColumns.push({x:b.x,y:b.y,z:b.z,ratio:+b.contactRatio.toFixed(3)});
++    diagnostics.weakColumns.push({x:b.x,y:b.y,z:b.z,ecc:+ecc.toFixed(3),contact:+b.contactRatio.toFixed(3)});
+   }
+ });
+ var warningsInitial=diagnostics.warnings;
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 2>&1 | tail -12
+THREE loaded : true
+stats        : {"bricks":1219,"parts":12,"groups":{"terrace":386,"pillars":336,"brackets":72,"roof":289,"courtyard":136},"dimensionsCm":[25.6,23.04,26.4],"generationMs":10}
+diagnostics  : {"errors":0,"warnings":0,"weakColumns":[],"floating":0,"steps":14,"groups":{"terrace":386,"pillars":336,"brackets":72,"roof":289,"courtyard":136},"roofBricks":289,"partList":[{"key":"b4x2","count":689},{"key":"b2x2","count":68},{"key":"b1x2","count":45},{"key":"b4x1","count":8},{"key":"b2x1","count":51},{"key":"b1x1","count":68},{"key":"r1x1","count":120},{"key":"r2x2","count":24},{"key":"p2x2","count":70},{"key":"p2x1","count":52},{"key":"w2x1","count":22},{"key":"w1x2","count":2}]}
+group sum    : 1219 === bricks 1219 OK
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 10
+shots        : 12 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && grep -n "column-base\|WEAK_COL\|COL_TOL" palace.html | head -30
+307:var WEAK_COL={x:-10,z:-7.5,offX:0.52,offZ:0.46};
+381:    var isWeak = (x===WEAK_COL.x && z===WEAK_COL.z);
+382:    var bx = isWeak ? x*S+WEAK_COL.offX : x*S;
+383:    var bz = isWeak ? z*S+WEAK_COL.offZ : z*S;
+384:    var base = addBrick('r2x2', bx, yCore, bz, 0, PAL.danYellow, 'pillars','column-base');
+608:var COL_TOL=0.15;   /* 허용 이심(공차) cm */
+610:  if(b.tag!=='column-base') return;
+619:  if(ecc>COL_TOL || b.contactRatio<0.90){
+846:      if(b===weakBrick){ px-=WEAK_COL.offX*(1-fix); pz-=WEAK_COL.offZ*(1-fix); }
+900:    collar.position.set(weakBrick.x-WEAK_COL.offX*(1-fix), weakBrick.y+0.5, weakBrick.z-WEAK_COL.offZ*(1-fix));
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html [90m[offset=580, limit=50][0m
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/eval.mjs
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/eval.mjs
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/eval.mjs "document.querySelectorAll('canvas').length" "window.__palace.diagnostics.warnings" 2>&1 | tail -5
+document.querySelectorAll('canvas').length => 1
+window.__palace.diagnostics.warnings => 0
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -1016,9 +1016,10 @@
+     weakColumns:diagnostics.weakColumns,floating:diagnostics.floating.length,
+     steps:M.steps,groups:JSON.parse(JSON.stringify(M.groups)),
+     roofBricks:M.groups.roof,partList:partStats.map(function(p){return {key:p.key,count:p.count};})},
+   time:function(){return clock;},
+-  playing:function(v){playing=!!v;}
++  playing:function(v){playing=!!v;},
++  model:M
+ };
+ applyState(clock);
+ renderer.render(scene,camera);
+ })();
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/eval.mjs "window.__palace.model.bricks.filter(b=>b.tag==='column-base').length" "window.__palace.model.bricks.filter(b=>b.tag==='column-base').map(b=>[b.x,b.z,b.ecc,b.contactRatio])" 2>&1 | tail -5
+window.__palace.model.bricks.filter(b=>b.tag==='column-base').length => 24
+window.__palace.model.bricks.filter(b=>b.tag==='column-base').map(b=>[b.x,b.z,b.ecc,b.contactRatio]) => [[-7.48,-5.54,0,2],[-8,6,0,1.7500000000000002],[-4.800000000000001,-6,0,1.7500000000000004],[-4.800000000000001,6,0,1.7500000000000004],[-1.6,-6,0,1.9999999999999996],[-1.6,6,0,1.7500000000000002],[1.6,-6,0,1.7500000000000002],[1.6,6,0,1.7500000000000002],[4.800000000000001,-6,0,1.7500000000000004],[4.800000000000001,6,0,1.7500000000000004],[8,-6,0,1.7500000000000002],[8,6,0,1.7500000000000002],[-7.48,-5.54,0,2],[8,-6,0,1.7500000000000002],[-8,-3.6,0,1.9999999999999996],[8,-3.6,0,1.9999999999999996],[-8,-1.2000000000000002,0,2],[8,-1.2000000000000002,0,2],[-8,1.2000000000000002,0,2],[8,1.2000000000000002,0,2],[-8,3.6,0,1.9999999999999996],[8,3.6,0,1.9999999999999996],[-8,6,0,1.7500000000000002],[8,6,0,1.7500000000000002]]
+> build · minimax/MiniMax-M3.1-Flash
+Found real bugs: duplicate corner columns (24 instead of 20) and the whole column shifted instead of just the base. Fixing:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -370,21 +370,22 @@
+     });
+   })(L);
+ }
+ 
+-step(); /* 기둥 20개 */
++step(); /* 기둥 20개 (정면 5칸·측면 5칸 → 6+6+4+4) */
+ (function(){
+   var cols=[];
+   COLX.forEach(function(x){ cols.push([x,CORE.z0-1.5]); cols.push([x,CORE.z1+1.5]); });
+-  COLZ.forEach(function(z){ cols.push([CORE.x0-2,z]); cols.push([CORE.x1+2,z]); });
++  COLZ.forEach(function(z){ if(Math.abs(z)===7.5) return; cols.push([CORE.x0-2,z]); cols.push([CORE.x1+2,z]); });
+   cols.forEach(function(c){
+     var x=c[0], z=c[1];
+     var isWeak = (x===WEAK_COL.x && z===WEAK_COL.z);
+-    var bx = isWeak ? x*S+WEAK_COL.offX : x*S;
+-    var bz = isWeak ? z*S+WEAK_COL.offZ : z*S;
++    var nx=x*S, nz=z*S;
++    var bx = isWeak ? nx+WEAK_COL.offX : nx;   /* 기단만 어긋나게 놓는다 */
++    var bz = isWeak ? nz+WEAK_COL.offZ : nz;
+     var base = addBrick('r2x2', bx, yCore, bz, 0, PAL.danYellow, 'pillars','column-base');
+     if(isWeak) weakBrick=base;
+-    for(var k=0;k<5;k++) addBrick('r1x1', bx, yCore+BH+k*BH, bz, 0, PAL.danRed, 'pillars','column');
++    for(var k=0;k<5;k++) addBrick('r1x1', nx, yCore+BH+k*BH, nz, 0, PAL.danRed, 'pillars','column');
+   });
+ })();
+ 
+ step(); /* 공포(Bracket) */
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -391,9 +391,9 @@
+ step(); /* 공포(Bracket) */
+ (function(){
+   var cols=[];
+   COLX.forEach(function(x){ cols.push([x,CORE.z0-1.5]); cols.push([x,CORE.z1+1.5]); });
+-  COLZ.forEach(function(z){ cols.push([CORE.x0-2,z]); cols.push([CORE.x1+2,z]); });
++  COLZ.forEach(function(z){ if(Math.abs(z)===7.5) return; cols.push([CORE.x0-2,z]); cols.push([CORE.x1+2,z]); });
+   cols.forEach(function(c,i){
+     var x=c[0]*S, z=c[1]*S;
+     var c1=(i%3===0)?PAL.danGreen:(i%3===1?PAL.danYellow:PAL.danRed);
+     addBrick('b2x2', x, yColTop, z, 0, c1, 'brackets','bracket-arm');            /* 팔(arm) */
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 2>&1 | tail -10
+THREE loaded : true
+stats        : {"bricks":1183,"parts":12,"groups":{"terrace":386,"pillars":312,"brackets":60,"roof":289,"courtyard":136},"dimensionsCm":[25.6,23.04,26.4],"generationMs":10.8}
+diagnostics  : {"errors":0,"warnings":1,"weakColumns":[{"x":-7.48,"y":2.88,"z":-5.54,"ecc":0.694,"contact":2}],"floating":0,"steps":14,"groups":{"terrace":386,"pillars":312,"brackets":60,"roof":289,"courtyard":136},"roofBricks":289,"partList":[{"key":"b4x2","count":689},{"key":"b2x2","count":64},{"key":"b1x2","count":41},{"key":"b4x1","count":8},{"key":"b2x1","count":47},{"key":"b1x1","count":68},{"key":"r1x1","count":100},{"key":"r2x2","count":20},{"key":"p2x2","count":70},{"key":"p2x1","count":52},{"key":"w2x1","count":22},{"key":"w1x2","count":2}]}
+group sum    : 1183 === bricks 1183 OK
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 10.8
+shots        : 12 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t0.png 
+> build · minimax/MiniMax-M3.1-Flash
+Model renders, but the camera faces the wrong way (mountain in front) and the framing is loose. Fixing the camera:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -660,28 +660,30 @@
+ /* ==========================================================================
+    8. 카메라 배치 (아이소메트릭 고정)
+    ========================================================================== */
+ var center=new THREE.Vector3((bounds.minX+bounds.maxX)/2, (bounds.minY+bounds.maxY)/2, (bounds.minZ+bounds.maxZ)/2);
+-var camDir=new THREE.Vector3(1,0.80,1).normalize();
++var camDir=new THREE.Vector3(1,0.80,-1).normalize();   /* 앞마당(-Z)을 정면으로 */
+ var camRight=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),camDir).normalize();
+ var camUp=new THREE.Vector3().crossVectors(camDir,camRight).normalize();
+ var camDist=160;
+ (function fitCamera(){
+-  var px=0,py=0;
+-  var pts=[];
+-  for(var i=0;i<8;i++){
+-    pts.push(new THREE.Vector3(i&1?bounds.maxX:bounds.minX,
+-                                i&2?bounds.maxY:bounds.minY,
+-                                i&4?bounds.maxZ:bounds.minZ));
+-  }
++  /* 실제 브릭 실루엣에 맞춰 프러스텀을 맞춘다 */
+   var rx=[],ry=[];
+-  pts.forEach(function(p){
+-    var d=p.clone().sub(center);
+-    rx.push(d.dot(camRight)); ry.push(d.dot(camUp));
++  M.bricks.forEach(function(b){
++    var p=PART[b.part], g=p.geo.userData;
++    var hx=(g.r!=null?g.r:g.w/2), hz=(g.r!=null?g.r:g.d/2);
++    var c=Math.cos(b.rot), s=Math.sin(b.rot);
++    for(var i=0;i<8;i++){
++      var lx=(i&1)?hx:-hx, ly=(i&2)?g.h:0, lz=(i&4)?hz:-hz;
++      var wx=b.x+lx*c+lz*s, wy=b.y+ly, wz=b.z-lx*s+lz*c;
++      var dx=wx-center.x, dy=wy-center.y, dz=wz-center.z;
++      rx.push(dx*camRight.x+dy*camRight.y+dz*camRight.z);
++      ry.push(dx*camUp.x+dy*camUp.y+dz*camUp.z);
++    }
+   });
+   var maxX=Math.max.apply(null,rx.map(Math.abs));
+   var maxY=Math.max.apply(null,ry.map(Math.abs));
+-  var halfW=maxX*1.16, halfH=maxY*1.16;
++  var halfW=maxX*1.10, halfH=maxY*1.10;
+   if(halfH<halfW*9/16) halfH=halfW*9/16; else halfW=halfH*16/9;
+   camera.left=-halfW; camera.right=halfW; camera.top=halfH; camera.bottom=-halfH;
+   camera.near=-400; camera.far=600;
+   camera.updateProjectionMatrix();
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -485,19 +485,19 @@
+   new THREE.MeshLambertMaterial({color:0xF2EEE6}));
+ ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+ 
+ /* ------------------------------ 인왕산 실루엣 --------------------------- */
+-function ridgeMesh(pts,z,color,depth){
++function ridgeMesh(pts,x,z,color,depth){
+   var sh=new THREE.Shape();
+   sh.moveTo(pts[0][0],0);
+   for(var i=1;i<pts.length;i++) sh.lineTo(pts[i][0],pts[i][1]);
+   sh.lineTo(pts[pts.length-1][0],0); sh.closePath();
+   var g=new THREE.ExtrudeGeometry(sh,{depth:depth,bevelEnabled:false,curveSegments:1});
+   var m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:color}));
+-  m.position.z=z; return m;
++  m.position.set(x,0,z); return m;
+ }
+-scene.add(ridgeMesh([[-46,0],[-38,4.5],[-31,9],[-25,6.5],[-17,13],[-9,7],[-3,10],[3,6],[10,9.5],[19,5],[28,7.5],[38,3],[46,0]],44,PAL.mtnFar,2.5));
+-scene.add(ridgeMesh([[-46,0],[-40,3],[-33,6],[-27,4],[-20,8],[-13,5],[-6,7],[1,4],[8,6.5],[16,3.5],[25,5],[34,2],[46,0]],32,PAL.mtnNear,2.5));
++scene.add(ridgeMesh([[-52,0],[-43,7],[-35,15],[-28,10],[-19,22],[-11,13],[-4,18],[4,11],[12,17],[21,9],[30,13],[39,6],[52,0]],-10,52,PAL.mtnFar,3));
++scene.add(ridgeMesh([[-52,0],[-45,5],[-37,11],[-30,7],[-22,14],[-14,8],[-7,12],[1,6],[8,10],[16,5],[25,8],[34,3],[52,0]],-4,34,PAL.mtnNear,3));
+ 
+ /* ==========================================================================
+    5. 브릭 → InstancedMesh (파트별)
+    ========================================================================== */
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 0 6 2>&1 | tail -4
+group sum    : 1183 === bricks 1183 OK
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 11
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t0.png 
+> build · minimax/MiniMax-M3.1-Flash
+Refining the mountain (billboard behind), the ridge-end upturn, and the eave band:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -485,19 +485,16 @@
+   new THREE.MeshLambertMaterial({color:0xF2EEE6}));
+ ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+ 
+ /* ------------------------------ 인왕산 실루엣 --------------------------- */
+-function ridgeMesh(pts,x,z,color,depth){
++function ridgeMesh(pts,color,depth){
+   var sh=new THREE.Shape();
+   sh.moveTo(pts[0][0],0);
+   for(var i=1;i<pts.length;i++) sh.lineTo(pts[i][0],pts[i][1]);
+   sh.lineTo(pts[pts.length-1][0],0); sh.closePath();
+   var g=new THREE.ExtrudeGeometry(sh,{depth:depth,bevelEnabled:false,curveSegments:1});
+-  var m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:color}));
+-  m.position.set(x,0,z); return m;
++  return new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:color}));
+ }
+-scene.add(ridgeMesh([[-52,0],[-43,7],[-35,15],[-28,10],[-19,22],[-11,13],[-4,18],[4,11],[12,17],[21,9],[30,13],[39,6],[52,0]],-10,52,PAL.mtnFar,3));
+-scene.add(ridgeMesh([[-52,0],[-45,5],[-37,11],[-30,7],[-22,14],[-14,8],[-7,12],[1,6],[8,10],[16,5],[25,8],[34,3],[52,0]],-4,34,PAL.mtnNear,3));
+ 
+ /* ==========================================================================
+    5. 브릭 → InstancedMesh (파트별)
+    ========================================================================== */
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -696,8 +696,20 @@
+   camera.zoom=1+5.0*focus;
+   camera.updateProjectionMatrix();
+ }
+ 
++/* ------------------------------ 인왕산 실루엣 ---------------------------- */
++/* 카메라를 향한 판(빌보드)으로 세워 궁전 뒤에 배치한다 */
++(function(){
++  var back=new THREE.Vector3(-camDir.x,0,-camDir.z).normalize();
++  var yaw=Math.atan2(camDir.x,camDir.z);
++  var far=ridgeMesh([[-30,0],[-24,6],[-18,13],[-13,9],[-7,17],[-2,11],[3,15],[9,8],[15,12],[21,6],[26,9],[30,0]],PAL.mtnFar,3);
++  var near=ridgeMesh([[-30,0],[-26,4],[-21,9],[-16,6],[-10,12],[-5,7],[0,10],[6,5],[11,8],[17,4],[23,6],[30,0]],PAL.mtnNear,3);
++  [far,near].forEach(function(m){ m.rotation.y=yaw; scene.add(m); });
++  far.position.set(center.x+back.x*58,0,center.z+back.z*58);
++  near.position.set(center.x+back.x*44,0,center.z+back.z*44);
++})();
++
+ /* ==========================================================================
+    9. 오버레이 (치수선·지시선·보강 콜라)
+    ========================================================================== */
+ var bboxGroup=new THREE.Group(); scene.add(bboxGroup);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -433,23 +433,25 @@
+ step(); /* 마루 + 추눈 솟음 */
+ (function(){
+   var w=10, z=0;
+   fill(-w/2, w/2, z, z+1, yRidge, 'roof', function(){return PAL.ridge;});
++  /* 마루 양끝을 솟아 추눈(치솟은 지붕끝)을 만든다 */
+   [-1,1].forEach(function(s){
+-    var x=s*(w/2-0.5);
++    var x=s*(w/2-0.6);
+     addBrick('b1x1', x*S, yRidge+BH, z*S, 0, PAL.danYellow, 'roof','chuneun');
+-    addBrick('w1x2', x*S, yRidge+2*BH, z*S, s>0?0:Math.PI, PAL.danRed, 'roof','chuneun');
++    addBrick('b1x1', (x+s*0.5)*S, yRidge+2*BH, z*S, 0, PAL.danRed, 'roof','chuneun');
++    addBrick('b2x1', (x+s*1.1)*S, yRidge+BH, z*S, 0, PAL.ridge, 'roof','chuneun');
+   });
+ })();
+ step(); /* 처마 곡선(물이 끊) */
+ (function(){
+   var half=12;
+   [-1,1].forEach(function(s){
+     for(var i=0;i<12;i++){
+       var cx=-half+1+i*2;
+-      var curve=0.55*(1-Math.pow(cx/half,2));   /* 가운데가 물러나고 모서리가 나온 형태 */
++      var curve=0.42*(1-Math.pow(cx/half,2));   /* 가운데가 물러나고 모서리가 나온 형태 */
+       var zz=s*(ROOF_COURSE[0].z/2-0.4-curve);
+-      addBrick('b2x1', cx*S, yEave+BH, zz*S, 0, (i%2?PAL.danGreen:PAL.danYellow), 'roof','eave-curve');
++      addBrick('b2x1', cx*S, yEave+BH, zz*S, 0, (i%3===0?PAL.danYellow:PAL.danGreen), 'roof','eave-curve');
+     }
+   });
+ })();
+ 
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 2 15 2>&1 | tail -4
+group sum    : 1185 === bricks 1185 OK
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 11.2
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t2.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -703,13 +703,13 @@
+ /* 카메라를 향한 판(빌보드)으로 세워 궁전 뒤에 배치한다 */
+ (function(){
+   var back=new THREE.Vector3(-camDir.x,0,-camDir.z).normalize();
+   var yaw=Math.atan2(camDir.x,camDir.z);
+-  var far=ridgeMesh([[-30,0],[-24,6],[-18,13],[-13,9],[-7,17],[-2,11],[3,15],[9,8],[15,12],[21,6],[26,9],[30,0]],PAL.mtnFar,3);
+-  var near=ridgeMesh([[-30,0],[-26,4],[-21,9],[-16,6],[-10,12],[-5,7],[0,10],[6,5],[11,8],[17,4],[23,6],[30,0]],PAL.mtnNear,3);
++  var far=ridgeMesh([[-31,0],[-26,5],[-21,10],[-16,7],[-10,12],[-4,8],[2,11],[8,6],[13,9],[19,4],[24,7],[31,0]],PAL.mtnFar,3);
++  var near=ridgeMesh([[-23,0],[-19,3.5],[-15,7],[-11,5],[-7,8.5],[-3,5.5],[1,7.5],[5,4],[9,6],[13,3],[17,5],[23,0]],PAL.mtnNear,3);
+   [far,near].forEach(function(m){ m.rotation.y=yaw; scene.add(m); });
+-  far.position.set(center.x+back.x*58,0,center.z+back.z*58);
+-  near.position.set(center.x+back.x*44,0,center.z+back.z*44);
++  far.position.set(center.x+back.x*34,0,center.z+back.z*34);
++  near.position.set(center.x+back.x*20,0,center.z+back.z*20);
+ })();
+ 
+ /* ==========================================================================
+    9. 오버레이 (치수선·지시선·보강 콜라)
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 2 9 15 2>&1 | tail -3
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 11.4
+shots        : 3 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t2.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -489,13 +489,21 @@
+ 
+ /* ------------------------------ 인왕산 실루엣 --------------------------- */
+ function ridgeMesh(pts,color,depth){
+   var sh=new THREE.Shape();
+-  sh.moveTo(pts[0][0],0);
++  sh.moveTo(pts[0][0],-16);
+   for(var i=1;i<pts.length;i++) sh.lineTo(pts[i][0],pts[i][1]);
+-  sh.lineTo(pts[pts.length-1][0],0); sh.closePath();
++  sh.lineTo(pts[pts.length-1][0],-16); sh.closePath();
+   var g=new THREE.ExtrudeGeometry(sh,{depth:depth,bevelEnabled:false,curveSegments:1});
+-  return new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:color}));
++  /* 아래는 지면색으로 페이드 → 실루엣이 지평선에 자연스럽게 닿는다 */
++  var pos=g.attributes.position, colArr=new Float32Array(pos.count*3);
++  var cTop=new THREE.Color(color), cBot=new THREE.Color(PAL.cream), tmp=new THREE.Color();
++  for(var i=0;i<pos.count;i++){
++    tmp.copy(cBot).lerp(cTop,smooth(clamp01(pos.getY(i)/5.5)));
++    colArr[i*3]=tmp.r; colArr[i*3+1]=tmp.g; colArr[i*3+2]=tmp.b;
++  }
++  g.setAttribute('color',new THREE.BufferAttribute(colArr,3));
++  return new THREE.Mesh(g,new THREE.MeshBasicMaterial({vertexColors:true}));
+ }
+ 
+ /* ==========================================================================
+    5. 브릭 → InstancedMesh (파트별)
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 9 15 2>&1 | tail -3
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 12.2
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t9.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/eval.mjs "(()=>{const s=window.__palace; return 'n/a'})()" "(()=>{let r=[]; document.title; return 'x'})()" 2>&1 | tail -3
+(()=>{const s=window.__palace; return 'n/a'})() => "n/a"
+(()=>{let r=[]; document.title; return 'x'})() => "x"
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -1039,9 +1039,9 @@
+     steps:M.steps,groups:JSON.parse(JSON.stringify(M.groups)),
+     roofBricks:M.groups.roof,partList:partStats.map(function(p){return {key:p.key,count:p.count};})},
+   time:function(){return clock;},
+   playing:function(v){playing=!!v;},
+-  model:M
++  scene:scene, camera:camera, model:M
+ };
+ applyState(clock);
+ renderer.render(scene,camera);
+ })();
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/eval.mjs "window.__palace.scene.children.filter(o=>o.isMesh&&o.material.vertexColors).map(o=>[o.geometry.attributes.color?o.geometry.attributes.color.count:0, o.material.vertexColors, o.position.toArray(), o.rotation.y.toFixed(2)])" 2>&1 | tail -3
+window.__palace.scene.children.filter(o=>o.isMesh&&o.material.vertexColors).map(o=>[o.geometry.attributes.color?o.geometry.attributes.color.count:0, o.material.vertexColors, o.position.toArray(), o.rotation.y.toFixed(2)]) => [[144,true,[-24.041630560342618,0,18.841630560342615],"2.36"],[144,true,[-14.142135623730951,0,8.94213562373095],"2.36"]]
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots && sips -c 450 1000 --cropOffset 50 200 t9.png --out /tmp/mtn.png >/dev/null 2>&1 && echo done
+done
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /tmp/mtn.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/eval.mjs "window.__palace.scene.children.filter(o=>o.isMesh&&o.material.vertexColors).map(o=>{const p=o.geometry.attributes.position,c=o.geometry.attributes.color; let mn=1e9,mx=-1e9,ys=[]; for(let i=0;i<p.count;i++){ys.push([+p.getY(i).toFixed(1),+c.getX(i).toFixed(2)]);} ys.sort((a,b)=>a[0]-b[0]); return [ys.slice(0,4),ys.slice(-4)];})" 2>&1 | tail -3
+window.__palace.scene.children.filter(o=>o.isMesh&&o.material.vertexColors).map(o=>{const p=o.geometry.attributes.position,c=o.geometry.attributes.color; let mn=1e9,mx=-1e9,ys=[]; for(let i=0;i<p.count;i++){ys.push([+p.getY(i).toFixed(1),+c.getX(i).toFixed(2)]);} ys.sort((a,b)=>a[0]-b[0]); return [ys.slice(0,4),ys.slice(-4)];}) => [[[[-16,0.95],[-16,0.95],[-16,0.95],[-16,0.95]],[[12,0.83],[12,0.83],[12,0.83],[12,0.83]]],[[[-16,0.95],[-16,0.95],[-16,0.95],[-16,0.95]],[[8.5,0.75],[8.5,0.75],[8.5,0.75],[8.5,0.75]]]]
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mWrite /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py
+Created file successfully: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && python3 verify/px.py verify/shots/t9.png 300 60 20 2>&1 | head -40
+size 1920 993 channels 3
+60 255 255 255
+80 255 255 255
+100 255 255 255
+120 255 255 255
+140 255 255 255
+160 255 255 255
+180 255 255 255
+200 255 255 255
+220 255 255 255
+240 255 255 255
+260 255 255 255
+280 255 255 255
+300 255 255 255
+320 248 248 246
+340 218 219 209
+360 218 219 209
+380 255 255 255
+400 255 255 255
+420 255 255 255
+440 255 255 255
+460 255 255 255
+480 255 255 255
+500 255 255 255
+520 255 255 255
+540 255 255 255
+560 255 255 255
+580 255 255 255
+600 255 255 255
+620 255 255 255
+640 255 255 255
+660 255 255 255
+680 255 255 255
+700 255 255 255
+720 255 255 255
+740 255 255 255
+760 255 255 255
+780 255 255 255
+800 255 255 255
+820 255 255 255
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && for xy in "960 100" "200 500" "960 950" "1500 200"; do set -- $xy; echo "--- x=$1 y=$2"; python3 verify/px.py verify/shots/t9.png $1 $2 300 2>&1 | sed -n '2,5p'; done
+--- x=960 100 y=
+  File "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py", line 36, in <module>
+    path = sys.argv[1]; x0,y0 = int(sys.argv[2]), int(sys.argv[3])
+ValueError: invalid literal for int() with base 10: '960 100'
+--- x=200 500 y=
+  File "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py", line 36, in <module>
+    path = sys.argv[1]; x0,y0 = int(sys.argv[2]), int(sys.argv[3])
+ValueError: invalid literal for int() with base 10: '200 500'
+--- x=960 950 y=
+  File "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py", line 36, in <module>
+    path = sys.argv[1]; x0,y0 = int(sys.argv[2]), int(sys.argv[3])
+ValueError: invalid literal for int() with base 10: '960 950'
+--- x=1500 200 y=
+  File "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py", line 36, in <module>
+    path = sys.argv[1]; x0,y0 = int(sys.argv[2]), int(sys.argv[3])
+ValueError: invalid literal for int() with base 10: '1500 200'
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && for p in "960 100" "200 500" "960 950" "1500 200"; do set -- $p; echo "--- x=$1 y=$2"; python3 verify/px.py verify/shots/t9.png "$1" "$2" 300 2>&1 | sed -n '2,6p'; done
+--- x=960 100 y=
+  File "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py", line 36, in <module>
+    path = sys.argv[1]; x0,y0 = int(sys.argv[2]), int(sys.argv[3])
+ValueError: invalid literal for int() with base 10: '960 100'
+--- x=200 500 y=
+  File "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py", line 36, in <module>
+    path = sys.argv[1]; x0,y0 = int(sys.argv[2]), int(sys.argv[3])
+ValueError: invalid literal for int() with base 10: '200 500'
+--- x=960 950 y=
+  File "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py", line 36, in <module>
+    path = sys.argv[1]; x0,y0 = int(sys.argv[2]), int(sys.argv[3])
+ValueError: invalid literal for int() with base 10: '960 950'
+--- x=1500 200 y=
+  File "/Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/px.py", line 36, in <module>
+    path = sys.argv[1]; x0,y0 = int(sys.argv[2]), int(sys.argv[3])
+ValueError: invalid literal for int() with base 10: '1500 200'
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && python3 verify/px.py verify/shots/t9.png 960 100 300 | sed -n '2,4p' && echo "--- 200,500" && python3 verify/px.py verify/shots/t9.png 200 500 300 | sed -n '2,4p' && echo "--- 1500,120" && python3 verify/px.py verify/shots/t9.png 1500 120 300 | sed -n '2,4p'
+100 255 255 255
+400 168 175 172
+700 67 121 220
+--- 200,500
+500 255 255 255
+800 254 254 254
+--- 1500,120
+120 255 255 255
+420 255 255 255
+720 255 255 255
+> build · minimax/MiniMax-M3.1-Flash
+The ground is overexposed (blown to white). Fixing the light budget so the cream reads exactly:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -472,16 +472,17 @@
+ 
+ var camera=new THREE.OrthographicCamera(-1,1,1,-1,-400,600);
+ 
+ /* ---------------------------------- 조명 ------------------------------- */
+-var hemi=new THREE.HemisphereLight(0xFFFFFF,0xE6DFCF,0.72); scene.add(hemi);
+-var sun=new THREE.DirectionalLight(0xFFFFFF,1.05);
++/* 위쪽 면의 총 조도 ≈ 1.0 이 되도록 맞춰 크림 지면(#F2EEE6)이 날것으로 saturate 하지 않게 한다 */
++var hemi=new THREE.HemisphereLight(0xFFFFFF,0xE6DFCF,0.42); scene.add(hemi);
++var sun=new THREE.DirectionalLight(0xFFFFFF,0.68);
+ sun.position.set(-34,52,30); sun.castShadow=true;
+ sun.shadow.mapSize.set(2048,2048);
+ sun.shadow.camera.near=1; sun.shadow.camera.far=160;
+ sun.shadow.bias=-0.0006; sun.shadow.normalBias=0.02;
+ scene.add(sun); scene.add(sun.target);
+-var fill=new THREE.DirectionalLight(0xFFF2DF,0.30); fill.position.set(40,24,-30); scene.add(fill);
++var fill=new THREE.DirectionalLight(0xFFF2DF,0.15); fill.position.set(40,24,-30); scene.add(fill);
+ 
+ /* ---------------------------------- 지면 ------------------------------- */
+ var ground=new THREE.Mesh(new THREE.PlaneGeometry(400,400),
+   new THREE.MeshLambertMaterial({color:0xF2EEE6}));
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 2 2>&1 | tail -2 && python3 verify/px.py verify/shots/t2.png 960 100 400 | sed -n '2,3p' && python3 verify/px.py verify/shots/t2.png 300 300 20 | sed -n '2,12p'
+shots        : 1 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+100 241 237 228
+500 153 112 31
+300 241 237 228
+320 237 234 224
+340 218 219 209
+360 218 219 209
+380 241 237 228
+400 241 237 228
+420 241 237 228
+440 241 237 228
+460 241 237 228
+480 241 237 228
+500 241 237 228
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t2.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -489,22 +489,25 @@
+ ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+ 
+ /* ------------------------------ 인왕산 실루엣 --------------------------- */
+ function ridgeMesh(pts,color,depth){
+-  var sh=new THREE.Shape();
+-  sh.moveTo(pts[0][0],-16);
+-  for(var i=1;i<pts.length;i++) sh.lineTo(pts[i][0],pts[i][1]);
+-  sh.lineTo(pts[pts.length-1][0],-16); sh.closePath();
+-  var g=new THREE.ExtrudeGeometry(sh,{depth:depth,bevelEnabled:false,curveSegments:1});
+-  /* 아래는 지면색으로 페이드 → 실루엣이 지평선에 자연스럽게 닿는다 */
+-  var pos=g.attributes.position, colArr=new Float32Array(pos.count*3);
++  /* 능선 스트립: 정점 색으로 아래→위 수직 그라데이션(지면색으로 페이드) */
++  var n=pts.length, pos=new Float32Array(n*2*3), colArr=new Float32Array(n*2*3), idx=[];
+   var cTop=new THREE.Color(color), cBot=new THREE.Color(PAL.cream), tmp=new THREE.Color();
+-  for(var i=0;i<pos.count;i++){
+-    tmp.copy(cBot).lerp(cTop,smooth(clamp01(pos.getY(i)/5.5)));
+-    colArr[i*3]=tmp.r; colArr[i*3+1]=tmp.g; colArr[i*3+2]=tmp.b;
++  for(var i=0;i<n;i++){
++    var x=pts[i][0], y=pts[i][1];
++    pos[i*6]=x; pos[i*6+1]=y;  pos[i*6+2]=0;
++    pos[i*6+3]=x; pos[i*6+4]=-18; pos[i*6+5]=0;
++    tmp.copy(cBot).lerp(cTop,smooth(clamp01(y/4.5)));
++    colArr[i*6]=tmp.r; colArr[i*6+1]=tmp.g; colArr[i*6+2]=tmp.b;
++    colArr[i*6+3]=cBot.r; colArr[i*6+4]=cBot.g; colArr[i*6+5]=cBot.b;
++    if(i<n-1){ var a=i*2; idx.push(a,a+1,a+2, a+1,a+3,a+2); }
+   }
++  var g=new THREE.BufferGeometry();
++  g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+   g.setAttribute('color',new THREE.BufferAttribute(colArr,3));
+-  return new THREE.Mesh(g,new THREE.MeshBasicMaterial({vertexColors:true}));
++  g.setIndex(idx);
++  return new THREE.Mesh(g,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide}));
+ }
+ 
+ /* ==========================================================================
+    5. 브릭 → InstancedMesh (파트별)
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 2 15 20 25 30 2>&1 | tail -3
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 11.9
+shots        : 5 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t15.png 
+> build · minimax/MiniMax-M3.1-Flash
+Phase 3 works but is missing the "brick count" badge required by the spec. Adding it:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -115,8 +115,9 @@
+       <div class="dim" id="dimY"><svg class="ic"><use href="#i-ruler"/></svg><span class="num">0</span><small>cm</small></div>
+       <div class="dim" id="dimZ"><svg class="ic"><use href="#i-ruler"/></svg><span class="num">0</span><small>cm</small></div>
+     </div>
+     <div id="badge"><svg class="ic"><use href="#i-warn"/></svg><span class="num" id="badgeN">1</span></div>
++    <div id="roofcnt"><svg class="ic"><use href="#i-brick"/></svg><span class="num" id="roofcntN">0</span></div>
+     <div id="inv"></div>
+     <div id="stats"></div>
+     <div id="ctrl">
+       <button id="play" aria-label="play"><svg class="ic"><use href="#i-pause"/></svg></button>
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -44,8 +44,14 @@
+     background:rgba(242,238,230,.95);border:2px solid var(--accent);color:var(--accent)}
+   #badge.ok{border-color:#2F7D62;color:#2F7D62}
+   #badge .ic{font-size:32px}
+ 
++  /* ---------- 지붕 브릭 수(지시선) ---------- */
++  #roofcnt{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:10px;
++    padding:9px 18px;border-radius:999px;background:rgba(242,238,230,.94);border:2px solid var(--accent);
++    color:var(--accent);font-size:30px;font-weight:800;opacity:0;white-space:nowrap}
++  #roofcnt .ic{font-size:28px}
++
+   /* ---------- inventory ---------- */
+   #inv{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+     display:grid;grid-template-columns:repeat(5,196px);gap:14px;justify-items:center}
+   .cell{width:196px;height:150px;border-radius:16px;background:rgba(255,255,255,.72);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -779,8 +779,9 @@
+ var el=function(id){return document.getElementById(id);};
+ var hudBricks=el('mBricks'), hudParts=el('mParts');
+ var dimX=el('dimX'),dimY=el('dimY'),dimZ=el('dimZ');
+ var badge=el('badge'),badgeN=el('badgeN');
++var roofCnt=el('roofcnt'),roofCntN=el('roofcntN');
+ var invEl=el('inv'), statsEl=el('stats'), trackEl=el('track');
+ var scrub=el('scrub'), timeEl=el('t'), playBtn=el('play');
+ 
+ /* 파��� 트랙(6구간) */
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -955,8 +955,13 @@
+   badge.classList.toggle('ok',fix>=0.999);
+   badge.querySelector('use').setAttribute('href', fix>=0.999?'#i-check':'#i-warn');
+   badgeN.textContent = fix>=0.999 ? '0' : String(Math.max(1,warningsInitial));
+ 
++  /* 지붕 브릭 수(지시선과 짝) */
++  roofCnt.style.opacity=leaderA;
++  roofCntN.textContent=String(M.groups.roof);
++  projectDim(roofCnt,new THREE.Vector3(0,yRidge+BH+8.4,0));
++
+   /* 인벤토리 */
+   partStats.forEach(function(ps,i){
+     var a=smooth(seg(t, 23.0+i*0.13, 23.0+i*0.13+0.55));
+     ps.el.style.opacity=a;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 15 20 2>&1 | tail -2
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t20.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t25.png 
+> build · minimax/MiniMax-M3.1-Flash
+Fixing the inventory icons (invalid hex), layout, and glyphs:
+[0m✗ [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html failed
+[91m[1mError: [0mCould not find oldString in /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html. It must match exactly, including whitespace and indentation.
+
+The closest lines in the file:
+55:   #inv{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+56:     display:grid;grid-template-columns:repeat(5,196px);gap:14px;justify-items:center}
+57:   .cell{width:196px;height:150px;border-radius:16px;background:rgba(255,255,255,.72);
+58:     border:1.5px solid rgba(58,53,45,.12);display:flex;flex-direction:column;align-items:center;
+59:     justify-content:center;gap:8px;opacity:0;transform:translateY(18px);
+60:     box-shadow:0 8px 24px rgba(40,34,26,.07)}
+61:   .cell .glyph{height:52px;display:flex;align-items:center}
+62:   .cell .glyph svg{height:48px;width:auto}
+63:   .cell .cnt{font-size:30px;font-weight:800;color:var(--ink)}
+64:   .cell .cnt em{font-style:normal;font-size:16px;font-weight:600;color:var(--muted);margin-left:3px}
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html [90m[offset=54, limit=14][0m
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -51,18 +51,18 @@
+     color:var(--accent);font-size:30px;font-weight:800;opacity:0;white-space:nowrap}
+   #roofcnt .ic{font-size:28px}
+ 
+   /* ---------- inventory ---------- */
+-  #inv{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+-    display:grid;grid-template-columns:repeat(5,196px);gap:14px;justify-items:center}
+-  .cell{width:196px;height:150px;border-radius:16px;background:rgba(255,255,255,.72);
++  #inv{position:absolute;right:42px;top:50%;transform:translateY(-50%);
++    display:grid;grid-template-columns:repeat(2,176px);gap:12px;justify-items:center}
++  .cell{width:176px;height:124px;border-radius:16px;background:rgba(255,255,255,.80);
+     border:1.5px solid rgba(58,53,45,.12);display:flex;flex-direction:column;align-items:center;
+-    justify-content:center;gap:8px;opacity:0;transform:translateY(18px);
++    justify-content:center;gap:6px;opacity:0;transform:translateY(18px);
+     box-shadow:0 8px 24px rgba(40,34,26,.07)}
+-  .cell .glyph{height:52px;display:flex;align-items:center}
+-  .cell .glyph svg{height:48px;width:auto}
+-  .cell .cnt{font-size:30px;font-weight:800;color:var(--ink)}
+-  .cell .cnt em{font-style:normal;font-size:16px;font-weight:600;color:var(--muted);margin-left:3px}
++  .cell .glyph{height:46px;display:flex;align-items:center}
++  .cell .glyph svg{height:44px;width:auto;display:block}
++  .cell .cnt{display:flex;align-items:center;gap:6px;font-size:28px;font-weight:800;color:var(--ink)}
++  .cell .cnt .ic{font-size:19px;color:var(--accent)}
+ 
+   /* ---------- stats bar ---------- */
+   #stats{position:absolute;left:50%;bottom:104px;transform:translateX(-50%);
+     display:flex;gap:12px;opacity:0}
+
+> build · minimax/MiniMax-M3.1-Flash
+Now the icon generator and the mark/stats glyphs:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -790,27 +790,29 @@
+ var PHASE_EDGES=[0,7,13,17,23,29,32];
+ 
+ /* 인벤토리 셀 */
+ function partIconSvg(def,color){
+-  var u=9, W=def.w*u, H=7, sk=4;
++  var u=8, W=def.w*u, H=7;
++  var hex='#'+color.getHexString();
+   var studs='';
+-  for(var i=0;i<def.w;i++) for(var j=0;j<def.d;j++){
+-    studs+='<rect x="'+(4+i*u+j*u*0+ (def.d>1? 0:0) + i*u+2)+'" y="0" width="'+(u-4)+'" height="3.4" rx="1.2" fill="#'+color.toString(16).padStart(6,'0')+'" opacity=".75"/>';
++  for(var i=0;i<def.w;i++){
++    for(var j=0;j<def.d;j++){
++      studs+='<rect x="'+(4+i*u+j*(u-4)/Math.max(1,def.d)) +'" y="0" width="'+(u-3)+'" height="3.2" rx="1.1" fill="'+hex+'" opacity=".55"/>';
++    }
+   }
+-  var col='#'+color.toString(16).padStart(6,'0');
+   return '<svg viewBox="0 0 '+(W+10)+' '+(H+12)+'" width="'+(W+10)+'" height="'+(H+12)+'">'
+     +'<g>'+studs+'</g>'
+-    +'<rect x="3" y="5" width="'+(W+2)+'" height="'+H+'" rx="1.6" fill="'+col+'"/>'
+-    +'<rect x="3" y="5" width="'+(W+2)+'" height="2.4" rx="1" fill="#fff" opacity=".35"/>'
++    +'<rect x="3" y="5" width="'+(W+2)+'" height="'+H+'" rx="1.6" fill="'+hex+'"/>'
++    +'<rect x="3" y="5" width="'+(W+2)+'" height="2.2" rx="1" fill="#fff" opacity=".38"/>'
+     +'</svg>';
+ }
+ partStats.forEach(function(ps,i){
+   var d=document.createElement('div'); d.className='cell';
+   d.innerHTML='<div class="glyph">'+partIconSvg(ps.def,ps.color)+'</div>'
+-    +'<div class="cnt num">0<em>&#9691;</em></div>';
+-  invEl.appendChild(d); ps.el=d; ps.numEl=d.querySelector('.cnt');
++    +'<div class="cnt num"><svg class="ic"><use href="#i-brick"/></svg><span>0</span></div>';
++  invEl.appendChild(d); ps.el=d; ps.numEl=d.querySelector('.cnt span');
+ });
+-invEl.style.gridTemplateColumns='repeat('+Math.min(5,partStats.length)+',196px)';
++invEl.style.gridTemplateColumns='repeat(2,176px)';
+ 
+ /* 통계 6칸 */
+ var STATS=[
+   {icon:'#i-brick', cls:'', unit:'&#9691;'},
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -107,10 +107,10 @@
+     <div id="vignette"></div>
+     <div id="mark">
+       <div class="sq"><svg class="ic"><use href="#i-brick"/></svg></div>
+       <div class="nums">
+-        <b class="num" id="mBricks">0</b><span>&#9691;</span>
+-        <b class="num" id="mParts">0</b><span>&#9707;</span>
++        <b class="num" id="mBricks">0</b><svg class="ic"><use href="#i-brick"/></svg>
++        <b class="num" id="mParts">0</b><svg class="ic"><use href="#i-parts"/></svg>
+       </div>
+     </div>
+     <div id="hint">
+       <span class="k">&#9664;</span><span class="k">&#9654;</span><span class="k">SPACE</span>
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -87,14 +87,16 @@
+   #t{font-size:24px;font-weight:800;min-width:92px;text-align:right;color:var(--ink)}
+   #t em{font-style:normal;font-size:15px;color:var(--muted);margin-left:2px}
+ 
+   /* ---------- corner marks ---------- */
+-  #mark{position:absolute;left:34px;top:30px;display:flex;align-items:center;gap:12px}
++  #mark{position:absolute;left:34px;top:30px;display:flex;align-items:center;gap:12px;
++    padding:8px 16px 8px 8px;border-radius:999px;background:rgba(255,255,255,.72);
++    border:1.5px solid rgba(58,53,45,.10);box-shadow:0 8px 22px rgba(40,34,26,.07)}
+   #mark .sq{width:34px;height:34px;border-radius:9px;background:var(--accent);
+     display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px}
+-  #mark .nums{display:flex;gap:16px;align-items:baseline}
++  #mark .nums{display:flex;gap:8px;align-items:center}
+   #mark .nums b{font-size:26px;font-weight:800}
+-  #mark .nums span{font-size:14px;color:var(--muted);margin-left:4px}
++  #mark .nums .ic{font-size:19px;color:var(--muted)}
+   #hint{position:absolute;right:34px;top:30px;display:flex;gap:10px;align-items:center;color:var(--muted);font-size:15px}
+   #hint .k{border:1px solid rgba(58,53,45,.22);border-radius:6px;padding:2px 7px;font-weight:700;color:var(--ink)}
+   #vignette{position:absolute;inset:0;pointer-events:none;
+     background:radial-gradient(120% 90% at 50% 42%,rgba(0,0,0,0) 55%,rgba(90,80,66,.13) 100%)}
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -816,9 +816,9 @@
+ invEl.style.gridTemplateColumns='repeat(2,176px)';
+ 
+ /* 통계 6칸 */
+ var STATS=[
+-  {icon:'#i-brick', cls:'', unit:'&#9691;'},
++  {icon:'#i-brick', cls:'', unit:''},
+   {icon:'#i-layers', cls:'', unit:''},
+   {icon:'#i-parts', cls:'', unit:''},
+   {icon:'#i-clock', cls:'', unit:'ms'},
+   {icon:'#i-err', cls:'err', unit:''},
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -965,13 +965,14 @@
+   roofCntN.textContent=String(M.groups.roof);
+   projectDim(roofCnt,new THREE.Vector3(0,yRidge+BH+8.4,0));
+ 
+   /* 인벤토리 */
++  var invOut=1-seg(t,28.4,29.3);
+   partStats.forEach(function(ps,i){
+-    var a=smooth(seg(t, 23.0+i*0.13, 23.0+i*0.13+0.55));
++    var a=smooth(seg(t, 23.0+i*0.13, 23.0+i*0.13+0.55))*invOut;
+     ps.el.style.opacity=a;
+     ps.el.style.transform='translateY('+((1-a)*20)+'px)';
+-    ps.numEl.firstChild.nodeValue=String(Math.round(ps.count*a));
++    ps.numEl.textContent=String(Math.round(ps.count*a));
+   });
+ 
+   /* 통계 6칸 */
+   var liveWarnings = fix>=0.999 ? warningsInitial-diagnostics.weakColumns.length : warningsInitial;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -710,14 +710,14 @@
+ })();
+ var camBaseTarget=center.clone();
+ var camBasePos=center.clone().add(camDir.clone().multiplyScalar(camDist));
+ var focusTarget=new THREE.Vector3(
+-  (weakBrick?weakBrick.x:center.x), weakBrick?weakBrick.y+0.9:center.y, weakBrick?weakBrick.z:center.z);
++  (weakBrick?weakBrick.x:center.x), weakBrick?weakBrick.y+2.6:center.y, weakBrick?weakBrick.z:center.z);
+ function applyCamera(focus){
+   var tgt=camBaseTarget.clone().lerp(focusTarget,focus);
+   camera.position.copy(tgt).add(camDir.clone().multiplyScalar(camDist));
+   camera.lookAt(tgt);
+-  camera.zoom=1+5.0*focus;
++  camera.zoom=1+2.6*focus;
+   camera.updateProjectionMatrix();
+ }
+ 
+ /* ------------------------------ 인왕산 실루엣 ---------------------------- */
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -765,9 +765,9 @@
+ var leaders=new THREE.LineSegments(leaderGeo,leaderMat); scene.add(leaders);
+ 
+ /* 보강 콜라(기둥 결합부) */
+ var collarMat=new THREE.MeshBasicMaterial({color:PAL.accent,transparent:true,opacity:0});
+-var collar=new THREE.Mesh(new THREE.TorusGeometry(1.25,0.20,10,28),collarMat);
++var collar=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.28,12,32),collarMat);
+ collar.rotation.x=Math.PI/2;
+ if(weakBrick){ collar.position.set(weakBrick.x,weakBrick.y+0.5,weakBrick.z); }
+ scene.add(collar);
+ var collarBox=new THREE.Mesh(new THREE.BoxGeometry(2.6,1.3,2.6),
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 15 20 25 30 2>&1 | tail -3
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 11.3
+shots        : 4 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t30.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -978,12 +978,13 @@
+   var liveWarnings = fix>=0.999 ? warningsInitial-diagnostics.weakColumns.length : warningsInitial;
+   var statVals=[M.bricks.length, M.steps, partStats.length, Math.round(generationMs), diagnostics.errors, liveWarnings];
+   STATS.forEach(function(st,i){
+     var a=smooth(seg(t, 29.05+i*0.14, 30.6+i*0.14));
+-    st.el.style.opacity=statsA;
+-    st.el.style.transform='translateY('+((1-statsA)*14)+'px)';
++    st.el.style.opacity=1;
++    st.el.style.transform='translateY('+((1-statsA)*16)+'px)';
+     st.vEl.firstChild.nodeValue=String(Math.round(statVals[i]*a));
+   });
++  statsEl.style.opacity=statsA;
+ 
+   /* 진행 트랙 */
+   for(var k=0;k<6;k++){
+     var f=clamp01((t-PHASE_EDGES[k])/(PHASE_EDGES[k+1]-PHASE_EDGES[k]));
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 30 31.5 2>&1 | tail -2
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t31_5.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -63,9 +63,9 @@
+   .cell .cnt{display:flex;align-items:center;gap:6px;font-size:28px;font-weight:800;color:var(--ink)}
+   .cell .cnt .ic{font-size:19px;color:var(--accent)}
+ 
+   /* ---------- stats bar ---------- */
+-  #stats{position:absolute;left:50%;bottom:104px;transform:translateX(-50%);
++  #stats{position:absolute;left:50%;bottom:132px;transform:translateX(-50%);
+     display:flex;gap:12px;opacity:0}
+   .stat{width:224px;height:132px;border-radius:18px;background:rgba(255,255,255,.80);
+     border:1.5px solid rgba(58,53,45,.12);display:flex;flex-direction:column;align-items:center;
+     justify-content:center;gap:10px;box-shadow:0 10px 30px rgba(40,34,26,.08)}
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 19 25 2>&1 | tail -2
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t19.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t25.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -710,14 +710,14 @@
+ })();
+ var camBaseTarget=center.clone();
+ var camBasePos=center.clone().add(camDir.clone().multiplyScalar(camDist));
+ var focusTarget=new THREE.Vector3(
+-  (weakBrick?weakBrick.x:center.x), weakBrick?weakBrick.y+2.6:center.y, weakBrick?weakBrick.z:center.z);
++  (weakBrick?weakBrick.x:center.x), weakBrick?weakBrick.y+3.4:center.y, weakBrick?weakBrick.z:center.z);
+ function applyCamera(focus){
+   var tgt=camBaseTarget.clone().lerp(focusTarget,focus);
+   camera.position.copy(tgt).add(camDir.clone().multiplyScalar(camDist));
+   camera.lookAt(tgt);
+-  camera.zoom=1+2.6*focus;
++  camera.zoom=1+1.9*focus;
+   camera.updateProjectionMatrix();
+ }
+ 
+ /* ------------------------------ 인왕산 실루엣 ---------------------------- */
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -866,8 +866,10 @@
+   var leaderA= seg(t,14.6,15.4)*(1-seg(t,16.4,17.1));
+   var focus  = seg(t,17.0,18.6)*(1-seg(t,21.6,23.0));
+   var warnA  = seg(t,17.3,17.9)*(1-seg(t,22.6,23.0));
+   var fix    = easeIO(seg(t,19.4,20.8));
++  /* 약한 결합부는 주황으로 점멸 */
++  var weakPulse = (warnA>0 && fix<0.6) ? (0.40+0.45*Math.sin(clock*10))*warnA : 0;
+   var invA   = seg(t,23.0,29.0);
+   var statsA = seg(t,29.0,29.7);
+ 
+   /* --- 인스턴스 행렬/색 갱신 --- */
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -890,9 +890,10 @@
+       q.setFromAxisAngle(new THREE.Vector3(0,1,0),b.rot);
+       sc.set(s,s,s);
+       mtx.compose(v3,q,sc);
+       p.mesh.setMatrixAt(i,mtx);
+-      if(mono>0){ tmpColor.copy(b._c).lerp(GRAY,mono); p.mesh.setColorAt(i,tmpColor); }
++      if(b===weakBrick && weakPulse>0){ tmpColor.copy(b._c).lerp(ORANGE,weakPulse); p.mesh.setColorAt(i,tmpColor); }
++      else if(mono>0){ tmpColor.copy(b._c).lerp(GRAY,mono); p.mesh.setColorAt(i,tmpColor); }
+       else if(p.mesh.instanceColor){ p.mesh.setColorAt(i,b._c); }
+     }
+     p.mesh.instanceMatrix.needsUpdate=true;
+     if(p.mesh.instanceColor) p.mesh.instanceColor.needsUpdate=true;
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 18 21 2>&1 | tail -2
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t21.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -765,9 +765,9 @@
+ var leaders=new THREE.LineSegments(leaderGeo,leaderMat); scene.add(leaders);
+ 
+ /* 보강 콜라(기둥 결합부) */
+ var collarMat=new THREE.MeshBasicMaterial({color:PAL.accent,transparent:true,opacity:0});
+-var collar=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.28,12,32),collarMat);
++var collar=new THREE.Mesh(new THREE.TorusGeometry(1.55,0.42,12,32),collarMat);
+ collar.rotation.x=Math.PI/2;
+ if(weakBrick){ collar.position.set(weakBrick.x,weakBrick.y+0.5,weakBrick.z); }
+ scene.add(collar);
+ var collarBox=new THREE.Mesh(new THREE.BoxGeometry(2.6,1.3,2.6),
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -710,9 +710,9 @@
+ })();
+ var camBaseTarget=center.clone();
+ var camBasePos=center.clone().add(camDir.clone().multiplyScalar(camDist));
+ var focusTarget=new THREE.Vector3(
+-  (weakBrick?weakBrick.x:center.x), weakBrick?weakBrick.y+3.4:center.y, weakBrick?weakBrick.z:center.z);
++  (weakBrick?weakBrick.x:center.x), weakBrick?weakBrick.y+2.2:center.y, weakBrick?weakBrick.z:center.z);
+ function applyCamera(focus){
+   var tgt=camBaseTarget.clone().lerp(focusTarget,focus);
+   camera.position.copy(tgt).add(camDir.clone().multiplyScalar(camDist));
+   camera.lookAt(tgt);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 4.2 18 2>&1 | tail -2
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t4_2.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/eval.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/eval.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/eval.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/eval.mjs
+@@ -18,8 +18,8 @@
+ await new Promise(r => ws.onopen = r);
+ let id = 0; const pend = new Map();
+ ws.onmessage = e => { const m = JSON.parse(e.data); if (m.id && pend.has(m.id)) { pend.get(m.id)(m); pend.delete(m.id); } };
+ const send = (method, params = {}) => new Promise(r => { const i = ++id; pend.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
+-const ev = async expr => (await send('Runtime.evaluate', { expression: expr, returnByValue: true })).result?.result?.value;
++const ev = async expr => (await send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true })).result?.result?.value;
+ await sleep(1200);
+ for (const q of process.argv.slice(2)) console.log(q, '=>', JSON.stringify(await ev(q)));
+ chrome.kill('SIGKILL');
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/eval.mjs "(async()=>{window.__palace.playing(false);const meas=async(t)=>{window.__palace.seek(t);await new Promise(r=>setTimeout(r,200));let n=0;const t0=performance.now();await new Promise(res=>{function f(){n++;if(performance.now()-t0<2000)requestAnimationFrame(f);else res();}requestAnimationFrame(f);});return +(n/((performance.now()-t0)/1000)).toFixed(1);};return {t2:await meas(2),t9:await meas(9),t15:await meas(15),t20:await meas(20),t30:await meas(30)};})()" 2>&1 | tail -3
+(async()=>{window.__palace.playing(false);const meas=async(t)=>{window.__palace.seek(t);await new Promise(r=>setTimeout(r,200));let n=0;const t0=performance.now();await new Promise(res=>{function f(){n++;if(performance.now()-t0<2000)requestAnimationFrame(f);else res();}requestAnimationFrame(f);});return +(n/((performance.now()-t0)/1000)).toFixed(1);};return {t2:await meas(2),t9:await meas(9),t15:await meas(15),t20:await meas(20),t30:await meas(30)};})() => {"t2":60.4,"t9":60.1,"t15":60.1,"t20":60.1,"t30":60}
+> build · minimax/MiniMax-M3.1-Flash
+Excellent — 60 fps in all phases (even in software rendering). Now cleanup of leftovers:
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -551,9 +551,8 @@
+   var g=p.geo.userData;
+   return {x:g.w/2,z:g.d/2,y0:0,y1:g.h};
+ }
+ var bounds={minX:1e9,maxX:-1e9,minY:1e9,maxY:-1e9,minZ:1e9,maxZ:-1e9};
+-var tmpV=new THREE.Vector3();
+ M.bricks.forEach(function(b){
+   var p=PART[b.part], bb=partBounds(p);
+   var c=Math.cos(b.rot), s=Math.sin(b.rot);
+   var corners=[[-bb.x,0,-bb.z],[bb.x,0,-bb.z],[bb.x,0,bb.z],[-bb.x,0,bb.z],
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -542,9 +542,8 @@
+     p.instances[i]._c=new THREE.Color(p.instances[i].color);
+     mesh.setColorAt(i,p.instances[i]._c);
+   }
+   mesh.instanceColor.needsUpdate=true;
+-  partStats.push({key:p.key,def:p,count:p.instances.length,color:col,colorHex:p.instances[0].color});
+ });
+ 
+ /* ------------------------------ 실측 치수 ------------------------------- */
+ function partBounds(p){
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -542,8 +542,9 @@
+     p.instances[i]._c=new THREE.Color(p.instances[i].color);
+     mesh.setColorAt(i,p.instances[i]._c);
+   }
+   mesh.instanceColor.needsUpdate=true;
++  partStats.push({key:p.key,def:p,count:p.instances.length,color:col,colorHex:p.instances[0].color});
+ });
+ 
+ /* ------------------------------ 실측 치수 ------------------------------- */
+ function partBounds(p){
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -707,9 +707,8 @@
+   camera.near=-400; camera.far=600;
+   camera.updateProjectionMatrix();
+ })();
+ var camBaseTarget=center.clone();
+-var camBasePos=center.clone().add(camDir.clone().multiplyScalar(camDist));
+ var focusTarget=new THREE.Vector3(
+   (weakBrick?weakBrick.x:center.x), weakBrick?weakBrick.y+2.2:center.y, weakBrick?weakBrick.z:center.z);
+ function applyCamera(focus){
+   var tgt=camBaseTarget.clone().lerp(focusTarget,focus);
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -866,10 +866,9 @@
+   var warnA  = seg(t,17.3,17.9)*(1-seg(t,22.6,23.0));
+   var fix    = easeIO(seg(t,19.4,20.8));
+   /* 약한 결합부는 주황으로 점멸 */
+   var weakPulse = (warnA>0 && fix<0.6) ? (0.40+0.45*Math.sin(clock*10))*warnA : 0;
+-  var invA   = seg(t,23.0,29.0);
+-  var statsA = seg(t,29.0,29.7);
++  var invOut=1-seg(t,28.4,29.3);
+ 
+   /* --- 인스턴스 행렬/색 갱신 --- */
+   var yShift=explode*1.65;
+   for(var pi=0;pi<partOrder.length;pi++){
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m✗ [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html failed
+[91m[1mError: [0mFound 2 matches for oldString, but expected exactly one. Add more surrounding context to make oldString unique, or set replaceAll to true to replace every occurrence.
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -867,8 +867,9 @@
+   var fix    = easeIO(seg(t,19.4,20.8));
+   /* 약한 결합부는 주황으로 점멸 */
+   var weakPulse = (warnA>0 && fix<0.6) ? (0.40+0.45*Math.sin(clock*10))*warnA : 0;
+   var invOut=1-seg(t,28.4,29.3);
++  var statsA = seg(t,29.0,29.7);
+ 
+   /* --- 인스턴스 행렬/색 갱신 --- */
+   var yShift=explode*1.65;
+   for(var pi=0;pi<partOrder.length;pi++){
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -114,9 +114,9 @@
+         <b class="num" id="mParts">0</b><svg class="ic"><use href="#i-parts"/></svg>
+       </div>
+     </div>
+     <div id="hint">
+-      <span class="k">&#9664;</span><span class="k">&#9654;</span><span class="k">SPACE</span>
++      <span class="k">&#9664;</span><span class="k">&#9654;</span><span class="k">&#9251;</span>
+     </div>
+     <div id="track"></div>
+     <div id="dims">
+       <div class="dim" id="dimX"><svg class="ic"><use href="#i-ruler"/></svg><span class="num">0</span><small>cm</small></div>
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 0 5 9 14 18 22 26 31 2>&1 | tail -8
+THREE loaded : true
+stats        : {"bricks":1185,"parts":11,"groups":{"terrace":386,"pillars":312,"brackets":60,"roof":291,"courtyard":136},"dimensionsCm":[25.6,23.04,26.4],"generationMs":13.3}
+diagnostics  : {"errors":0,"warnings":1,"weakColumns":[{"x":-7.48,"y":2.88,"z":-5.54,"ecc":0.694,"contact":2}],"floating":0,"steps":14,"groups":{"terrace":386,"pillars":312,"brackets":60,"roof":291,"courtyard":136},"roofBricks":291,"partList":[{"key":"b4x2","count":689},{"key":"b2x2","count":64},{"key":"b1x2","count":41},{"key":"b4x1","count":8},{"key":"b2x1","count":49},{"key":"b1x1","count":70},{"key":"r1x1","count":100},{"key":"r2x2","count":20},{"key":"p2x2","count":70},{"key":"p2x1","count":52},{"key":"w2x1","count":22}]}
+group sum    : 1185 === bricks 1185 OK
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 13.3
+shots        : 8 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t14.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 15.5 2>&1 | tail -2 && sips -c 700 900 --cropOffset 0 520 verify/shots/t15_5.png --out /tmp/badge.png >/dev/null && echo cropped
+shots        : 1 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+cropped
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /tmp/badge.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/palace.html
+@@ -1051,9 +1051,9 @@
+     dimensionsCm:[+dims[0].toFixed(2),+dims[1].toFixed(2),+dims[2].toFixed(2)],
+     generationMs:+generationMs.toFixed(2)
+   },
+   seek:function(t){
+-    clock=clamp(typeof t==='number'?t:0,0,DURATION);
++    clock=clamp((typeof t==='number'&&isFinite(t))?t:0,0,DURATION);
+     applyState(clock);
+     renderer.render(scene,camera);
+     return clock;
+   },
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 0 2>&1 | tail -6 && rm -rf verify/.chrome-profile verify/.chrome-profile2 verify/shots && ls -laR . | head -30
+stats        : {"bricks":1185,"parts":11,"groups":{"terrace":386,"pillars":312,"brackets":60,"roof":291,"courtyard":136},"dimensionsCm":[25.6,23.04,26.4],"generationMs":12.2}
+diagnostics  : {"errors":0,"warnings":1,"weakColumns":[{"x":-7.48,"y":2.88,"z":-5.54,"ecc":0.694,"contact":2}],"floating":0,"steps":14,"groups":{"terrace":386,"pillars":312,"brackets":60,"roof":291,"courtyard":136},"roofBricks":291,"partList":[{"key":"b4x2","count":689},{"key":"b2x2","count":64},{"key":"b1x2","count":41},{"key":"b4x1","count":8},{"key":"b2x1","count":49},{"key":"b1x1","count":70},{"key":"r1x1","count":100},{"key":"r2x2","count":20},{"key":"p2x2","count":70},{"key":"p2x1","count":52},{"key":"w2x1","count":22}]}
+group sum    : 1185 === bricks 1185 OK
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 12.2
+shots        : 1 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+total 104
+drwxr-xr-x@ 6 hjshin  staff    192 Nov 19 07:42 .
+drwxr-xr-x@ 7 hjshin  staff    224 Nov 19 07:33 ..
+drwxr-xr-x@ 9 hjshin  staff    288 Nov 19 07:33 .git
+-rw-r--r--@ 1 hjshin  staff  50096 Nov 19 07:52 palace.html
+drwxr-xr-x@ 3 hjshin  staff     96 Nov 19 07:34 vendor
+drwxr-xr-x@ 5 hjshin  staff    160 Nov 19 07:52 verify
+
+./.git:
+total 24
+drwxr-xr-x@  9 hjshin  staff  288 Nov 19 07:33 .
+drwxr-xr-x@  6 hjshin  staff  192 Nov 19 07:42 ..
+-rw-r--r--@  1 hjshin  staff  137 Nov 19 07:33 config
+-rw-r--r--@  1 hjshin  staff   73 Nov 19 07:33 description
+-rw-r--r--@  1 hjshin  staff   21 Nov 19 07:33 HEAD
+drwxr-xr-x@ 16 hjshin  staff  512 Nov 19 07:33 hooks
+drwxr-xr-x@  3 hjshin  staff   96 Nov 19 07:33 info
+drwxr-xr-x@  4 hjshin  staff  128 Nov 19 07:33 objects
+drwxr-xr-x@  4 hjshin  staff  128 Nov 19 07:33 refs
+
+./.git/hooks:
+total 128
+drwxr-xr-x@ 16 hjshin  staff   512 Nov 19 07:33 .
+drwxr-xr-x@  9 hjshin  staff   288 Nov 19 07:33 ..
+-rwxr-xr-x@  1 hjshin  staff   478 Nov 19 07:33 applypatch-msg.sample
+-rwxr-xr-x@  1 hjshin  staff  1972 Nov 19 07:33 commit-msg.sample
+-rwxr-xr-x@  1 hjshin  staff  4611 Nov 19 07:33 fsmonitor-watchman.sample
+-rwxr-xr-x@  1 hjshin  staff   189 Nov 19 07:33 post-update.sample
+-rwxr-xr-x@  1 hjshin  staff   424 Nov 19 07:33 pre-applypatch.sample
+-rwxr-xr-x@  1 hjshin  staff  1649 Nov 19 07:33 pre-commit.sample
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 31.9 26 2>&1 | tail -3
+dimensionsCm : [ 25.6, 23.04, 26.4 ] generationMs: 13.5
+shots        : 2 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots/t31_9.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m← [0mEdit /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/check.mjs
+Index: /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/check.mjs
+===================================================================
+--- /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/check.mjs
++++ /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/check.mjs
+@@ -108,9 +108,9 @@
+     console.log('dimensionsCm :', parsed.dimensionsCm, 'generationMs:', parsed.generationMs);
+   }
+ 
+   for (const t of list) {
+-    await cdp.eval(`window.__palace.seek(${t})`);
++    await cdp.eval(`window.__palace.playing(false); window.__palace.seek(${t})`);
+     await sleep(140);
+     const shot = await cdp.send('Page.captureScreenshot', { format: 'png' });
+     writeFileSync(resolve(SHOTS, `t${String(t).replace('.', '_')}.png`), Buffer.from(shot.data, 'base64'));
+   }
+
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && node verify/check.mjs 31.9 2>&1 | tail -2 && sips -c 260 1920 --cropOffset 720 0 verify/shots/t31_9.png --out /tmp/final.png >/dev/null && echo ok
+shots        : 1 → /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace/verify/shots
+page errors  : none
+ok
+> build · minimax/MiniMax-M3.1-Flash
+[0m→ [0mRead /tmp/final.png 
+> build · minimax/MiniMax-M3.1-Flash
+[0m$ [0mcd /Users/hjshin/work/실험/minimax-m3.1-flash-benchmarks/work/01-palace && rm -rf verify/shots verify/.chrome-profile verify/.chrome-profile2 && node -e "
+const fs=require('fs');const s=fs.readFileSync('palace.html','utf8');
+const m=s.match(/<script>\n([\s\S]*?)<\/script>/);
+try{new Function(m[1]);console.log('inline script parses OK');}catch(e){console.log('SYNTAX ERROR:',e.message);}
+console.log('size',(s.length/1024).toFixed(1)+'KB');
+" && ls -la . vendor verify
+inline script parses OK
+size 47.2KB
+.:
+total 104
+drwxr-xr-x@ 6 hjshin  staff    192 Nov 19 07:42 .
+drwxr-xr-x@ 7 hjshin  staff    224 Nov 19 07:33 ..
+drwxr-xr-x@ 9 hjshin  staff    288 Nov 19 07:33 .git
+-rw-r--r--@ 1 hjshin  staff  50096 Nov 19 07:52 palace.html
+drwxr-xr-x@ 3 hjshin  staff     96 Nov 19 07:34 vendor
+drwxr-xr-x@ 5 hjshin  staff    160 Nov 19 07:53 verify
+
+vendor:
+total 1192
+drwxr-xr-x@ 3 hjshin  staff      96 Nov 19 07:34 .
+drwxr-xr-x@ 6 hjshin  staff     192 Nov 19 07:42 ..
+-rw-r--r--@ 1 hjshin  staff  608313 Nov 19 07:34 three.min.js
+
+verify:
+total 32
+drwxr-xr-x@ 5 hjshin  staff   160 Nov 19 07:53 .
+drwxr-xr-x@ 6 hjshin  staff   192 Nov 19 07:42 ..
+-rw-r--r--@ 1 hjshin  staff  4539 Nov 19 07:53 check.mjs
+-rw-r--r--@ 1 hjshin  staff  1547 Nov 19 07:51 eval.mjs
+-rw-r--r--@ 1 hjshin  staff  1837 Nov 19 07:46 px.py
+> build · minimax/MiniMax-M3.1-Flash
+완료했습니다. `work/01-palace/palace.html` (단일 페이지, three.js r148을 `vendor/three.min.js`로 로컬 동봉 — 런타임 네트워크·외부 3D/이미지/폰트 0개).
+
+## 구현 구조
+
+**모델(전부 코드로 생성, LEGO 실치수: 스터드 피치 8mm, 브릭 높이 9.6mm, 스터드 지름 4.8mm)**
+| 파트 그룹 | 내용 | 개수 |
+|---|---|---|
+| terrace 월대 | 2단 돌월대(32×22 / 24×18 스터드) + 1×1 돌난간·갓 + 계단 | 386 |
+| pillars 기둥 | 8층 벽체 매스 + 원형 기둥 20개(정면 5칸·측면 5칸, 기둥 6+6+4+4) | 312 |
+| brackets 공포 | 기둥마다 3개(팔·블록·팔) 단청 3색 교대 | 60 |
+| roof 지붕 | 하부 팔작 6단(24×18→19×8) + 중층 상부 4단(13×4→10×1) + 마루·추눈 솟음 + 처마 곡선 행 | 291 |
+| courtyard 마당 | 포장 + 품계석 2줄(각 11기, 경사 블록) + 마당 계단 | 136 |
+
+**계측값(코드 실측)**: 브릭 1185 · 파트 유형 11 · 치수 25.6×23.04×26.4 cm · 생성 12–17 ms · 그룹 합 = 브릭 수 일치. 인왕산은 지면색으로 그라데이션되는 2겹 실루엣 빌보드.
+
+**32초 타임라인**(하드 컷 없음, 전 구간 이징 연속)
+- 0–2.6s 주황 바운딩 박스 점선 draw + W/H/D 카운트업 → 2.6–6.4s 6단계 층별 수직 분해·재조립
+- 7–13s 솔리드→와이어프레임 크로스페이드, 결합부(브릭 하단 모서리) 하이라이트가 아래→위로 주황→파랑
+- 13–17s 모노톤, 지붕만 100% 유지·나머지 20% 축소, 주황 지시선 + 지붕 브릭 수 291
+- 17–23s 기둥 클로즈업(아이소메트릭 각도는 유지하고 목표점·줌만 이동): 어긋난 기단(편심 0.694cm)이 주황 점멸·⚠1 → 실측 재정렬(편심 0) + 주황 보강 콜라 → ✓0
+- 23–29s 파트 인벤토리 11칸 스태거 → 29–32s 하단 통계 6칸(1185/14/11/17ms/0/0) 카운트업
+
+**조작**: 슬라이더(0–32s, 0.01 단위) · 재생/정지 버튼 · SPACE · ←/→(1/30s) · URL `?t=12.5&play=0`. `window.__palace.seek(t)`는 즉시 해당 프레임으로 이동(애니메이션 클럭 동기).
+
+## 남은 실물 검증 항목
+- 검증은 **소프트웨어 렌더링 헤드리스 크롬(SwiftShader)** 기준입니다. 전 구간 60fps·페이지 오류 0을 확인했지만 실제 GPU 경로는 미검증입니다(그림자 아티팩트가 달라질 수 있음).
+- 팔레트 정확도를 위해 `LinearEncoding`을 써서 크림 #F2EEE6·액센트 #E8612C가 값 그대로 나옵니다. 다른 색프로필 디스플레이에서는 미세하게 틀어질 수 있습니다.
+- "약한 결합부"는 **내가 정의한 검사**(기둥 기단 동심 허용 0.15cm, 받침 접촉률 ≥0.9)이며, 표준 규격이 아닙니다. 경고 1건은 모델에 심은 실제 결함(기단 0.52/0.46cm 오프셋)이라 보강 시 실제 측정값이 0으로 바뀝니다.
+- 브릭 수 1185는 내 배치 판단(벽체를 속 빈 매스로 채워 숨은 내부 브릭도 계수)에 의존합니다. 실측 건축 비율(22.7m:13.4m)과 달리 모형은 16cm:12cm입니다.
+- 연속 재생은 프레임 샘플링으로만 확인했고, 32초 전체를 실시간으로 감상한 것은 아닙니다.
+
+스킵한 것: 블록 단위 그림자 최적화·오디오·UI 문자열(지시대로 숫자·아이콘만)·모바일 터치 UI. 위험은 위 "실물 검증" 3번(자체 정의 검사 규칙·브릭 수 의존성)과 GPU 미검증입니다.
+
+한 줄 요약: `work/01-palace/palace.html` 실행(더블클릭) → 32초 루프 재생, 슬라이더로 임의 프레임 탐색.

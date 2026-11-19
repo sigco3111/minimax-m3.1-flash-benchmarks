@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>한강시: 노을을 쫓아</title>
+<style>
+  :root{
+    --ink:#e9f2ff; --dim:rgba(220,235,255,.62); --cyan:#3fd8ff; --lime:#8cff5a;
+    --amber:#ffc857; --red:#ff5566; --panel:rgba(10,15,24,.62);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#05070c;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+    color:var(--ink);-webkit-font-smoothing:antialiased;}
+  #scene{position:fixed;inset:0;width:100%;height:100%;display:block}
+  #hud{position:fixed;inset:0;pointer-events:none;user-select:none}
+  .panel{background:var(--panel);border:1px solid rgba(120,190,255,.18);border-radius:12px;
+    backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);box-shadow:0 6px 26px rgba(0,0,0,.45)}
+  #topleft{position:absolute;left:16px;top:14px;padding:10px 14px;min-width:240px}
+  #wanted{font-size:15px;letter-spacing:3px;font-weight:700;line-height:1.2}
+  #mission{margin-top:7px;font-size:17px;font-weight:700;letter-spacing:.5px}
+  #missionSub{margin-top:2px;font-size:12.5px;color:var(--dim)}
+  #timer{margin-top:6px;font-size:14px;color:var(--amber);font-weight:700}
+  #topright{position:absolute;right:16px;top:14px;padding:8px}
+  #minimap{display:block;border-radius:8px;background:#0d1118}
+  #clock{margin-top:6px;text-align:center;font-size:12px;color:var(--dim);letter-spacing:1px}
+  #fps{margin-top:2px;text-align:center;font-size:10.5px;color:rgba(180,205,230,.5)}
+  #bottomright{position:absolute;right:16px;bottom:16px;padding:8px 10px 4px}
+  #speedo{display:block}
+  #speedLabel{position:absolute;left:16px;bottom:76px;font-size:12px;color:var(--dim);letter-spacing:1px}
+  #bottomleft{position:absolute;left:16px;bottom:16px;padding:9px 13px;max-width:390px}
+  #help{font-size:11.5px;line-height:1.75;color:var(--dim)}
+  #help b{color:var(--ink);font-weight:700}
+  #center{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);text-align:center}
+  #prompt{font-size:15px;font-weight:700;letter-spacing:1px;color:#fff;
+    text-shadow:0 0 14px rgba(63,216,255,.85);min-height:22px}
+  #arrow{position:absolute;left:50%;top:74%;width:0;height:0;margin:0;pointer-events:none}
+  #arrow .tri{position:absolute;left:-11px;top:-11px;width:22px;height:22px;
+    border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:19px solid var(--cyan);
+    filter:drop-shadow(0 0 6px rgba(63,216,255,.8))}
+  #arrowLabel{position:absolute;left:50%;top:69%;transform:translateX(-50%);font-size:11px;
+    color:var(--cyan);font-weight:700;text-shadow:0 0 8px rgba(0,0,0,.9);white-space:nowrap}
+  #notice{position:absolute;left:50%;top:14%;transform:translateX(-50%);font-size:16px;font-weight:700;
+    letter-spacing:.5px;text-shadow:0 2px 12px rgba(0,0,0,.9);transition:opacity .2s;opacity:0;white-space:nowrap}
+  #toast{position:absolute;left:50%;top:8%;transform:translateX(-50%);padding:9px 18px;font-size:14px;
+    border-radius:10px;background:rgba(8,14,22,.78);border:1px solid rgba(120,190,255,.25);
+    transition:opacity .25s;opacity:0;max-width:70vw;text-align:center}
+  #missions{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:none;
+    pointer-events:auto;padding:16px 18px;min-width:280px}
+  #missions h3{margin:0 0 4px;font-size:16px;letter-spacing:.5px}
+  #missions p{margin:0 0 12px;font-size:11.5px;color:var(--dim);line-height:1.6}
+  #missions button{display:block;width:100%;margin:6px 0;padding:9px 12px;text-align:left;font-size:13px;
+    color:var(--ink);background:rgba(30,48,72,.55);border:1px solid rgba(120,190,255,.25);border-radius:8px;cursor:pointer;font-family:inherit}
+  #missions button:hover{background:rgba(48,96,140,.6);border-color:var(--cyan)}
+  #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;
+    gap:14px;background:#05070c;z-index:20}
+  #boot .t{font-size:26px;font-weight:700;letter-spacing:2px}
+  #boot .s{font-size:12.5px;color:var(--dim);letter-spacing:1px}
+  #boot .bar{width:220px;height:3px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden}
+  #boot .bar i{display:block;height:100%;width:40%;background:var(--cyan);animation:sl 1.1s infinite ease-in-out}
+  @keyframes sl{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+  #fatal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:none;z-index:30;
+    padding:20px 26px;background:#14060a;border:1px solid var(--red);border-radius:10px;font-size:13px;max-width:70vw}
+  #lockHint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:11.5px;
+    color:rgba(200,220,240,.55);letter-spacing:1px}
+  @media (max-width:720px){ #bottomleft{display:none} #minimap{width:132px;height:132px} }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div id="hud">
+  <div id="topleft" class="panel">
+    <div id="wanted">수배 없음</div>
+    <div id="mission">자유 주행</div>
+    <div id="missionSub">F 탑승 · E 수배↑ · R 숨기 · M 임무 시작</div>
+    <div id="timer" style="display:none">⏱ 0.0s</div>
+  </div>
+
+  <div id="topright" class="panel">
+    <canvas id="minimap" width="196" height="196"></canvas>
+    <div id="clock">낮 12:00</div>
+    <div id="fps">FPS 60</div>
+  </div>
+
+  <div id="bottomright" class="panel">
+    <canvas id="speedo" width="210" height="132"></canvas>
+  </div>
+  <div id="speedLabel">도보</div>
+
+  <div id="bottomleft" class="panel">
+    <div id="help">
+      <b>W A S D</b> 이동 / 운전 &nbsp; <b>Shift</b> 달리기·부스트 &nbsp; <b>Space</b> 점프 / 핸드브레이크<br>
+      <b>F</b> 차량 승하차 &nbsp; <b>E</b> 질서위반(수배 +1) &nbsp; <b>R</b> 숨기 &nbsp; <b>C</b> 카메라 거리<br>
+      <b>M</b> 임무 선택 &nbsp; <b>마우스</b> 시점(클릭하면 잠금) &nbsp; <b>Esc</b> 잠금 해제
+    </div>
+  </div>
+
+  <div id="center">
+    <div id="prompt"></div>
+  </div>
+  <div id="arrow"><div class="tri"></div></div>
+  <div id="arrowLabel">0m</div>
+  <div id="notice"></div>
+  <div id="toast"></div>
+  <div id="prompt"></div>
+  <div id="lockHint">화면을 클릭하면 마우스로 시점을 돌릴 수 있습니다</div>
+
+  <div id="missions" class="panel">
+    <h3>임무 선택</h3>
+    <p>한강시의 세 가지 의뢰. M 키로 다시 열 수 있습니다.</p>
+    <button data-mission="delivery"><b>심야 배달</b><br><span style="font-size:11.5px;color:var(--dim)">상점에서 배달물을 수령해 제한 시간 안에 목적지까지</span></button>
+    <button data-mission="escape"><b>추격 따돌리기</b><br><span style="font-size:11.5px;color:var(--dim)">수배 1~3 순찰대를 따돌리고 은신처로</span></button>
+    <button data-mission="roof"><b>옥상 체크포인트</b><br><span style="font-size:11.5px;color:var(--dim)">고가 코스의 체크포인트 7개를 순서대로 통과</span></button>
+  </div>
+</div>
+
+<div id="boot">
+  <div class="t">한강시: 노을을 쫓아</div>
+  <div class="s">절차적으로 생성되는 가상 도시 · 3인칭 오픈월드 액션</div>
+  <div class="bar"><i></i></div>
+  <div class="s" style="opacity:.6">도시 생성 중…</div>
+</div>
+<div id="fatal"></div>
+
+<script>/*__THREE__*/</script>
+<script>/*__GAME__*/</script>
+</body>
+</html>
