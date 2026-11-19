@@ -3,7 +3,7 @@
     "page": "palace",
     "viewport": "1280x720",
     "rendering": "Chrome headless / SwiftShader software WebGL",
-    "checkedAt": "2026-11-19T00:07:55.639Z",
+    "checkedAt": "2026-11-19T00:29:05.890Z",
     "checks": [
       {
         "name": "sum of group counts equals actual brick records",
@@ -41,7 +41,7 @@
       {
         "name": "generation time is measured",
         "pass": true,
-        "detail": 41.8
+        "detail": 36.4
       },
       {
         "name": "seek moves the timeline",
@@ -74,7 +74,7 @@
         23.04,
         26.4
       ],
-      "generationMs": 41.8
+      "generationMs": 36.4
     },
     "motion": {
       "seekMovesTimeline": true,
@@ -86,7 +86,7 @@
     "page": "model-intro",
     "viewport": "1280x720",
     "rendering": "Chrome headless / SwiftShader software WebGL",
-    "checkedAt": "2026-11-19T00:08:51.059Z",
+    "checkedAt": "2026-11-19T00:30:00.273Z",
     "checks": [
       {
         "name": "no horizontal overflow at 390px",
@@ -118,14 +118,14 @@
       "particles": 20000,
       "reducedMotion": false,
       "dark": true,
-      "fps": 35
+      "fps": 32
     }
   },
   {
     "page": "hangang-city",
     "viewport": "1280x720",
     "rendering": "Chrome headless / SwiftShader software WebGL",
-    "checkedAt": "2026-11-19T00:08:42.343Z",
+    "checkedAt": "2026-11-19T00:29:51.890Z",
     "checks": [
       {
         "name": "test.key hook exists",
@@ -165,7 +165,7 @@
       {
         "name": "walking input advances the simulation",
         "pass": true,
-        "detail": 2.9333333333333265
+        "detail": 2.533333333333328
       },
       {
         "name": "state stays serialisable after input",
@@ -215,8 +215,8 @@
       "wanted": 0,
       "mission": null,
       "completed": [],
-      "elapsed": 1.8333333333333317,
-      "fps": 12.004801920768307
+      "elapsed": 1.4333333333333331,
+      "fps": 11.539349180706205
     }
   }
 ]

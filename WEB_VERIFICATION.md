@@ -34,7 +34,7 @@
 | palace | brick count is non-trivial | 통과 | 1185 |
 | palace | five part groups present | 통과 | ["terrace","pillars","brackets","roof","courtyard"] |
 | palace | dimensions are measured values | 통과 | [25.6,23.04,26.4] |
-| palace | generation time is measured | 통과 | 41.8 |
+| palace | generation time is measured | 통과 | 36.4 |
 | palace | seek moves the timeline | 통과 | {"seekMovesTimeline":true,"at3":3,"at20":20} |
 | palace | no page errors | 통과 | [] |
 | model-intro | no horizontal overflow at 390px | 통과 | - |
@@ -49,7 +49,7 @@
 | hangang-city | test.begin hook exists | 통과 | - |
 | hangang-city | test.setTime hook exists | 통과 | - |
 | hangang-city | state exposes wanted/mission/completed/elapsed/fps | 통과 | ["wanted","mission","completed","elapsed","fps"] |
-| hangang-city | walking input advances the simulation | 통과 | 2.9333333333333265 |
+| hangang-city | walking input advances the simulation | 통과 | 2.533333333333328 |
 | hangang-city | state stays serialisable after input | 통과 | 96 |
 | hangang-city | jump input does not fault the game | 통과 | - |
 | hangang-city | begin("delivery") starts the delivery mission | 통과 | "delivery" |
