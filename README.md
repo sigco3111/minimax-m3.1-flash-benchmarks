@@ -18,7 +18,7 @@
 
 다른 실행은 원문 해시, 지정 모델·effort, 실행 날짜, 시간·비용 제한, 사용 조건, 수정 라운드와 검증 환경을 함께 기록해야 같은 조건인지 판단할 수 있습니다. 현재 값이 없는 항목은 점수나 완료로 채우지 않습니다. 원문은 `ORIGINAL_PROMPTS.txt`와 이 문서 하단에 그대로 보존합니다.
 
-## 결과물
+## 실행·검증 요약
 
 <!--RESULTS_TABLE:START-->
 | 과제 | 모델 | effort | 시작(UTC) | 소요(분) | 종료코드 | 시도 | 검사 통과 | 실패 항목 |
@@ -49,6 +49,23 @@
 | 한강시 게임 | `test/keys.mjs` — **실제 키보드 이벤트**(CDP `Input.dispatchKeyEvent` + 합성 `KeyboardEvent`)로 W/A/S/D 이동·Shift 달리기·F 승하차·E 수배·R 은폐·C 카메라·M 임무 패널·방향키·Space 점프·키 반복·스크롤 방지 확인 (33/33) | [game-src/test/keys.mjs](game-src/test/keys.mjs) |
 | 근정전 | `verify/check.mjs` · `eval.mjs` · `px.py` — 계약 확인·시각 샘플 | [palace-verify/](palace-verify/) |
 | 소개 페이지 | `.dev/check.mjs` — 계약 확인 | `attempts/` 참고 |
+
+## 실행 화면
+
+아래 화면은 2026-11-19에 배포된 Pages 빌드(이 저장소 `main` 브랜치)를 헤드리스 Chrome(SwiftShader 소프트웨어 WebGL)으로 직접 실행해 캡처했습니다. 화면에 보이는 FPS는 소프트웨어 렌더링 기준이며 실제 GPU 환경과 다릅니다.
+
+| | |
+|---|---|
+| ![결과 목차 페이지](screenshots/index.png) | ![근정전 바운딩 박스 장면](screenshots/palace-bbox.png) |
+| 결과 목차 페이지 | 01 근정전 — 바운딩 박스·치수 카운트업 (0–7초) |
+| ![근정전 부품 인벤토리 장면](screenshots/palace-inventory.png) | ![한강시 낮 거리](screenshots/hangang-day.png) |
+| 01 근정전 — 부품 인벤토리 (23–29초) | 02 한강시 — 낮 자유 주행 |
+| ![한강시 밤 거리](screenshots/hangang-night-neon.png) | ![소개 페이지 히어로](screenshots/intro-hero.png) |
+| 02 한강시 — 밤(가로등·창문 조명) | 03 소개 페이지 — 입자 히어로 |
+| ![소개 페이지 코딩 장면](screenshots/intro-scene.png) | ![단편 소설 읽기 화면](screenshots/novel.png) |
+| 03 소개 페이지 — 입자가 코드가 되는 장면(실행 가능한 mini-DSL) | 04 단편 「활자는 거꾸로 읽는다」 읽기 화면 |
+| ![REC-1 미리보기](screenshots/hardware-preview.png) | |
+| 05 촬영 컨트롤러 REC-1 — 케이스 조립/분해·기판 배치·동작 시뮬레이션 미리보기 | |
 
 ### 알아 둘 점
 
